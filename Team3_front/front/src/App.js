@@ -3,6 +3,7 @@ import { GlobalStyle } from './style/globalStyle';
 import { theme } from './style/theme.js';
 
 import { Outlet } from 'react-router-dom';
+import MainNavBar from './components/Header/MainNavBar.jsx';
 
 const Wrapper = styled.div`
   margin: 0 auto;
@@ -27,6 +28,7 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
+        <MainNavBar />
         <Layout />
       </ThemeProvider>
     </>
