@@ -28,6 +28,7 @@ const Author = () => {
       </div>
     </div>
   );
+
 };
 
 export default Author;
