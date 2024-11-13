@@ -6,6 +6,7 @@ import MyPage from './pages/MyPage/MyPage';
 import Author from './pages/Author/Author';
 import Auction from './pages/Auction/Auction';
 import ArtWork from './pages/ArtWork/ArtWork';
+import ArtDetail from './pages/ArtWork/ArtDetail';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,14 @@ const router = createBrowserRouter([
       },
       {
         path: 'artwork',
+        element: <ArtWork />,
+      },
+      {
+        path: 'artwork/:id', // artwork/:id 경로 설정
+        element: <ArtDetail />,
+      },
+      {
+        path: 'artwork/artwork', // artwork/:id 경로 설정
         element: <ArtWork />,
       },
       {

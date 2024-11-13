@@ -1,0 +1,23 @@
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    gap : 10px;
+    margin: 20px 0;
+    color : black;
+}
+.pagination button {
+    background-color: white; /* 버튼 배경색을 흰색으로 설정 */
+    border: 0.5px solid rgb(87, 87, 87); /* 버튼 테두리를 주황색으로 설정 */
+    color: black; /* 버튼 텍스트 색상 */
+    padding: 2px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.pagination button:hover {
+    background-color: #f9f9f9; /* 마우스를 올렸을 때 약간의 배경 색상 변화 */
+}
+.pagination span {
+    font-size: 16px;
+}

@@ -1,0 +1,41 @@
+.custom-alert-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* 어두운 오버레이 추가 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* 다른 요소 위에 표시되도록 설정 */
+  }
+  
+  .custom-alert {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    z-index: 1001;
+  }
+  
+  .custom-alert p {
+    margin: 0 10px 20px;
+    font-size: 10px;
+  }
+  
+  .custom-alert button {
+    padding: 6px 14px;
+    background-color: orange;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  
+  .custom-alert button:hover {
+    background-color: orange;
+  }
+  
