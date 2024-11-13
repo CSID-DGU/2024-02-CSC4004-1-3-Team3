@@ -5,6 +5,7 @@
     row-gap: 50px; /* 행 사이 간격 */
     padding: 20px;
     width: 100%; /* 그리드 너비를 부모에 맞춤 */
+    object-fit: center;
 }
 .work-card {
     position: relative;
@@ -12,6 +13,7 @@
     height: 170px;
     background-color: white; /* 카드 배경색 */
     overflow: hidden;
+    object-fit: center;
 }
 .box-top {
     width: 100%;
@@ -44,12 +46,13 @@
     position: relative;
     width: 220px;
     height: 180px;
-    background-color: rgb(212, 212, 212);
+    background-color: rgb(255, 255, 255);
     display: flex; 
     align-items: bottom; 
     justify-content: center;
     transition: background-color 0.3s ease;
     cursor: pointer;
+    overflow: hidden;
 }
 .work-image:hover .overlay {
     opacity: 1;
@@ -72,7 +75,7 @@
     color: #ffffff; /* 글자색 흰색 */
 }
 .work-bottom {
-    margin-top: 30px;
+    margin-top: 0px;
     height: 100%;
     width: 220px;
     display: flex;

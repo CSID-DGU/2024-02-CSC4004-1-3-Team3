@@ -13,21 +13,25 @@ function WorkList({ selectedType, currentPage }) {
 
   const page = currentPage;
 
-  // 선택된 타입에 따라 작품 데이터를 필터링
+  // 선택된 타입에 따라 작품 데이터를 필터링하고 원본 배열의 인덱스를 유지한 새로운 배열 생성
   const filteredItems =
-    selectedType === 'ALL' ? works : works.filter(item => item.type === selectedType);
+    selectedType === 'ALL'
+      ? works.map((item, index) => ({ ...item, originalIndex: index }))
+      : works
+          .map((item, index) => ({ ...item, originalIndex: index }))
+          .filter(item => item.type === selectedType);
 
   // 현재 페이지의 시작 인덱스 계산
   const startIndex = (page - 1) * itemsPerPage;
   // 현재 페이지에 표시될 아이템들 선택
   const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
 
-  // 카드 클릭 시 페이지 이동 함수
-  const handleCardClick = (index, event) => {
-    // 좋아요 아이콘을 클릭했을 경우 이동을 방지
+  // 카드 클릭 시 원본 데이터의 인덱스를 사용하여 페이지 이동
+  const handleCardClick = (originalIndex, event) => {
     if (event.target.classList.contains('heart-icon')) return;
-    navigate(`/artwork/${startIndex + index}`);
+    navigate(`/artwork/${originalIndex}`);
   };
+
   // 좋아요 상태를 토글하는 함수
   const toggleLike = index => {
     setWorks(prevWorks => {
@@ -47,7 +51,7 @@ function WorkList({ selectedType, currentPage }) {
         <div
           key={index}
           className="work-card"
-          onClick={event => handleCardClick(index, event)}
+          onClick={event => handleCardClick(work.originalIndex, event)}
           style={{ cursor: 'pointer' }}
         >
           <div className="box-top">

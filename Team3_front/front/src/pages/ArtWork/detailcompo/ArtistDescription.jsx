@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import artistimg from '../../../img/main_image_placeholder.png';
 import ImageModal from './ImageModal';
 import worksData from './../component/works';
 import './ArtistDescription.css';
@@ -31,7 +30,7 @@ function ArtistDescription({ id }) {
       />
       <h2>작가 설명</h2>
       <p>{item.artistdes}</p>
-      {isModalOpen && <ImageModal image={artistimg} onClose={closeModal} />}
+      {isModalOpen && <ImageModal image={item.artistimg} onClose={closeModal} />}
     </div>
   );
 }
