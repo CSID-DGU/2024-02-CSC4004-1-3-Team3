@@ -5,7 +5,7 @@ import './Author.css';
 const Author = () => {
   const [showModal, setShowModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 5; // 총 페이지 수를 설정합니다.
+  const totalPages = 5;
 
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
@@ -22,13 +22,13 @@ const Author = () => {
     <div className="container">
       <div className="sort-filter">
         <span className="sort-item active">최신순</span>
+        <span>|</span>
         <span className="sort-item">인기순</span>
       </div>
       <div className="art-grid">
         {[...Array(8)].map((_, index) => (
           <div key={index} className="art-card" onClick={openModal}>
             <div className="art-image">
-              {/* 이미지 추가 */}
               <img
                 src="path/to/your/image.jpg"
                 alt="Artwork"
@@ -44,7 +44,6 @@ const Author = () => {
         ))}
       </div>
 
-      {/* Pagination 추가 */}
       <div className="pagination">
         <button className="page-button" onClick={goToPreviousPage}>
           {'<'}
