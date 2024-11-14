@@ -1,0 +1,116 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 10px;
+  width: 1000px;
+  height: 500px;
+  max-width: 90%;
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+}
+
+.modal-image {
+  background-color: #fbd29e;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.artist-image {
+  max-height: 100%;
+  width: auto;
+}
+
+.modal-header {
+  padding: 20px;
+  text-align: center;
+}
+
+.modal-header p {
+  font-size: 0.7rem;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
+.modal-header p:first-of-type {
+  margin-bottom: 10px;
+}
+
+.modal-description {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.8;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: justify;
+}
+
+.author-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1%;
+  margin-top: 1%;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.follow-btn {
+  background-color: transparent;
+  border: 1px solid orange;
+  color: orange;
+  padding: 3px 30px;
+  cursor: pointer;
+}
+
+.image-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin: auto;
+  max-width: 1000px;
+}
+
+.image-placeholder {
+  background-color: #ddd;
+  width: 130px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.more-link {
+  display: block;
+  margin-top: 1%;
+  margin-right: 5%;
+  font-size: 0.9rem;
+  color: orange;
+  text-decoration: none;
+  text-align: right;
+}

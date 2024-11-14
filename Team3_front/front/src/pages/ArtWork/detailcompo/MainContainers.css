@@ -1,0 +1,55 @@
+.content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: auto; /* 자동 높이 조정 */
+    width: 100%; /* 너비를 100%로 설정하여 화면 전체 너비로 확장 */
+}
+
+.section {
+    text-align: center;
+    width: 100%; /* 섹션을 화면 전체 너비로 확장 */
+}
+
+.backbutton-section {
+    height: auto;
+    display: flex;
+    align-items: center;
+    padding: 0 1000px 0 0;
+}
+
+.content-container hr {
+    width: 100%;
+    border: 1px solid #333;
+    padding: 0 0;
+}
+
+.art-details-section {
+    height: auto; /* 자동 높이 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0;
+}
+
+.tabs-section {
+    height: auto; /* 자동 높이 */
+    width:100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: -10px 0;
+}
+
+.art-description-section {
+    height: auto; /* 자동 높이 */
+    overflow-y: auto;
+    justify-content: center;
+    padding: 2vh;
+}
+.share-section {
+    height:auto;
+    display: flex;
+    align-items: center;
+}
