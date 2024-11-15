@@ -37,7 +37,11 @@ const Author = () => {
             </div>
             <div className="art-text">
               <h3 className="art-title">김민설</h3>
-              <p className="art-details">소나무 종이에 먹과 채색</p>
+              <p className="art-details">
+                소나무
+                <br />
+                종이에 마커
+              </p>
               <p className="art-details">65x90cm | 2019</p>
             </div>
           </div>
