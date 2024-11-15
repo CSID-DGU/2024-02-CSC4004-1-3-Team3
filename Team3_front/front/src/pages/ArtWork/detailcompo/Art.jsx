@@ -1,22 +1,29 @@
 // src/components/ArtDetails.js
 import React, { useState, useEffect } from 'react';
 import './Art.css';
-import mainimg from '../../../img/main_image_placeholder.png';
-import secondimg from '../../../img/secondimg.png';
+//import mainimg from '../../../img/picture.png';
+//import second from '../../../img/second.png';
+//import third from '../../../img/third.png';
+//import fourth from '../../../img/fourth.png';
+//import fifth from '../../../img/fifth.png';
 import emptyHeart from '../../../img/heart-shape.png';
 import ImageModal from './ImageModal';
 import worksData from './../component/works';
 
 function Art({ id }) {
   const [item, setItem] = useState(null); // 현재 작품 데이터를 저장하는 상태
+  const [images, setImages] = useState([]); // 이미지 배열 상태 초기화
+  const [isModalOpen, setIsModalOpen] = useState(false); // 이미지 모달 창의 상태 (열림/닫힘)
 
   useEffect(() => {
     const foundItem = worksData[parseInt(id)]; // 작품 ID를 통해 작품 데이터를 찾음
     setItem(foundItem || null); // 작품 데이터를 찾지 못한 경우 null로 설정
-  }, [id]);
 
-  const [images, setImages] = useState([mainimg, secondimg, secondimg, mainimg, mainimg]); // 초기 이미지 배열 설정
-  const [isModalOpen, setIsModalOpen] = useState(false); // 이미지 모달 창의 상태 (열림/닫힘)
+    if (foundItem && foundItem.images) {
+      // 작품 데이터를 찾고 images 속성이 있을 경우 이미지 배열 설정
+      setImages(foundItem.images);
+    }
+  }, [id]);
 
   // 썸네일을 클릭하면 해당 이미지를 메인 이미지와 교체
   const handleThumbnailClick = index => {
@@ -35,7 +42,7 @@ function Art({ id }) {
   if (!item) return <p>작품 정보를 찾을 수 없습니다.</p>;
 
   return (
-    <div className="art-container">
+    <div className="art-container" style={{ margin: '10px' }}>
       <div className="art-details">
         <div className="art-image">
           <div className="likedcss">
