@@ -1,27 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import './MyPage_personal.css';
+import './MyPage_artist.css';
 
 function App() {
   const [userData, setUserData] = useState({ id: '', email: '' });
   const [interests, setInterests] = useState([]);
   const [auctions, setAuctions] = useState([]);
   const [profileImage, setProfileImage] = useState(null);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   useEffect(() => {
     fetch('/api/user')
-      .then(response => response.json())
-      .then(data => setUserData({ id: data.id, email: data.email }))
-      .catch(error => console.error('Error fetching user data:', error));
+      .then((response) => response.json())
+      .then((data) => setUserData({ id: data.id, email: data.email }))
+      .catch((error) => console.error('Error fetching user data:', error));
 
     fetch('/api/favorite-artworks')
-      .then(response => response.json())
-      .then(data => setInterests(data))
-      .catch(error => console.error('Error fetching favorite artworks:', error));
+      .then((response) => response.json())
+      .then((data) => setInterests(data))
+      .catch((error) => console.error('Error fetching favorite artworks:', error));
 
     fetch('/api/user-auctions')
-      .then(response => response.json())
-      .then(data => setAuctions(data))
-      .catch(error => console.error('Error fetching user auctions:', error));
+      .then((response) => response.json())
+      .then((data) => setAuctions(data))
+      .catch((error) => console.error('Error fetching user auctions:', error));
   }, []);
 
   const handleImageChange = (event) => {
@@ -33,6 +34,14 @@ function App() {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const toggleEditMode = () => {
+    setIsEditMode(!isEditMode);
+  };
+
+  const handleDelete = (artworkId) => {
+    setInterests(interests.filter((artwork) => artwork.id !== artworkId));
   };
 
   return (
@@ -66,31 +75,42 @@ function App() {
       </div>
 
       <div className="interests-section">
-        <div className="interest-name">
-          <h3>관심작품</h3>
+        <div className="interests-header">
+          <h3 className="interest-name">나의작품</h3>
+          <span className="edit-text" onClick={toggleEditMode}>
+            편집
+          </span>
         </div>
         <div className="interests-images">
           {interests.length > 0 ? (
-            interests.map((artwork, index) => (
-              <div key={index} className="interest-image">
+            interests.map((artwork) => (
+              <div key={artwork.id} className="interest-image">
+                {isEditMode && (
+                  <button
+                    className="delete-icon"
+                    onClick={() => handleDelete(artwork.id)}
+                  >
+                    ×
+                  </button>
+                )}
                 <img src={artwork.image} alt={artwork.name} />
                 <p>{artwork.name}</p>
               </div>
             ))
           ) : (
-            <p className="no-items">관심작품이 없습니다.</p>
+            <p className="no-artworks">나의작품이 없습니다.</p>
           )}
         </div>
       </div>
 
       <div className="auction-section">
         <div className="auction-name">
-          <h3>참여중인 경매</h3>
+          <h3>진행중인 경매</h3>
         </div>
         <div className="auction-item-list">
           {auctions.length > 0 ? (
-            auctions.map((auction, index) => (
-              <div key={index} className="auction-item">
+            auctions.map((auction) => (
+              <div key={auction.id} className="auction-item">
                 <p>
                   {auction.artworkName} - {auction.artistName}
                 </p>
@@ -98,7 +118,7 @@ function App() {
               </div>
             ))
           ) : (
-            <p className="no-auctions">참여중인 경매가 없습니다.</p>
+            <p className="no-auctions">진행중인 경매가 없습니다.</p>
           )}
         </div>
       </div>
@@ -106,4 +126,4 @@ function App() {
   );
 }
 
-export default MyPage_personal;
+export default MYPage_artist;
