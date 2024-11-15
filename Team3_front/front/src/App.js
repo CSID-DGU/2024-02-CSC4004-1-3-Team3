@@ -1,8 +1,7 @@
+import { Outlet } from 'react-router-dom';
 import { styled, ThemeProvider } from 'styled-components';
 import { GlobalStyle } from './style/globalStyle';
 import { theme } from './style/theme.js';
-
-import { Outlet } from 'react-router-dom';
 import MainNavBar from './components/Header/MainNavBar.jsx';
 
 const Wrapper = styled.div`
@@ -13,25 +12,15 @@ const Wrapper = styled.div`
   flex-direction: column;
 `;
 
-const Layout = () => {
+function App() {
   return (
-    <>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <MainNavBar />
       <Wrapper>
         <Outlet />
       </Wrapper>
-    </>
-  );
-};
-
-function App() {
-  return (
-    <>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <MainNavBar />
-        <Layout />
-      </ThemeProvider>
-    </>
+    </ThemeProvider>
   );
 }
 

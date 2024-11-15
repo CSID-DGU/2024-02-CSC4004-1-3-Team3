@@ -1,17 +1,21 @@
+/* 전체 컨테이너 */
 .container {
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* 정렬 필터 */
 .sort-filter {
+  justify-content: flex-start;
   display: flex;
-  justify-content: left;
   gap: 10px;
   font-size: 1rem;
-  padding: 50px;
-  margin-top: 0px;
-  padding-left: 100px;
+  margin-top: 5%;
 }
 
+/* 정렬 필터 항목 */
 .sort-item {
   cursor: pointer;
   color: black;
@@ -22,62 +26,88 @@
   color: orange;
 }
 
+/* 아트워크 그리드 */
 .art-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 50px;
-  margin-top: 100px;
-  padding: 0 250px;
+  margin-top: 10%;
+  margin-bottom: 10%;
+  width: 80%;
+  justify-content: center;
 }
 
+/* 아트 카드 */
 .art-card {
-  background-color: #f2f2f2;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  border: none;
+  box-shadow: 0 0 0 1px #d1d1d1;
+  overflow: hidden;
   width: 100%;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 250px;
+  height: auto;
 }
 
+/* 아트 이미지 */
 .art-image {
-  width: 100%;
-  height: 200px;
+  height: 220px !important;
+  width: 100% !important;
   background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: left;
 }
 
+/* 아트 텍스트 */
 .art-text {
-  padding: 15px 10px;
+  padding: 30px 10px;
+  background-color: #fff;
+  text-align: left;
 }
 
+/* 아트 제목 */
 .art-title {
   font-size: 1rem;
   font-weight: bold;
+  margin-bottom: 8px;
+  text-align: left;
 }
 
+/* 아트 상세 정보 */
 .art-details {
   font-size: 0.9rem;
   color: #666;
-  margin-top: 5px;
+  padding: 1%;
+  margin-top: 1%;
+  text-align: left;
 }
 
+/* 페이지네이션 */
 .pagination {
   display: flex;
   justify-content: center;
   gap: 10px;
-  margin-top: 20px;
 }
 
-.page-button {
+/* 페이지네이션 버튼 */
+.pagination .page-button {
   cursor: pointer;
   background-color: transparent;
-  border: 1px solid #ddd;
+  border: 1px solid green;
   padding: 10px 15px;
   font-size: 1rem;
   color: #333;
-  border-radius: 1px;
-  margin-top: 100px;
+  border-radius: 3px;
+  transition: background-color 0.2s;
+}
+
+.pagination .page-button:hover {
+  background-color: #f0f0f0;
+}
+
+.pagination .page-button.active {
+  background-color: transparent;
+  color: #333;
+  border: 1px solid green;
 }

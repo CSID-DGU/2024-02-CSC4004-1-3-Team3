@@ -30,12 +30,8 @@ const router = createBrowserRouter([
         element: <ArtWork />,
       },
       {
-        path: 'artwork/:id', // artwork/:id 경로 설정
+        path: 'artwork/:id',
         element: <ArtDetail />,
-      },
-      {
-        path: 'artwork/artwork', // artwork/:id 경로 설정
-        element: <ArtWork />,
       },
       {
         path: 'author',
