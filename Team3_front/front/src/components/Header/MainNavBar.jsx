@@ -3,16 +3,38 @@ import React from 'react';
 import './MainNavBar.css'; // 스타일 파일 연결
 import Logo from '../../img/MainLogo.png';
 import SearchIcon from '../../img/SearchIcon.png';
+import { useLocation } from 'react-router-dom';
 
 const MainNavBar = () => {
+  let Title = 'Main';
+  const location = useLocation();
+  switch (location.pathname) {
+    case '/':
+      Title = 'Main';
+      break;
+    case '/artwork':
+      Title = 'ArtWork';
+      break;
+    case '/author':
+      Title = 'Artist';
+      break;
+    case '/auction':
+      Title = 'Auction';
+      break;
+    default:
+      Title = 'Main';
+      break;
+  }
   return (
     <header className="header">
       <div className="header-left">
-        <img src={Logo} alt="팔아보자GO" className="header-logo" />
+        <a href="/">
+          <img src={Logo} alt="팔아보자GO" className="header-logo" />
+        </a>
       </div>
 
       <div className="header-center">
-        <h1 className="header-title">ARTIST</h1>
+        <h1 className="header-title">{Title}</h1>
         <div className="header-search">
           <img src={SearchIcon} alt="돗보기" className="search-icon" />
           <input type="text" placeholder="검색" className="search-input" />
