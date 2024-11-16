@@ -126,4 +126,4 @@ function App() {
   );
 }
 
-export default MYPage_artist;
+export default MyPage_artist;
