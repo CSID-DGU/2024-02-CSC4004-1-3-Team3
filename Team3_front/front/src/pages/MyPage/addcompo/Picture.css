@@ -22,13 +22,15 @@
   
   .thumbnail-row {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     width: 100%;
     margin-bottom: 20px;
+    gap: 5px;
+    flex-wrap: wrap;
   }
   
   .thumbnail {
-    width: 22%;
+    flex: 0 0 calc(20% - 10px);
     height: 70px;
     background-color: #c0c0c0;
   }
