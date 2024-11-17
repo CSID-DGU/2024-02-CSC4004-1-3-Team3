@@ -9,27 +9,29 @@ function Arraytype({ paginationState }) {
   return (
     <div className="array-type">
       <div className="column">
-        {/*버튼 선택에 따라 selectedType이 바뀜*/}
-        <button
-          className={selectedType === 'ALL' ? 'active' : ''}
-          onClick={() => setSelectedType('ALL')}
-        >
-          ALL
-        </button>
-        <span>|</span>
-        <button
-          className={selectedType === 'PICTURE' ? 'active' : ''}
-          onClick={() => setSelectedType('PICTURE')}
-        >
-          PICTURE
-        </button>
-        <span>|</span>
-        <button
-          className={selectedType === 'PHOTO' ? 'active' : ''}
-          onClick={() => setSelectedType('PHOTO')}
-        >
-          PHOTO
-        </button>
+        <div className="center">
+          {/*버튼 선택에 따라 selectedType이 바뀜*/}
+          <button
+            className={selectedType === 'ALL' ? 'active' : ''}
+            onClick={() => setSelectedType('ALL')}
+          >
+            ALL
+          </button>
+          <span>|</span>
+          <button
+            className={selectedType === 'PICTURE' ? 'active' : ''}
+            onClick={() => setSelectedType('PICTURE')}
+          >
+            PICTURE
+          </button>
+          <span>|</span>
+          <button
+            className={selectedType === 'PHOTO' ? 'active' : ''}
+            onClick={() => setSelectedType('PHOTO')}
+          >
+            PHOTO
+          </button>
+        </div>
         {/* WorkList에 selectedType과 page를 전달 */}
         <div className="tab-content">
           <div className="section work-list-section">

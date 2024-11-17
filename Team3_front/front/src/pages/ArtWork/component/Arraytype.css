@@ -4,13 +4,16 @@
     align-items: center;
     flex-direction: column;
     font-size: 10px;
-    margin-bottom: 10px;   
+    margin-bottom: 10px;
 }
 .column {
     flex-direction: column!important;
     width: 100%;
     justify-content: center;
-
+}
+.center{
+    display: flex;
+    justify-content: center;
 }
 .array-type button {
     background: none;

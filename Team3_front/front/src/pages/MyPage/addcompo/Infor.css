@@ -1,0 +1,88 @@
+.infor-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+}
+.label-text {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+  
+.input-group {
+  margin-bottom: 20px;
+}
+  
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+  
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #b3b3b3;
+  border-radius: 8px;
+}
+  
+p {
+  font-size: 0.8rem;
+  color: #757575;
+}
+
+.helper-text {
+  width: 80%;
+  font-size: 0.8rem;
+  color: #757575;
+  margin-top: 5px; /* 입력 필드와 안내 문구 간 간격 */
+}
+  
+.radio-group {
+    display: flex;
+    flex-direction: column; /* 항목을 세로로 정렬 */
+    align-items: flex-start; /* 왼쪽 정렬 */
+    gap: 10px; /* 항목 간 간격 */
+  }
+  
+  .radio-option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  
+  .radio-option input {
+    display: none; /* 기본 라디오 버튼 숨기기 */
+  }
+  
+  .custom-radio {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.3s ease;
+  }
+  
+  .custom-radio::after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background-color: transparent;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* 선택된 상태 */
+  .radio-option input:checked + .custom-radio {
+    border-color: #ffa726;
+  }
+  
+  .radio-option input:checked + .custom-radio::after {
+    background-color: #ffa726;
+  }

@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Mypage_artist.css';
 
 function MyPage_artist() {
+  const navigate = useNavigate();
+
   const [userData, setUserData] = useState({ id: '', email: '' });
   const [interests, setInterests] = useState([]);
   const [auctions, setAuctions] = useState([]);
@@ -43,7 +46,9 @@ function MyPage_artist() {
   const handleDelete = artworkId => {
     setInterests(interests.filter(artwork => artwork.id !== artworkId));
   };
-
+  const handleAddArtwork = () => {
+    navigate('/mypage/workadd'); // "작품 추가" 페이지로 이동
+  };
   return (
     <div className="my-page">
       <header className="header">MY PAGE</header>
@@ -73,9 +78,11 @@ function MyPage_artist() {
       <div className="interests-section">
         <div className="interests-header">
           <h3 className="interest-name">나의작품</h3>
-          <span className="edit-text" onClick={toggleEditMode}>
-            편집
-          </span>
+          <div>
+            <button className="edit-text" onClick={toggleEditMode}>
+              {isEditMode ? '돌아가기' : '편집'}
+            </button>
+          </div>
         </div>
         <div className="interests-images">
           {interests.length > 0 ? (
@@ -94,6 +101,13 @@ function MyPage_artist() {
             <p className="no-artworks">나의작품이 없습니다.</p>
           )}
         </div>
+        {isEditMode && (
+          <div>
+            <button className="add-artwork" onClick={handleAddArtwork}>
+              작품추가
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="auction-section">

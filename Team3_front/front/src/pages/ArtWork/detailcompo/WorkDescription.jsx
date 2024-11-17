@@ -1,6 +1,6 @@
 // src/components/WorkDescription.js
 import React, { useState, useEffect } from 'react';
-import worksData from './../component/works';
+import worksData from '../../../components/works.jsx';
 import './WorkDescription.css';
 
 function WorkDescription({ id }) {

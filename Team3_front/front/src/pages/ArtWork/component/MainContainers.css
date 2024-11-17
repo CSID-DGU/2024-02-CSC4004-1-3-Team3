@@ -5,6 +5,13 @@
     width: 100%;
 }
 
+.sect {
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
 .section {
     display: flex;
     flex-direction: column; /* 세로 정렬 */
@@ -16,7 +23,7 @@
 .arraytype-section {
     display: flex;
     flex-direction: column; /* 세로 정렬 */
-    justify-content: center;
+    justify-content: center!important;
     align-items: center;
     width: 100%;
     margin-top: 0;

@@ -14,11 +14,11 @@ function MainContainers() {
 
   return (
     <div className="content-container">
-      <div className="section arraytype-section">
+      <div className="sect arraytype-section">
         {/* paginationState를 Arraytype 컴포넌트에 전달 */}
         <Arraytype paginationState={paginationState} />
       </div>
-      <div className="section pagination-section">
+      <div className="sect pagination-section">
         {/* 페이지 변경 시 handlePageChange 함수를 호출 */}
         <Pagination page={paginationState} onPageChange={handlePageChange} />
       </div>

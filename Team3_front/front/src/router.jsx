@@ -3,6 +3,7 @@ import App from './App';
 import Main from './pages/main/Main';
 import Login from './pages/Login/Login';
 import MyPage from './pages/MyPage/MyPage_artist';
+import Workadd from './pages/MyPage/workadd';
 import Author from './pages/Author/Author';
 import Auction from './pages/Auction/Auction';
 import ArtWork from './pages/ArtWork/ArtWork';
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: 'mypage',
         element: <MyPage />,
+      },
+      {
+        path: 'mypage/workadd',
+        element: <Workadd />,
       },
       {
         path: 'artwork',

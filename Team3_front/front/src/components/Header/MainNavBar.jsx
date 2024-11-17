@@ -21,6 +21,12 @@ const MainNavBar = () => {
     case '/auction':
       Title = 'Auction';
       break;
+    case '/mypage':
+      Title = 'Mypage';
+      break;
+    case '/mypage/workadd':
+      Title = 'Mypage';
+      break;
     default:
       Title = 'Main';
       break;
