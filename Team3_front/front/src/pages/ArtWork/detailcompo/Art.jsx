@@ -8,7 +8,7 @@ import './Art.css';
 //import fifth from '../../../img/fifth.png';
 import emptyHeart from '../../../img/heart-shape.png';
 import ImageModal from './ImageModal';
-import worksData from './../component/works';
+import worksData from '../../../components/works.jsx';
 
 function Art({ id }) {
   const [item, setItem] = useState(null); // 현재 작품 데이터를 저장하는 상태
@@ -95,7 +95,7 @@ function Art({ id }) {
           <p>{item.name}</p>
           <p>{item.material}</p>
           <p>
-            {item.size} | {item.year}
+            {item.data.w}X{item.data.h}cm | {item.year}
           </p>
         </div>
       </div>

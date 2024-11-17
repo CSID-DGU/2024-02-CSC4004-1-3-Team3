@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ImageModal from './ImageModal';
-import worksData from './../component/works';
-import './ArtistDescription.css';
+import worksData from '../../../components/works.jsx';
 
 function ArtistDescription({ id }) {
   const [item, setItem] = useState(null);

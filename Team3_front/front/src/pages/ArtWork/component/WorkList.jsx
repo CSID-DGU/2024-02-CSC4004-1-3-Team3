@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './WorkList.css';
 import HeartIcon from './HeartIcon';
-import worksData from './works';
+import worksData from '../../../components/works.jsx';
 
 function WorkList({ selectedType, currentPage }) {
   // 페이지 이동을 위한 useNavigate 훅 설정
@@ -77,7 +77,7 @@ function WorkList({ selectedType, currentPage }) {
                       <p>
                         {work.material}
                         <br />
-                        {work.size} | {work.year}
+                        {work.data.w}X{work.data.h}cm | {work.year}
                       </p>
                     </div>
                     <div className="work-right">

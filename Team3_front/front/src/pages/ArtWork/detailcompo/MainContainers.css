@@ -7,11 +7,14 @@
     width: 100%; /* 너비를 100%로 설정하여 화면 전체 너비로 확장 */
 }
 
-.section {
+.sec {
     text-align: center;
     width: 100%; /* 섹션을 화면 전체 너비로 확장 */
 }
-
+.section {
+    text-align: center;
+    width: 100%;
+}
 .backbutton-section {
     height: auto;
     display: flex;
