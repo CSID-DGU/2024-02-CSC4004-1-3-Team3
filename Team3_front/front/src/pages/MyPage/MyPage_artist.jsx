@@ -51,11 +51,7 @@ function MyPage_artist() {
       <div className="profile-section">
         <div className="profile-image-container">
           <div className="profile-image">
-            {profileImage ? (
-              <img src={profileImage} alt="Profile" />
-            ) : (
-              <i className="fa-solid fa-user" />
-            )}
+            {profileImage ? <img src={profileImage} alt="Profile" /> : null}
           </div>
           <label htmlFor="imageUpload" className="edit-icon">
             <i className="fa-solid fa-pen-to-square" />
@@ -101,9 +97,7 @@ function MyPage_artist() {
       </div>
 
       <div className="auction-section">
-        <div className="auction-name">
-          <h3>진행중인 경매</h3>
-        </div>
+        <h3 className="auction-name">진행중인 경매</h3>
         <div className="auction-item-list">
           {auctions.length > 0 ? (
             auctions.map(auction => (

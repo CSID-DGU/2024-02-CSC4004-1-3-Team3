@@ -182,3 +182,15 @@
 .no-auctions {
   text-align: center;
 }
+
+h3 {
+  font-size: 1.5em; /* 기본 제목 크기 */
+  font-weight: bold; /* 굵은 글씨 */
+  margin: 1em 0; /* 위아래 여백 */
+}
+
+
+.auction-name {
+  font-size: 1.2em;
+  font-weight: bold;
+}
