@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import Main from './pages/main/Main';
 import Login from './pages/Login/Login';
-import MyPage from './pages/MyPage/MyPage';
+import MyPage from './pages/MyPage/MyPage_artist';
 import Author from './pages/Author/Author';
 import Auction from './pages/Auction/Auction';
 import ArtWork from './pages/ArtWork/ArtWork';

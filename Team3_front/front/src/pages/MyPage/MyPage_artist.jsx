@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import './MyPage_artist.css';
+import './Mypage_artist.css';
 
-function App() {
+function MyPage_artist() {
   const [userData, setUserData] = useState({ id: '', email: '' });
   const [interests, setInterests] = useState([]);
   const [auctions, setAuctions] = useState([]);
@@ -10,22 +10,22 @@ function App() {
 
   useEffect(() => {
     fetch('/api/user')
-      .then((response) => response.json())
-      .then((data) => setUserData({ id: data.id, email: data.email }))
-      .catch((error) => console.error('Error fetching user data:', error));
+      .then(response => response.json())
+      .then(data => setUserData({ id: data.id, email: data.email }))
+      .catch(error => console.error('Error fetching user data:', error));
 
     fetch('/api/favorite-artworks')
-      .then((response) => response.json())
-      .then((data) => setInterests(data))
-      .catch((error) => console.error('Error fetching favorite artworks:', error));
+      .then(response => response.json())
+      .then(data => setInterests(data))
+      .catch(error => console.error('Error fetching favorite artworks:', error));
 
     fetch('/api/user-auctions')
-      .then((response) => response.json())
-      .then((data) => setAuctions(data))
-      .catch((error) => console.error('Error fetching user auctions:', error));
+      .then(response => response.json())
+      .then(data => setAuctions(data))
+      .catch(error => console.error('Error fetching user auctions:', error));
   }, []);
 
-  const handleImageChange = (event) => {
+  const handleImageChange = event => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -40,8 +40,8 @@ function App() {
     setIsEditMode(!isEditMode);
   };
 
-  const handleDelete = (artworkId) => {
-    setInterests(interests.filter((artwork) => artwork.id !== artworkId));
+  const handleDelete = artworkId => {
+    setInterests(interests.filter(artwork => artwork.id !== artworkId));
   };
 
   return (
@@ -83,13 +83,10 @@ function App() {
         </div>
         <div className="interests-images">
           {interests.length > 0 ? (
-            interests.map((artwork) => (
+            interests.map(artwork => (
               <div key={artwork.id} className="interest-image">
                 {isEditMode && (
-                  <button
-                    className="delete-icon"
-                    onClick={() => handleDelete(artwork.id)}
-                  >
+                  <button className="delete-icon" onClick={() => handleDelete(artwork.id)}>
                     ×
                   </button>
                 )}
@@ -109,7 +106,7 @@ function App() {
         </div>
         <div className="auction-item-list">
           {auctions.length > 0 ? (
-            auctions.map((auction) => (
+            auctions.map(auction => (
               <div key={auction.id} className="auction-item">
                 <p>
                   {auction.artworkName} - {auction.artistName}
