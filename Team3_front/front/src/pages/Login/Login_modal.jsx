@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import './Login_modal.css';
 
 function App({ isOpen, onClose }) {
     const [username, setUsername] = useState('');
@@ -76,4 +76,4 @@ function App({ isOpen, onClose }) {
     );
 }
 
-export default App;
+export default Login_modal;
