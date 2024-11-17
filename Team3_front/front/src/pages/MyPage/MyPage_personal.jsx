@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './MyPage_personal.css';
 
-function App() {
+function MyPage_personal() {
   const [userData, setUserData] = useState({ id: '', email: '' });
   const [interests, setInterests] = useState([]);
   const [auctions, setAuctions] = useState([]);
@@ -24,7 +24,7 @@ function App() {
       .catch(error => console.error('Error fetching user auctions:', error));
   }, []);
 
-  const handleImageChange = (event) => {
+  const handleImageChange = event => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
