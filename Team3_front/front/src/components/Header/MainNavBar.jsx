@@ -32,7 +32,7 @@ const MainNavBar = () => {
       break;
   }
   return (
-    <header className="header">
+    <header className="Mainheader">
       <div className="header-left">
         <a href="/">
           <img src={Logo} alt="팔아보자GO" className="header-logo" />
