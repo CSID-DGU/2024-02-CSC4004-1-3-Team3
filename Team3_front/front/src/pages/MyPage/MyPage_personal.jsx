@@ -42,9 +42,7 @@ function MyPage_personal() {
       <div className="profile-section">
         <div className="profile-image-container">
           <div className="profile-image">
-            {profileImage ? (
-              <img src={profileImage} alt="Profile" />
-            ) : null}
+            {profileImage ? <img src={profileImage} alt="Profile" /> : null}
           </div>
           <label htmlFor="imageUpload" className="edit-icon">
             <i className="fa-solid fa-pen-to-square" />
