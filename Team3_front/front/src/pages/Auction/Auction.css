@@ -1,0 +1,33 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.auction-container {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.auction-header {
+  font-size: 16px;
+  color: #f39c12;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sort-option {
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.sort-option.active {
+  font-weight: bold;
+}
+
+.auction-title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
