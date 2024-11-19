@@ -9,10 +9,12 @@
 /* 정렬 필터 */
 .sort-filter {
   justify-content: flex-start;
-  display: flex;
+  align-self: flex-start;
   gap: 10px;
   font-size: 1rem;
   margin-top: 5%;
+  margin-left: 7%;
+  padding: 1%;
 }
 
 /* 정렬 필터 항목 */
@@ -94,7 +96,7 @@
 .pagination .page-button {
   cursor: pointer;
   background-color: transparent;
-  border: 1px solid green;
+  border: 1px solid #eee;
   padding: 10px 15px;
   font-size: 1rem;
   color: #333;
@@ -109,5 +111,5 @@
 .pagination .page-button.active {
   background-color: transparent;
   color: #333;
-  border: 1px solid green;
+  border: 1px solid #eee;
 }
