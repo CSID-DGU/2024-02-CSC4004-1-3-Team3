@@ -22,7 +22,7 @@ const Author = () => {
     <div className="container">
       <div className="sort-filter">
         <span className="sort-item active">최신순</span>
-        <span>|</span>
+        <span> | </span>
         <span className="sort-item">인기순</span>
       </div>
       <div className="art-grid">
@@ -70,7 +70,6 @@ const Author = () => {
             대부분을 프랑스에서 보내며 훌륭한 회화작품과 조각품을 남겼다. 그의 작품들은 예술계에
             새로운 장르를 창출하는데 이바지하였다.
           </p>
-          <button className="follow-btn">follow</button>
         </div>
         <div className="image-grid">
           {[...Array(5)].map((_, index) => (

@@ -20,14 +20,18 @@
   position: relative;
   text-align: center;
   overflow: hidden;
+  flex-direction: column;
+  padding: 0;
 }
 
 .modal-image {
   background-color: #fbd29e;
+  width: 100%;
   height: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0; /* 이미지 영역 크기를 고정 */
 }
 
 .artist-image {
@@ -44,7 +48,6 @@
   font-size: 0.7rem;
   color: #666;
   line-height: 1.5;
-  margin-bottom: 15px;
 }
 
 .modal-header p:first-of-type {
@@ -63,8 +66,6 @@
 .author-name {
   font-size: 1.2rem;
   font-weight: bold;
-  margin-bottom: 1%;
-  margin-top: 1%;
 }
 
 .close-btn {
@@ -74,14 +75,6 @@
   background: none;
   border: none;
   font-size: 1.2rem;
-  cursor: pointer;
-}
-
-.follow-btn {
-  background-color: transparent;
-  border: 1px solid orange;
-  color: orange;
-  padding: 3px 30px;
   cursor: pointer;
 }
 
@@ -113,4 +106,27 @@
   color: orange;
   text-decoration: none;
   text-align: right;
+}
+
+.follow-section {
+  text-align: center;
+  margin-bottom: 1%;
+}
+
+.follow-btn {
+  background-color: transparent;
+  border: 1px solid orange;
+  color: orange;
+  padding: 5px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.follow-btn:hover {
+  background-color: orange;
+  color: white;
 }
