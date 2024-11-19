@@ -33,7 +33,7 @@ public class User {
     @Column(nullable = false)
     private boolean isAuthor;
 
-    @Column(nullable = false)
+    @Column
     private String userImage;
 
     // ---------------------------------------------------
