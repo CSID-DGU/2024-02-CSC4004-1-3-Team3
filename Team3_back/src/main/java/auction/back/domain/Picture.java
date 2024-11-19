@@ -45,7 +45,7 @@ public class Picture {
     private Boolean isPhoto;
 
     @Column(nullable = false)
-    private LocalDateTime createAt;
+    private String createAt;
 
     // ----------------------------------------------------------------------------------
 

@@ -22,8 +22,18 @@ public class Auction {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String startPrice;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String ingPrice;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String endPrice;
+
     @Column(nullable = false)
     private LocalDateTime startAt;
+
+    @Column(nullable = true)
+    private LocalDateTime finishAt;
+
 
     // ----------------------------------------------------
     @OneToOne
