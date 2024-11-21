@@ -3,10 +3,12 @@ package auction.back.service;
 import auction.back.domain.User;
 import auction.back.dto.request.UserLoginRequestDto;
 import auction.back.dto.request.UserSignUpRequestDto;
+import auction.back.dto.response.MypageResponseDto;
 import auction.back.dto.response.UserLoginResponseDto;
 import auction.back.exception.ApiException;
 import auction.back.exception.ErrorDefine;
 import auction.back.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +34,12 @@ public class UserService {
         userRepository.save(user);
 
         return true;
+    }
+
+    public MypageResponseDto myView(Long userId) {
+        User user = userRepository.findByIdWithDetails(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+
+        return MypageResponseDto.of(user);
     }
 }
