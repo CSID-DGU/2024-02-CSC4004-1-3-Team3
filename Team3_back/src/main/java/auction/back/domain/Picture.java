@@ -38,7 +38,7 @@ public class Picture {
     private String makeTime;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String condition;
+    private String pictureCondition;
 
     // photo가 true이면 사진 작품
     @Column(nullable = false)

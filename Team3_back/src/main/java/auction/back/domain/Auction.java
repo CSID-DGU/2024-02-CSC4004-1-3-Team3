@@ -17,7 +17,7 @@ import java.util.List;
 public class Auction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String startPrice;

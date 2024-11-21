@@ -5,21 +5,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
-@Table(name = "PICTUREIMG_TB")
+@Table(name = "FOLLOW_TB")
 @Entity
 @Getter
 @NoArgsConstructor
 @DynamicUpdate
-public class PictureImg {
+public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String url;
-
-    // -----------------------------------------------------------
+    // -----------------------------------------------------------------------
     @ManyToOne
-    @JoinColumn(name = "picture_id", nullable = false)
-    private Picture picture;
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private User author;
 }
