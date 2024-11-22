@@ -8,6 +8,8 @@ import Author from './pages/Author/Author';
 import Auction from './pages/Auction/Auction';
 import ArtWork from './pages/ArtWork/ArtWork';
 import ArtDetail from './pages/ArtWork/ArtDetail';
+import SignupStep1 from './pages/SignUp/SignUpStep1';
+import SignupStep2 from './pages/SignUp/SignUpStep2';
 
 const router = createBrowserRouter([
   {
@@ -21,6 +23,14 @@ const router = createBrowserRouter([
       {
         path: 'login',
         element: <Login />,
+      },
+      {
+        path: 'signup',
+        element: <SignupStep1 />,
+      },
+      {
+        path: 'signup/step2',
+        element: <SignupStep2 />,
       },
       {
         path: 'mypage',
