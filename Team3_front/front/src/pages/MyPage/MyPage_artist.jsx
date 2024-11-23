@@ -46,13 +46,14 @@ function MyPage_artist() {
   const handleDelete = artworkId => {
     setInterests(interests.filter(artwork => artwork.id !== artworkId));
   };
+
   const handleAddArtwork = () => {
     navigate('/mypage/workadd'); // "작품 추가" 페이지로 이동
   };
+
   return (
     <div className="my-page">
-      <header className="header">MY PAGE</header>
-
+      <header className="artist_header">MY PAGE</header>
       <div className="profile-section">
         <div className="profile-image-container">
           <div className="profile-image">
@@ -79,6 +80,9 @@ function MyPage_artist() {
         <div className="interests-header">
           <h3 className="interest-name">나의작품</h3>
           <div>
+            <button className="edit-text" onClick={() => navigate('/mypage/auctionadd')}>
+              경매등록
+            </button>
             <button className="edit-text" onClick={toggleEditMode}>
               {isEditMode ? '돌아가기' : '편집'}
             </button>

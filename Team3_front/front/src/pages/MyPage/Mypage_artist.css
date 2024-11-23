@@ -16,7 +16,7 @@
   align-items: center;
 }
 
-.header {
+.artist_header {
   background-color: #ffffff;
   width: 100%;
   text-align: center;
@@ -116,6 +116,7 @@
   text-decoration: none; /* 밑줄 제거 */
   top: 4%;
   right: 4.5%;
+  margin:2px;
 }
 .add-artwork {
   font-size: 1em;
