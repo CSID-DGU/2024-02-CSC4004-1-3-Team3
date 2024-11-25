@@ -39,7 +39,6 @@ public class PictureDetailResponseDto {
                 .makeTime(picture.getMakeTime())
                 .pictureCondition(picture.getPictureCondition())
                 .isPhoto(picture.getIsPhoto())
-                .createAt(picture.getCreateAt())
                 .authorName(picture.getUser().getUserName())
                 .authorEmail(picture.getUser().getUserEmail())
                 .authorImage(picture.getUser().getUserImage())
