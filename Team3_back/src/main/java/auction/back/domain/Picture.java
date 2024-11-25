@@ -69,7 +69,7 @@ public class Picture {
     }
 
     @Builder
-    public Picture(Long id, String name, String description, String ingredient, String sizeHeight, String sizeWidth, String makeTime, String pictureCondition, Boolean isPhoto, Auction auction, List<PictureImg> pictureImgList, List<Like> likeList, User user) {
+    public Picture(Long id, String name, String description, String ingredient, String sizeHeight, String sizeWidth, String makeTime, String pictureCondition, Boolean isPhoto, List<PictureImg> pictureImgList, List<Like> likeList, User user) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -79,7 +79,6 @@ public class Picture {
         this.makeTime = makeTime;
         this.pictureCondition = pictureCondition;
         this.isPhoto = isPhoto;
-        this.auction = auction;
         this.pictureImgList = pictureImgList;
         this.likeList = likeList;
         this.user = user;

@@ -1,8 +1,10 @@
 package auction.back.service;
 
 import auction.back.domain.Auction;
+import auction.back.dto.response.AuctionDetailViewResponseDto;
 import auction.back.dto.response.AuctionListViewResponseDto;
 import auction.back.repository.AuctionRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +28,11 @@ public class AuctionService {
         return finishAuctions.stream()
                 .map(AuctionListViewResponseDto::of)
                 .collect(Collectors.toList());
+    }
+
+    public AuctionDetailViewResponseDto detailView(Long auctionId) {
+        Auction auction = auctionRepository.findById(auctionId)
+                .orElseThrow(() -> new EntityNotFoundException("Auction not found with id: " + auctionId));
+        return AuctionDetailViewResponseDto.of(auction);
     }
 }
