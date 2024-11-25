@@ -10,6 +10,7 @@ import ArtWork from './pages/ArtWork/ArtWork';
 import ArtDetail from './pages/ArtWork/ArtDetail';
 import SignupStep1 from './pages/SignUp/SignUpStep1';
 import SignupStep2 from './pages/SignUp/SignUpStep2';
+import AuctionAdd from './pages/MyPage/auctionadd'; // 경매 등록 페이지 추가
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: 'mypage',
         element: <MyPage />,
+      },
+      {
+        path: 'mypage/auctionadd', // 경매 등록 경로 추가
+        element: <AuctionAdd />,
       },
       {
         path: 'mypage/workadd',
