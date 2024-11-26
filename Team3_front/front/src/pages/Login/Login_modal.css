@@ -1,81 +1,89 @@
-.my-page-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  position: relative;
-  height: 80vh;
-}
-
-.header {
+.login_modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  text-align: left;
-  font-size: 18px;
-  margin-bottom: 20px;
-}
-
-.image-grid {
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 100%; /* 부모 높이를 채워 화면 중앙 배치 */
-  max-width: 800px;
-  margin-bottom: 50px;
-  text-align: center;
 }
 
-
-.image-placeholder {
-  background-color: #d3d3d3;
-  width: 100%;
-  padding-top: 100%; /* Aspect ratio 1:1 */
+.login_modal-content {
+  background-color: white;
+  padding: 30px;
+  width: 450px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
   position: relative;
-  overflow: hidden;
-  transition: background-color 0.3s ease; /* Smooth transition */
-}
-.image-placeholder img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: opacity 0.3s ease; /* Smooth transition for opacity */
-}
-
-.image-placeholder p {
-  margin-top: 8px;
-  font-size: 14px;
-  color: #333;
-}
-
-.no-artworks {
-  font-size: 16px;
-  color: #888;
   text-align: center;
 }
 
-.add-artwork-button {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  background-color: #f0b653;
-  color: #fff;
-  font-size: 16px;
+.login_login-logo {
+  padding: 15px 0;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.login_login-logo h2 {
+  margin: 0;
   font-weight: bold;
-  padding: 15px 80px;
+  color: #333;
+  font-size: 22px;
+}
+
+.login_form-group {
+  margin: 20px 0;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login_form-group input {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 15px;
+}
+
+.login_button-group {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 20px;
+}
+
+.login_button-group button {
+  padding: 10px 25px;
+  font-size: 16px;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #f0a500;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.login_button-group button:hover {
+  background-color: #e2a936;
+}
+
+.login_clickable-text {
+  color: #333;
+  font-size: 14px;
+  margin-top: 20px;
   cursor: pointer;
 }
 
-.add-artwork-button:hover {
-  background-color: #e0a342;
+.login_clickable-text:hover {
+  color: #999;
 }
 
-.image-placeholder.selected {
-  background-color: #aaa; /* Darker shade when selected */
-}
-
-.image-placeholder.selected img {
-  opacity: 0.7; /* Make the image darker */
+hr {
+  border: 0;
+  height: 1px;
+  background-color: #f0a500;
+  margin: 10px 0;
 }
