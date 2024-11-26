@@ -53,12 +53,12 @@ function Login_modal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={e => e.stopPropagation()}>
-        <div className="login-logo">
+    <div className="login_modal-overlay" onClick={onClose}>
+      <div className="login_modal-content" onClick={e => e.stopPropagation()}>
+        <div className="login_login-logo">
           <h2>로그인</h2>
         </div>
-        <div className="form-group">
+        <div className="login_form-group">
           <input
             type="text"
             placeholder="아이디"
@@ -66,7 +66,7 @@ function Login_modal({ isOpen, onClose }) {
             onChange={e => setUsername(e.target.value)}
           />
         </div>
-        <div className="form-group">
+        <div className="login_form-group">
           <input
             type="password"
             placeholder="비밀번호"
@@ -74,11 +74,11 @@ function Login_modal({ isOpen, onClose }) {
             onChange={e => setPassword(e.target.value)}
           />
         </div>
-        <div className="button-group">
+        <div className="login_button-group">
           <button onClick={handleLogin}>로그인</button>
           <button onClick={onClose}>취소</button>
         </div>
-        <div className="clickable-text" onClick={() => navigate('/signup')}>
+        <div className="login_clickable-text" onClick={() => navigate('/signup')}>
           아직 회원이 아니신가요?
         </div>
       </div>
