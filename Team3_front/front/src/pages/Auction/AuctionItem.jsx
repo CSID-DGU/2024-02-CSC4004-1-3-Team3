@@ -1,9 +1,20 @@
 import React from 'react';
 import './AuctionItem.css';
 
-const AuctionItem = ({ image, title, artist, minBid, currentBid }) => {
+const AuctionItem = ({ image, title, artist, minBid, currentBid, completed, onClick }) => {
+  if (completed) {
+    return (
+      <div className="auction-card" style={{ background: `#D3D3D3` }} onClick={onClick}>
+        <div className="auction-image" style={{ backgroundImage: `url(${image})` }}></div>
+        <div className="auction-details">
+          <h2 className="art-title">{title}</h2>
+          <p className="artist-name">{artist}</p>
+        </div>
+      </div>
+    );
+  }
   return (
-    <div className="auction-card">
+    <div className="auction-card" onClick={onClick}>
       <div className="auction-image" style={{ backgroundImage: `url(${image})` }}></div>
       <div className="auction-details">
         <h2 className="art-title">{title}</h2>

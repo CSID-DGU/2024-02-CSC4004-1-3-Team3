@@ -5,9 +5,10 @@ import Login from './pages/Login/Login';
 import MyPage from './pages/MyPage/MyPage_artist';
 import Workadd from './pages/MyPage/workadd';
 import Author from './pages/Author/Author';
-import Auction from './pages/Auction/Auction';
+import AuctionOngoing from './pages/Auction/AuctionOngoing';
 import ArtWork from './pages/ArtWork/ArtWork';
 import ArtDetail from './pages/ArtWork/ArtDetail';
+import AuctionCompleted from './pages/Auction/AuctionCompleted';
 
 const router = createBrowserRouter([
   {
@@ -43,8 +44,12 @@ const router = createBrowserRouter([
         element: <Author />,
       },
       {
-        path: 'auction',
-        element: <Auction />,
+        path: 'auction/ongoing',
+        element: <AuctionOngoing />,
+      },
+      {
+        path: 'auction/completed',
+        element: <AuctionCompleted />,
       },
     ],
   },
