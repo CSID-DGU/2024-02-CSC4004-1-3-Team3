@@ -10,9 +10,8 @@
   align-items: center;
 }
 
-.login-logo
-{
-padding:20px;
+.login-logo {
+  padding: 20px;
   border-bottom: 2px solid #f0a500;
 }
 
@@ -39,17 +38,13 @@ hr {
 }
 
 .form-group {
-  margin:20px;
-  margin-left:200px;
-  width:60%;
-
+  margin: 20px;
+  margin-left: 200px;
+  width: 60%;
 }
 
-
-
-
 .form-group input {
-  margin-top:30px;
+  margin-top: 30px;
   width: 100%;
   padding: 20px;
   font-size: 16px;
@@ -68,18 +63,17 @@ hr {
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-left:30px;
-  margin-right:30px;
+  margin-left: 30px;
+  margin-right: 30px;
   background-color: #f0a500;
   color: white;
 }
 
-
 .clickable-text {
   color: #333;
   cursor: pointer;
-  margin-top:30px;
-  margin-left:10px;
+  margin-top: 30px;
+  margin-left: 10px;
 }
 
 .clickable-text:hover {
