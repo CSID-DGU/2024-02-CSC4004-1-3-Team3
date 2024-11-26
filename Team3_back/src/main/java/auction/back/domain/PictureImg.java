@@ -1,6 +1,8 @@
 package auction.back.domain;
 
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
@@ -22,4 +24,11 @@ public class PictureImg {
     @ManyToOne
     @JoinColumn(name = "picture_id", nullable = false)
     private Picture picture;
+
+    @Builder
+    public PictureImg(Long id, String url, Picture picture) {
+        this.id = id;
+        this.url = url;
+        this.picture = picture;
+    }
 }

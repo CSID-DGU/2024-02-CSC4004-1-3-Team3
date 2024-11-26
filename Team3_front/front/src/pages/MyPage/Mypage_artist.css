@@ -81,7 +81,7 @@
 .profile-info p {
   margin: 20px 0px;
   padding-left: 50px;
-  color:black;
+  color: black;
 }
 
 .profile-info {
@@ -116,11 +116,11 @@
   text-decoration: none; /* 밑줄 제거 */
   top: 4%;
   right: 4.5%;
-  margin:2px;
+  margin: 2px;
 }
 .add-artwork {
   font-size: 1em;
-  color:#000000;
+  color: #000000;
   background-color: #ffffff;
   padding: 5px 20px 5px 20px;
   float: right;
@@ -208,7 +208,6 @@ h3 {
   font-weight: bold; /* 굵은 글씨 */
   margin: 1em 0; /* 위아래 여백 */
 }
-
 
 .auction-name {
   font-size: 1.2em;

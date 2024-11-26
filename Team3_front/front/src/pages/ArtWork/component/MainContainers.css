@@ -1,36 +1,36 @@
 .content-container {
-    margin-top: 30px;
-    display: flex;
-    flex-direction: column!important;
-    width: 100%;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column !important;
+  width: 100%;
 }
 
 .sect {
-    display: flex;
-    flex-direction: column; /* 세로 정렬 */
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 .section {
-    display: flex;
-    flex-direction: column; /* 세로 정렬 */
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .arraytype-section {
-    display: flex;
-    flex-direction: column; /* 세로 정렬 */
-    justify-content: center!important;
-    align-items: center;
-    width: 100%;
-    margin-top: 0;
-    background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  justify-content: center !important;
+  align-items: center;
+  width: 100%;
+  margin-top: 0;
+  background-color: rgb(255, 255, 255);
 }
 .pagination-section {
-    margin-top: 1000px;
-    height: auto; /* 하단 페이지네이션 영역 10% */
-    background-color: white;
+  margin-top: 1000px;
+  height: auto; /* 하단 페이지네이션 영역 10% */
+  background-color: white;
 }

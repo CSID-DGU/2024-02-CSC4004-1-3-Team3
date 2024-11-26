@@ -1,40 +1,36 @@
-
 .tabs-container {
-    width: 100%;
-    margin-top: -80px;
-
+  width: 100%;
+  margin-top: -80px;
 }
 
 .tabs {
-    display: flex;
-    margin-top: 100px;
-    flex-direction: row;
-    width: 40%;
-    gap: 10px;
+  display: flex;
+  margin-top: 100px;
+  flex-direction: row;
+  width: 40%;
+  gap: 10px;
 }
 
 .tabs button {
-    flex: 1;
-    padding: 10px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    
+  flex: 1;
+  padding: 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 .tabs button:hover {
-    color: orange;
-    background-color: rgb(255, 255, 255);
-
+  color: orange;
+  background-color: rgb(255, 255, 255);
 }
 
 .tabs button.active {
-    color: rgb(0, 0, 0);
-    border: 1px solid #ccc;
-    border-bottom: none;
+  color: rgb(0, 0, 0);
+  border: 1px solid #ccc;
+  border-bottom: none;
 }
 
 .tab-content {
-    flex-direction: column;
-    margin-top: 20px; /* 버튼과 콘텐츠 사이의 여백 */
-    padding : 20px 20px;
+  flex-direction: column;
+  margin-top: 20px; /* 버튼과 콘텐츠 사이의 여백 */
+  padding: 20px 20px;
 }
