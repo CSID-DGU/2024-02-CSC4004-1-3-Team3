@@ -5,11 +5,12 @@ body {
 .auction-container {
   width: 70%;
   margin: 0 auto;
+  height: 100vh;
 }
 
 .auction-header {
   font-size: 16px;
-  color: #f39c12;
+  color: #ccc;
   margin-bottom: 50px;
   margin-top: 50px;
   display: flex;
@@ -19,11 +20,13 @@ body {
 
 .sort-option {
   cursor: pointer;
-  margin-right: 10px;
+  color: #ccc;
+  margin: 5px;
 }
 
 .sort-option.active {
   font-weight: bold;
+  color: #f39c12;
 }
 
 .auction-title {

@@ -1,36 +1,28 @@
-// Header.js
-import React from 'react';
-import './MainNavBar.css'; // 스타일 파일 연결
+import React, { useState } from 'react'; // useState 추가
+import './MainNavBar.css';
 import Logo from '../../img/MainLogo.png';
 import SearchIcon from '../../img/SearchIcon.png';
 import { useLocation } from 'react-router-dom';
 
 const MainNavBar = () => {
+  const [showAuctionMenu, setShowAuctionMenu] = useState(false); // 상태 추가
   let Title = 'Main';
   const location = useLocation();
-  switch (location.pathname) {
-    case '/':
-      Title = 'Main';
-      break;
-    case '/artwork':
-      Title = 'ArtWork';
-      break;
-    case '/author':
-      Title = 'Artist';
-      break;
-    case '/auction':
-      Title = 'Auction';
-      break;
-    case '/mypage':
-      Title = 'Mypage';
-      break;
-    case '/mypage/workadd':
-      Title = 'Mypage';
-      break;
-    default:
-      Title = 'Main';
-      break;
+
+  if (location.pathname === '/') {
+    Title = 'Main';
+  } else if (location.pathname.startsWith('/artwork')) {
+    Title = 'ArtWork';
+  } else if (location.pathname.startsWith('/author')) {
+    Title = 'Artist';
+  } else if (location.pathname.startsWith('/auction')) {
+    Title = 'Auction';
+  } else if (location.pathname.startsWith('/mypage')) {
+    Title = 'Mypage';
+  } else {
+    Title = 'Main';
   }
+
   return (
     <header className="Mainheader">
       <div className="header-left">
@@ -48,26 +40,40 @@ const MainNavBar = () => {
       </div>
 
       <div className="header-right">
-        <a href="login" className="header-link">
+        <a href="/login" className="header-link">
           login
         </a>
         <span className="divider">|</span>
-        <a href="mypage" className="header-link">
+        <a href="/mypage" className="header-link">
           mypage
         </a>
       </div>
 
       <div className="header-bottom">
         <nav className="header-nav">
-          <a href="artwork" className="nav-link">
+          <a href="/artwork" className="nav-link">
             작품
           </a>
-          <a href="author" className="nav-link">
+          <a href="/author" className="nav-link">
             작가
           </a>
-          <a href="auction" className="nav-link">
+          <div
+            className="nav-link auction-link"
+            onMouseEnter={() => setShowAuctionMenu(true)}
+            onMouseLeave={() => setShowAuctionMenu(false)}
+          >
             경매
-          </a>
+            {showAuctionMenu && (
+              <div className="dropdown-menu">
+                <a href="/auction/ongoing" className="dropdown-item">
+                  진행중 경매
+                </a>
+                <a href="/auction/completed" className="dropdown-item">
+                  완료된 경매
+                </a>
+              </div>
+            )}
+          </div>
         </nav>
       </div>
     </header>
