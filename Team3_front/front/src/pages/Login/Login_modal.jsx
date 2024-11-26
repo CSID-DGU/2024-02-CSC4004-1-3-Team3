@@ -65,7 +65,10 @@ function Login_modal({ isOpen, onClose }) {
           <button onClick={handleLogin}>로그인</button>
           <button onClick={onClose}>취소</button>
         </div>
-        <div className="clickable-text" onClick={() => navigate('/signup')}>
+        <div
+          className="clickable-text"
+          onClick={() => navigate('/signup')} // 회원가입 페이지로 이동
+        >
           아직 회원이 아니신가요?
         </div>
       </div>

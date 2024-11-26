@@ -8,6 +8,9 @@ import Author from './pages/Author/Author';
 import AuctionOngoing from './pages/Auction/AuctionOngoing';
 import ArtWork from './pages/ArtWork/ArtWork';
 import ArtDetail from './pages/ArtWork/ArtDetail';
+import SignupStep1 from './pages/SignUp/SignUpStep1';
+import SignupStep2 from './pages/SignUp/SignUpStep2';
+import AuctionAdd from './pages/MyPage/auctionadd';
 import AuctionCompleted from './pages/Auction/AuctionCompleted';
 
 const router = createBrowserRouter([
@@ -24,8 +27,20 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
+        path: 'signup',
+        element: <SignupStep1 />,
+      },
+      {
+        path: 'signup/step2',
+        element: <SignupStep2 />,
+      },
+      {
         path: 'mypage',
         element: <MyPage />,
+      },
+      {
+        path: 'mypage/auctionadd', // 경매 등록 경로 추가
+        element: <AuctionAdd />,
       },
       {
         path: 'mypage/workadd',

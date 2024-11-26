@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.List;
+import java.util.Set;
 
 @Table(name = "USER_TB")
 @Entity
@@ -25,19 +26,36 @@ public class User {
     private String loginPassword;
 
     @Column(nullable = false)
+    private String userName;
+
+    @Column(nullable = false)
     private String userEmail;
 
     @Column(nullable = false)
     private boolean isAuthor;
 
+    @Column
+    private String userImage;
+
     // ---------------------------------------------------
 
     @OneToMany(mappedBy = "user")
-    private List<Mapping> mappingList;
+    private Set<Mapping> mappingSet;
 
     @OneToMany(mappedBy = "user")
     private List<Picture> pictureList;
 
     @OneToMany(mappedBy = "user")
-    private List<Like> likeList;
+    private Set<Like> likeSet;
+
+    @Builder
+    public User(Long id, String loginId, String loginPassword, String userName, String userEmail, String userImage, boolean isAuthor) {
+        this.id = id;
+        this.loginId = loginId;
+        this.loginPassword = loginPassword;
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.userImage = userImage;
+        this.isAuthor = isAuthor;
+    }
 }

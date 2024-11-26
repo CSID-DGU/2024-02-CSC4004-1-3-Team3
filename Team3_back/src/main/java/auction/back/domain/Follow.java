@@ -5,22 +5,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
-@Table(name = "MAPPING_TB")
+@Table(name = "FOLLOW_TB")
 @Entity
 @Getter
 @NoArgsConstructor
 @DynamicUpdate
-public class Mapping {
+public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // -------------------------------------------
+    // -----------------------------------------------------------------------
     @ManyToOne
-    @JoinColumn(name = "auction_id", nullable = false)
-    private Auction auction;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "author_id")
+    private User author;
 }
