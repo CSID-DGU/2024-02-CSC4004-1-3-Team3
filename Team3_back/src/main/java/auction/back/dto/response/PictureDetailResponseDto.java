@@ -5,6 +5,7 @@ import auction.back.domain.PictureImg;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.joda.time.LocalDateTime;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +23,6 @@ public class PictureDetailResponseDto {
     private String makeTime;
     private String pictureCondition;
     private Boolean isPhoto;
-    private String createAt;
     private String authorName;
     private String authorEmail;
     private String authorImage;
@@ -39,7 +39,6 @@ public class PictureDetailResponseDto {
                 .makeTime(picture.getMakeTime())
                 .pictureCondition(picture.getPictureCondition())
                 .isPhoto(picture.getIsPhoto())
-                .createAt(picture.getCreateAt())
                 .authorName(picture.getUser().getUserName())
                 .authorEmail(picture.getUser().getUserEmail())
                 .authorImage(picture.getUser().getUserImage())

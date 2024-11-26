@@ -50,6 +50,9 @@ const Modal = ({ show, onClose, children }) => {
           <a href="#" className="more-link">
             more picture
           </a>
+
+          {/* children 렌더링 */}
+          <div className="modal-children">{children}</div>
         </div>
       </div>
       {showToast && <Toast message="팔로우하기 시작했습니다" onClose={() => setShowToast(false)} />}

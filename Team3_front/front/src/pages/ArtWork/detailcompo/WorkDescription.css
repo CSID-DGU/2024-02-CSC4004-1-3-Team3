@@ -1,134 +1,128 @@
 .art-description {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  width: 100%;
 }
 
 .art-dimensions {
-    position: relative;
-    background-color: #f0f0f0;
-    color: #555;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 10px;
-    font-family: Arial, sans-serif;
-    margin-bottom: 50px; /* 아래 요소들과 간격 추가 */
-    width: fit-content;
-    height: fit-content;
+  position: relative;
+  background-color: #f0f0f0;
+  color: #555;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  font-family: Arial, sans-serif;
+  margin-bottom: 50px; /* 아래 요소들과 간격 추가 */
+  width: fit-content;
+  height: fit-content;
 }
-
 
 .dimension-overlay {
-    position: absolute; /* 부모 요소 (.art-dimensions)를 기준으로 배치 */
-    display: flex;
+  position: absolute; /* 부모 요소 (.art-dimensions)를 기준으로 배치 */
+  display: flex;
 }
 
-
 .width {
-    position: absolute;
-    top: 100%; /* 작품 치수 박스 아래로 이동 */
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.8em;
-    color: #555;
-    margin-top: 20px; /* 화살표와의 간격 조정 */
+  position: absolute;
+  top: 100%; /* 작품 치수 박스 아래로 이동 */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.8em;
+  color: #555;
+  margin-top: 20px; /* 화살표와의 간격 조정 */
 }
 
 .width-arrow {
-    height: 1px;
-    width: 100%;
-    background-color: orange;
-    position: relative;
-    margin-bottom: 5px; /* 텍스트와 화살표 간격 조정 */
+  height: 1px;
+  width: 100%;
+  background-color: orange;
+  position: relative;
+  margin-bottom: 5px; /* 텍스트와 화살표 간격 조정 */
 }
 
-
-
 .width-arrow::after {
-    content: '';
-    position: absolute;
-    width: 7px;
-    height: 7px;
-    border-top: 1px solid orange;
-    border-right: 1px solid orange;
-    right: 5px;
-    top: -3.5px;
-    transform: translateX(50%) rotate(45deg);
+  content: '';
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid orange;
+  border-right: 1px solid orange;
+  right: 5px;
+  top: -3.5px;
+  transform: translateX(50%) rotate(45deg);
 }
 
 .width-arrow::before {
-    content: '';
-    position: absolute;
-    width: 7px;
-    height: 7px;
-    border-top: 1px solid orange;
-    border-right: 1px solid orange;
-    left: -3px;
-    top: -3.5px;
-    transform: translateX(50%) rotate(225deg);
+  content: '';
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid orange;
+  border-right: 1px solid orange;
+  left: -3px;
+  top: -3.5px;
+  transform: translateX(50%) rotate(225deg);
 }
 
 .height {
-    position: absolute;
-    top: 50%;
-    left: 110%; /* 박스에서 오른쪽으로 일정 간격 */
-    transform: translateY(-50%);
-    font-size: 0.8em;
-    color: #555;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    margin-left: 10px; /* 화살표와의 간격 조정 */
+  position: absolute;
+  top: 50%;
+  left: 110%; /* 박스에서 오른쪽으로 일정 간격 */
+  transform: translateY(-50%);
+  font-size: 0.8em;
+  color: #555;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  margin-left: 10px; /* 화살표와의 간격 조정 */
 }
 
 .height-arrow {
-    position: relative;
-    width: 1px;
-    height: 100%;
-    background-color: orange;
-    margin-top: 5px; /* 텍스트와 화살표 간격 조정 */
+  position: relative;
+  width: 1px;
+  height: 100%;
+  background-color: orange;
+  margin-top: 5px; /* 텍스트와 화살표 간격 조정 */
 }
 
-
-
 .height-arrow::after {
-    content: '';
-    position: absolute;
-    width: 7px;
-    height: 7px;
-    border-top: 1px solid orange;
-    border-right: 1px solid orange;
-    bottom: 5px;
-    left: -3.5px;
-    transform: translateY(50%) rotate(-225deg);
+  content: '';
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid orange;
+  border-right: 1px solid orange;
+  bottom: 5px;
+  left: -3.5px;
+  transform: translateY(50%) rotate(-225deg);
 }
 
 .height-arrow::before {
-    content: '';
-    position: absolute;
-    width: 7px;
-    height: 7px;
-    border-top: 1px solid orange;
-    border-right: 1px solid orange;
-    top: -4px;
-    left: -3.5px;
-    transform: translateY(50%) rotate(-45deg);
+  content: '';
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid orange;
+  border-right: 1px solid orange;
+  top: -4px;
+  left: -3.5px;
+  transform: translateY(50%) rotate(-45deg);
 }
 
 .art-description h2 {
-    font-size: 15px;
-    font-weight: bold;
-    margin-top: 50px;
-    margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 50px;
+  margin-bottom: 10px;
 }
 
 .art-description p {
-    text-align: justify;
-    font-size: 12px;
-    margin: 10px 20px;
-    color: #333;
+  text-align: justify;
+  font-size: 12px;
+  margin: 10px 20px;
+  color: #333;
 }

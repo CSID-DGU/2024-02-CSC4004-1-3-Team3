@@ -4,7 +4,6 @@ import './Login_modal.css';
 
 function Login_modal({ isOpen, onClose }) {
   const navigate = useNavigate();
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -15,20 +14,35 @@ function Login_modal({ isOpen, onClose }) {
     }
 
     try {
-      const response = await fetch('https://your-backend-url.com/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
+      const response = await fetch(
+        'https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/login',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            loginId: username,
+            loginPassword: password,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorMessage = `HTTP 오류: ${response.status}`;
+        console.error(errorMessage);
+        alert(errorMessage);
+        return;
+      }
 
       const data = await response.json();
+      console.log('API 응답 데이터:', data);
 
-      if (response.ok) {
+      if (data.success && data.responseDto?.id) {
+        localStorage.setItem('userId', data.responseDto.id);
         alert('로그인 성공!');
-        localStorage.setItem('token', data.token); // 인증 토큰 저장 (예: JWT)
-        onClose(); // 로그인 성공 시 모달 닫기
+        onClose();
       } else {
-        alert('로그인 실패: ' + data.message); // 백엔드에서 받은 오류 메시지
+        console.error('로그인 실패:', data);
+        alert(`로그인 실패: ${data.error || '알 수 없는 오류'}`);
       }
     } catch (error) {
       console.error('로그인 요청 중 오류 발생:', error);
@@ -36,16 +50,15 @@ function Login_modal({ isOpen, onClose }) {
     }
   };
 
-  if (!isOpen) return null; // isOpen이 false이면 모달을 렌더링하지 않음
+  if (!isOpen) return null;
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={e => e.stopPropagation()}>
-        <div className="login-logo">
+    <div className="login_modal-overlay" onClick={onClose}>
+      <div className="login_modal-content" onClick={e => e.stopPropagation()}>
+        <div className="login_login-logo">
           <h2>로그인</h2>
         </div>
-
-        <div className="form-group">
+        <div className="login_form-group">
           <input
             type="text"
             placeholder="아이디"
@@ -53,7 +66,7 @@ function Login_modal({ isOpen, onClose }) {
             onChange={e => setUsername(e.target.value)}
           />
         </div>
-        <div className="form-group">
+        <div className="login_form-group">
           <input
             type="password"
             placeholder="비밀번호"
@@ -61,14 +74,11 @@ function Login_modal({ isOpen, onClose }) {
             onChange={e => setPassword(e.target.value)}
           />
         </div>
-        <div className="button-group">
+        <div className="login_button-group">
           <button onClick={handleLogin}>로그인</button>
           <button onClick={onClose}>취소</button>
         </div>
-        <div
-          className="clickable-text"
-          onClick={() => navigate('/signup')} // 회원가입 페이지로 이동
-        >
+        <div className="login_clickable-text" onClick={() => navigate('/signup')}>
           아직 회원이 아니신가요?
         </div>
       </div>
