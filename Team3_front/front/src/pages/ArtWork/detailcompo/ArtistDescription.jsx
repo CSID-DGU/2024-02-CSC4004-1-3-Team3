@@ -1,23 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ImageModal from './ImageModal';
-import worksData from '../../../components/works.jsx';
+//import worksData from '../../../components/works.jsx';
 
-function ArtistDescription({ id }) {
-  const [item, setItem] = useState(null);
+function ArtistDescription({ artwork }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    const foundItem = worksData[parseInt(id)];
-    setItem(foundItem || null);
-  }, [id]);
-  if (!item) return <p>작품 정보를 찾을 수 없습니다.</p>;
+  if (!artwork) return <p>작품 정보를 찾을 수 없습니다.</p>;
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   return (
     <div className="art-description">
       <img
-        src={item.artistimg}
+        src={artwork.authorImage}
         alt="작가 사진"
         style={{
           width: '300px',
@@ -28,8 +23,8 @@ function ArtistDescription({ id }) {
         onClick={openModal}
       />
       <h2>작가 설명</h2>
-      <p>{item.artistdes}</p>
-      {isModalOpen && <ImageModal image={item.artistimg} onClose={closeModal} />}
+      <p>{artwork.artistdes}</p>
+      {isModalOpen && <ImageModal image={artwork.artistimg} onClose={closeModal} />}
     </div>
   );
 }
