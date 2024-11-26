@@ -4,30 +4,77 @@ import './Mypage_artist.css';
 
 function MyPage_artist() {
   const navigate = useNavigate();
-
-  const [userData, setUserData] = useState({ id: '', email: '' });
+  const [userData, setUserData] = useState({ id: '', email: '', name: '' });
+  const [profileImage, setProfileImage] = useState(null);
   const [interests, setInterests] = useState([]);
   const [auctions, setAuctions] = useState([]);
-  const [profileImage, setProfileImage] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [storedUserId, setStoredUserId] = useState(''); // 가져온 userId를 저장할 상태
+
+  // 유저 데이터 가져오기
+  const fetchUserData = async () => {
+    const userId = localStorage.getItem('userId');
+    console.log('LocalStorage userId:', userId); // 콘솔에 출력해 확인
+
+    if (!userId) {
+      alert('로그인이 필요합니다.');
+      navigate('/login');
+      return;
+    }
+
+    setStoredUserId(userId); // 가져온 userId를 상태에 저장
+
+    // URL 쿼리 파라미터 형식으로 수정
+    const apiUrl = `https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/mypage?userId=${userId}`;
+    console.log('API URL:', apiUrl); // 요청 URL 확인을 위한 로그
+
+    try {
+      const response = await fetch(apiUrl);
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('서버 응답 에러:', errorText);
+        throw new Error(`HTTP 오류: ${response.status} - ${errorText}`);
+      }
+
+      const data = await response.json();
+      console.log('API 응답 데이터:', data);
+
+      if (data.success && data.responseDto) {
+        const { userName, loginId, userEmail, userImage, pictureList, auctionList } =
+          data.responseDto;
+
+        setUserData({ id: loginId, email: userEmail, name: userName });
+        setProfileImage(userImage || '/default-profile.png');
+        setInterests(
+          pictureList.map(picture => ({
+            id: picture.id,
+            name: picture.name,
+            image: picture.imageUrl,
+          }))
+        );
+        setAuctions(
+          auctionList.map(auction => ({
+            id: auction.id,
+            artworkName: auction.pictureName,
+            artistName: userName,
+            startPrice: auction.startPrice,
+          }))
+        );
+      } else {
+        throw new Error(data.error || '데이터를 불러올 수 없습니다.');
+      }
+    } catch (error) {
+      console.error('유저 데이터 가져오기 실패:', error);
+      alert(`유저 데이터 가져오기 실패: ${error.message}`);
+    }
+  };
 
   useEffect(() => {
-    fetch('/api/user')
-      .then(response => response.json())
-      .then(data => setUserData({ id: data.id, email: data.email }))
-      .catch(error => console.error('Error fetching user data:', error));
-
-    fetch('/api/favorite-artworks')
-      .then(response => response.json())
-      .then(data => setInterests(data))
-      .catch(error => console.error('Error fetching favorite artworks:', error));
-
-    fetch('/api/user-auctions')
-      .then(response => response.json())
-      .then(data => setAuctions(data))
-      .catch(error => console.error('Error fetching user auctions:', error));
+    fetchUserData();
   }, []);
 
+  // 프로필 이미지 변경 핸들러
   const handleImageChange = event => {
     const file = event.target.files[0];
     if (file) {
@@ -39,16 +86,19 @@ function MyPage_artist() {
     }
   };
 
+  // 편집 모드 토글
   const toggleEditMode = () => {
     setIsEditMode(!isEditMode);
   };
 
+  // 작품 삭제 핸들러
   const handleDelete = artworkId => {
     setInterests(interests.filter(artwork => artwork.id !== artworkId));
   };
 
+  // 작품 추가 페이지 이동
   const handleAddArtwork = () => {
-    navigate('/mypage/workadd'); // "작품 추가" 페이지로 이동
+    navigate('/mypage/workadd');
   };
 
   return (
@@ -73,6 +123,7 @@ function MyPage_artist() {
         <div className="profile-info">
           <p>아이디: {userData.id}</p>
           <p>이메일: {userData.email}</p>
+          <p>이름: {userData.name}</p>
         </div>
       </div>
 
@@ -123,7 +174,7 @@ function MyPage_artist() {
                 <p>
                   {auction.artworkName} - {auction.artistName}
                 </p>
-                <span>시작가: {auction.startPrice} KRW</span>
+                <span>시작가: {auction.startPrice} 원</span>
               </div>
             ))
           ) : (
