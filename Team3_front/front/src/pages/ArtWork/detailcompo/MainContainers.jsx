@@ -36,7 +36,7 @@ function MainContainers({ artworkId }) {
             author: {
               name: artworkData.authorName,
               email: artworkData.authorEmail,
-              image: artworkData.authorImage || '/images/default-author-image.jpg',
+              authorImage: artworkData.authorImage || '/images/default-author-image.jpg',
             },
             images: artworkData.imageUrls || [],
           };
