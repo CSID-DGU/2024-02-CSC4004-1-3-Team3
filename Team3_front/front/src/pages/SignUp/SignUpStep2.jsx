@@ -2,53 +2,109 @@ import React, { useState } from 'react';
 import './SignUp.css';
 
 function SignUpStep2() {
-  // 상태값으로 현재 회원 유형을 저장
-  const [isPersonalMember, setIsPersonalMember] = useState(true); // 기본값은 개인 회원
+  const [isPersonalMember, setIsPersonalMember] = useState(true);
+  const [formData, setFormData] = useState({
+    userName: '',
+    loginId: '',
+    loginPassword: '',
+    userEmail: '',
+    isAuthor: false,
+  });
 
-  // "개인 회원" 버튼 클릭 시 호출
-  const handlePersonalClick = () => {
-    setIsPersonalMember(true);
+  // 회원가입 버튼 클릭 시 호출되는 함수
+  const handleSubmit = async e => {
+    e.preventDefault(); // 기본 폼 제출 동작 방지
+
+    try {
+      const response = await fetch(
+        'https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/signup',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData), // 요청 데이터를 JSON 형식으로 변환
+        }
+      );
+
+      const data = await response.json(); // 응답 데이터 파싱
+
+      if (response.ok) {
+        alert('회원가입 성공: ' + data.message);
+      } else {
+        alert('회원가입 실패: ' + data.msg);
+      }
+    } catch (error) {
+      console.error('회원가입 요청 중 오류 발생:', error);
+      alert('회원가입 중 문제가 발생했습니다.');
+    }
   };
 
-  // "예술가 회원" 버튼 클릭 시 호출
-  const handleArtistClick = () => {
-    setIsPersonalMember(false);
+  // 입력 필드 값 변경 시 호출되는 함수
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: name === 'isAuthor' ? e.target.checked : value,
+    });
   };
 
   return (
     <div className="signup-page">
-      {/* 제목 변경 */}
       <h2>{isPersonalMember ? '개인회원 가입' : '예술가 회원 가입'}</h2>
       <div className="signup-tabs">
-        {/* 버튼 활성화 스타일 추가 */}
-        <button className={`tab ${isPersonalMember ? 'active' : ''}`} onClick={handlePersonalClick}>
+        <button
+          className={`tab ${isPersonalMember ? 'active' : ''}`}
+          onClick={() => setIsPersonalMember(true)}
+        >
           개인 회원
         </button>
-        <button className={`tab ${!isPersonalMember ? 'active' : ''}`} onClick={handleArtistClick}>
+        <button
+          className={`tab ${!isPersonalMember ? 'active' : ''}`}
+          onClick={() => setIsPersonalMember(false)}
+        >
           예술가 회원
         </button>
       </div>
-      <form className="signup-form">
+      <form className="signup-form" onSubmit={handleSubmit}>
         <label>
           아이디
-          <input type="text" placeholder="4-20자리 / 영문, 숫자 사용 가능" />
+          <input
+            type="text"
+            name="userName"
+            placeholder="4-20자리 / 영문, 숫자 사용 가능"
+            value={formData.userName}
+            onChange={handleChange}
+          />
         </label>
         <label>
           비밀번호
-          <input type="password" placeholder="8-16자리 / 영문, 숫자, 특수문자 조합" />
+          <input
+            type="password"
+            name="loginPassword"
+            placeholder="8-16자리 / 영문, 숫자, 특수문자 조합"
+            value={formData.loginPassword}
+            onChange={handleChange}
+          />
         </label>
         <label>
           이메일
-          <input type="email" placeholder="email@example.com" />
+          <input
+            type="email"
+            name="userEmail"
+            placeholder="email@example.com"
+            value={formData.userEmail}
+            onChange={handleChange}
+          />
         </label>
-        <div className="terms">
-          <input type="checkbox" id="agree-all" />
-          <label htmlFor="agree-all">전체 동의</label>
-          <input type="checkbox" id="agree-1" />
-          <label htmlFor="agree-1">(필수) 개인정보 약관에 동의</label>
-          <input type="checkbox" id="agree-2" />
-          <label htmlFor="agree-2">(선택) 마케팅 정보 수신 동의</label>
-        </div>
+        <label>
+          회원 유형
+          <input
+            type="checkbox"
+            name="isAuthor"
+            checked={formData.isAuthor}
+            onChange={handleChange}
+          />{' '}
+          예술가 회원
+        </label>
         <button type="submit" className="signup-btn">
           회원가입 완료
         </button>
