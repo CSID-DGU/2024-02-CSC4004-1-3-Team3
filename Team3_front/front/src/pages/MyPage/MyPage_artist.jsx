@@ -86,7 +86,7 @@ function MyPage_artist() {
   };
 
   const handleAddArtwork = () => {
-    navigate('/mypage/workadd');
+    navigate('/mypage/workadd', { state: { userId: userData.id } }); // userId 전달
   };
 
   const handleImageChange = event => {

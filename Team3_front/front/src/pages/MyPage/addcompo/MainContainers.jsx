@@ -1,26 +1,16 @@
 import React from 'react';
 import BackButton from './BackButton';
-import Picture from './Picture';
-import Infor from './Infor';
-import Detail from './Detail';
+import ArtworkRegistration from './ArtworkRegistration';
 import './MainContainers.css';
 
-function MainContainers() {
+function MainContainers({ userId }) {
   return (
     <div className="content-container">
       <div className="sec backbutton-section">
         <BackButton />
       </div>
       <div className="sections-container">
-        <div className="picture-section">
-          <Picture />
-        </div>
-        <div className="information-section">
-          <Infor />
-        </div>
-        <div className="details-section">
-          <Detail />
-        </div>
+        <ArtworkRegistration userId={userId} />
       </div>
     </div>
   );

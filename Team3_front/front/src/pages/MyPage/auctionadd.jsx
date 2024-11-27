@@ -11,19 +11,19 @@ function AuctionAdd() {
   useEffect(() => {
     // Fetch artworks from the backend
     fetch('/api/my-artworks') // Replace with your actual backend API endpoint
-      .then((response) => response.json())
-      .then((data) => {
+      .then(response => response.json())
+      .then(data => {
         setArtworks(data); // Save fetched artworks
         setIsLoading(false); // Loading complete
       })
-      .catch((error) => {
+      .catch(error => {
         console.error('Error fetching artworks:', error);
         setIsLoading(false); // Stop loading on error
       });
   }, []);
 
-  const handleImageClick = (id) => {
-    setSelectedImages((prevSelected) => {
+  const handleImageClick = id => {
+    setSelectedImages(prevSelected => {
       const updatedSet = new Set(prevSelected);
       if (updatedSet.has(id)) {
         updatedSet.delete(id); // Remove if already selected
@@ -50,12 +50,10 @@ function AuctionAdd() {
         {isLoading ? (
           <p>로딩 중...</p> // Show loading message
         ) : artworks.length > 0 ? (
-          artworks.map((artwork) => (
+          artworks.map(artwork => (
             <div
               key={artwork.id}
-              className={`image-placeholder ${
-                selectedImages.has(artwork.id) ? 'selected' : ''
-              }`}
+              className={`image-placeholder ${selectedImages.has(artwork.id) ? 'selected' : ''}`}
               onClick={() => handleImageClick(artwork.id)}
             >
               <img src={artwork.image} alt={artwork.name} />

@@ -125,8 +125,6 @@ function WorkList({ selectedType, currentPage }) {
                       {/* 작가명 및 작품 정보 표시 */}
                       <h3>{work.author_id}</h3>
                       <p>
-                        {work.ingredient}
-                        <br />
                         {work.size_width}X{work.size_height}cm | {work.year}
                       </p>
                     </div>
