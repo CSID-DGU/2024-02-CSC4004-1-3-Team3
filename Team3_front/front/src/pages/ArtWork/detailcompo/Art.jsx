@@ -1,29 +1,19 @@
 // src/components/ArtDetails.js
 import React, { useState, useEffect } from 'react';
 import './Art.css';
-//import mainimg from '../../../img/picture.png';
-//import second from '../../../img/second.png';
-//import third from '../../../img/third.png';
-//import fourth from '../../../img/fourth.png';
-//import fifth from '../../../img/fifth.png';
 import emptyHeart from '../../../img/heart-shape.png';
 import ImageModal from './ImageModal';
-import worksData from '../../../components/works.jsx';
+//import worksData from '../../../components/works.jsx';
 
-function Art({ id }) {
-  const [item, setItem] = useState(null); // 현재 작품 데이터를 저장하는 상태
+function Art({ artwork }) {
   const [images, setImages] = useState([]); // 이미지 배열 상태 초기화
   const [isModalOpen, setIsModalOpen] = useState(false); // 이미지 모달 창의 상태 (열림/닫힘)
 
   useEffect(() => {
-    const foundItem = worksData[parseInt(id)]; // 작품 ID를 통해 작품 데이터를 찾음
-    setItem(foundItem || null); // 작품 데이터를 찾지 못한 경우 null로 설정
-
-    if (foundItem && foundItem.images) {
-      // 작품 데이터를 찾고 images 속성이 있을 경우 이미지 배열 설정
-      setImages(foundItem.images);
+    if (artwork && artwork.images) {
+      setImages(artwork.images);
     }
-  }, [id]);
+  }, [artwork]);
 
   // 썸네일을 클릭하면 해당 이미지를 메인 이미지와 교체
   const handleThumbnailClick = index => {
@@ -39,7 +29,7 @@ function Art({ id }) {
   const closeModal = () => setIsModalOpen(false);
 
   // 작품 데이터를 찾지 못했을 경우 표시할 메시지
-  if (!item) return <p>작품 정보를 찾을 수 없습니다.</p>;
+  if (!artwork) return <p>작품 정보를 찾을 수 없습니다.</p>;
 
   return (
     <div className="art-container" style={{ margin: '10px' }}>
@@ -51,51 +41,40 @@ function Art({ id }) {
               alt="heart icon"
               style={{ width: '12px', height: '12px', cursor: 'pointer' }}
             />
-            <p>{item.totalliked}</p> {/* 작품의 총 좋아요 수 */}
+            <p>{artwork.totalLiked || 0}</p> {/* 작품의 총 좋아요 수 (기본값 0) */}
           </div>
           <div className="imgchange">
             {/* 첫 번째 이미지를 메인 이미지로 사용 */}
-            <img
-              src={images[0]}
-              alt="작품 이미지"
-              style={{ cursor: 'pointer' }}
-              onClick={openModal}
-            />
+            {images.length > 0 ? (
+              <img
+                src={images[0]}
+                alt="작품 이미지"
+                style={{ cursor: 'pointer' }}
+                onClick={openModal}
+              />
+            ) : (
+              <p>이미지가 없습니다.</p>
+            )}
             <div className="thumbnail-gallery">
-              {/* 각 썸네일 이미지에 onClick 핸들러와 커서 스타일 추가 */}
-              <img
-                src={images[1]}
-                alt="썸네일 1"
-                onClick={() => handleThumbnailClick(1)}
-                style={{ cursor: 'pointer' }}
-              />
-              <img
-                src={images[2]}
-                alt="썸네일 2"
-                onClick={() => handleThumbnailClick(2)}
-                style={{ cursor: 'pointer' }}
-              />
-              <img
-                src={images[3]}
-                alt="썸네일 3"
-                onClick={() => handleThumbnailClick(3)}
-                style={{ cursor: 'pointer' }}
-              />
-              <img
-                src={images[4]}
-                alt="썸네일 4"
-                onClick={() => handleThumbnailClick(4)}
-                style={{ cursor: 'pointer' }}
-              />
+              {/* 썸네일 이미지를 동적으로 렌더링 */}
+              {images.slice(1).map((thumbnail, index) => (
+                <img
+                  key={index}
+                  src={thumbnail}
+                  alt={`썸네일 ${index + 1}`}
+                  onClick={() => handleThumbnailClick(index + 1)}
+                  style={{ cursor: 'pointer' }}
+                />
+              ))}
             </div>
           </div>
         </div>
         <div className="art-info">
-          <h1>{item.artist}</h1>
-          <p>{item.name}</p>
-          <p>{item.material}</p>
+          <h1>{artwork.author.name}</h1>
+          <p>{artwork.name}</p>
+          <p>{artwork.ingredient}</p>
           <p>
-            {item.data.w}X{item.data.h}cm | {item.year}
+            {artwork.size} | {artwork.year}
           </p>
         </div>
       </div>

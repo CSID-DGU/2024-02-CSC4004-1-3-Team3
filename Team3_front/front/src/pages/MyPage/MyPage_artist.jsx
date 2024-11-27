@@ -4,43 +4,70 @@ import './Mypage_artist.css';
 
 function MyPage_artist() {
   const navigate = useNavigate();
-
-  const [userData, setUserData] = useState({ id: '', email: '' });
+  const [userData, setUserData] = useState({ id: '', email: '', name: '' });
+  const [profileImage, setProfileImage] = useState(null);
   const [interests, setInterests] = useState([]);
   const [auctions, setAuctions] = useState([]);
-  const [profileImage, setProfileImage] = useState(null);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isDeleteMode, setIsDeleteMode] = useState(false);
 
-  useEffect(() => {
-    fetch('/api/user')
-      .then(response => response.json())
-      .then(data => setUserData({ id: data.id, email: data.email }))
-      .catch(error => console.error('Error fetching user data:', error));
+  // Fetch user data
+  const fetchUserData = async () => {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      alert('로그인이 필요합니다.');
+      navigate('/login');
+      return;
+    }
 
-    fetch('/api/favorite-artworks')
-      .then(response => response.json())
-      .then(data => setInterests(data))
-      .catch(error => console.error('Error fetching favorite artworks:', error));
+    const apiUrl = `https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/mypage?userId=${userId}`;
 
-    fetch('/api/user-auctions')
-      .then(response => response.json())
-      .then(data => setAuctions(data))
-      .catch(error => console.error('Error fetching user auctions:', error));
-  }, []);
+    try {
+      const response = await fetch(apiUrl);
+      if (!response.ok) throw new Error(`HTTP 오류: ${response.status}`);
 
-  const handleImageChange = event => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setProfileImage(reader.result);
-      };
-      reader.readAsDataURL(file);
+      const data = await response.json();
+      if (data.success && data.responseDto) {
+        const { userName, loginId, userEmail, userImage, pictureList, auctionList } =
+          data.responseDto;
+
+        setUserData({ id: loginId, email: userEmail, name: userName });
+        setProfileImage(userImage || '/default-profile.png');
+        setInterests(
+          pictureList.map(picture => ({
+            id: picture.id,
+            name: picture.name,
+            image: picture.imageUrl,
+          }))
+        );
+        setAuctions(
+          auctionList.map(auction => ({
+            id: auction.id,
+            artworkName: auction.pictureName,
+            artistName: userName,
+            startPrice: auction.startPrice,
+          }))
+        );
+      } else {
+        throw new Error(data.error || '데이터를 불러올 수 없습니다.');
+      }
+    } catch (error) {
+      console.error('유저 데이터 가져오기 실패:', error);
+      alert(`유저 데이터 가져오기 실패: ${error.message}`);
     }
   };
 
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
   const toggleEditMode = () => {
     setIsEditMode(!isEditMode);
+    setIsDeleteMode(false);
+  };
+
+  const toggleDeleteMode = () => {
+    setIsDeleteMode(!isDeleteMode);
   };
 
   const handleDelete = artworkId => {
@@ -48,31 +75,21 @@ function MyPage_artist() {
   };
 
   const handleAddArtwork = () => {
-    navigate('/mypage/workadd'); // "작품 추가" 페이지로 이동
+    navigate('/mypage/workadd');
   };
 
   return (
     <div className="my-page">
-      <header className="artist_header">MY PAGE</header>
       <div className="profile-section">
         <div className="profile-image-container">
           <div className="profile-image">
             {profileImage ? <img src={profileImage} alt="Profile" /> : null}
           </div>
-          <label htmlFor="imageUpload" className="edit-icon">
-            <i className="fa-solid fa-pen-to-square" />
-          </label>
-          <input
-            type="file"
-            id="imageUpload"
-            accept="image/*"
-            onChange={handleImageChange}
-            style={{ display: 'none' }}
-          />
         </div>
         <div className="profile-info">
           <p>아이디: {userData.id}</p>
           <p>이메일: {userData.email}</p>
+          <p>이름: {userData.name}</p>
         </div>
       </div>
 
@@ -80,9 +97,11 @@ function MyPage_artist() {
         <div className="interests-header">
           <h3 className="interest-name">나의작품</h3>
           <div>
-            <button className="edit-text" onClick={() => navigate('/mypage/auctionadd')}>
-              경매등록
-            </button>
+            {!isEditMode && (
+              <button className="edit-text" onClick={() => navigate('/mypage/auctionadd')}>
+                경매등록
+              </button>
+            )}
             <button className="edit-text" onClick={toggleEditMode}>
               {isEditMode ? '돌아가기' : '편집'}
             </button>
@@ -92,7 +111,7 @@ function MyPage_artist() {
           {interests.length > 0 ? (
             interests.map(artwork => (
               <div key={artwork.id} className="interest-image">
-                {isEditMode && (
+                {isDeleteMode && (
                   <button className="delete-icon" onClick={() => handleDelete(artwork.id)}>
                     ×
                   </button>
@@ -106,9 +125,12 @@ function MyPage_artist() {
           )}
         </div>
         {isEditMode && (
-          <div>
+          <div className="button-container">
             <button className="add-artwork" onClick={handleAddArtwork}>
               작품추가
+            </button>
+            <button className="delete-artwork" onClick={toggleDeleteMode}>
+              작품삭제
             </button>
           </div>
         )}
@@ -123,7 +145,7 @@ function MyPage_artist() {
                 <p>
                   {auction.artworkName} - {auction.artistName}
                 </p>
-                <span>시작가: {auction.startPrice} KRW</span>
+                <span>시작가: {auction.startPrice} 원</span>
               </div>
             ))
           ) : (

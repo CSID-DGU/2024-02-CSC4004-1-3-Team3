@@ -3,11 +3,11 @@ import React from 'react';
 import WorkDescription from './WorkDescription';
 import ArtistDescription from './ArtistDescription';
 
-function Details({ choice, id }) {
+function Details({ choice, artwork }) {
   return (
     <div>
-      {choice === 1 && <WorkDescription id={id} />}
-      {choice === 2 && <ArtistDescription id={id} />}
+      {choice === 1 && <WorkDescription artwork={artwork} />}
+      {choice === 2 && <ArtistDescription artwork={artwork} />}
     </div>
   );
 }

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './Tabs.css';
 import Details from './Details';
 
-function Tabs({ id }) {
+function Tabs({ artwork }) {
   // 선택된 탭 상태 관리
   const [activeTab, setActiveTab] = useState('작품 정보');
 
@@ -31,12 +31,12 @@ function Tabs({ id }) {
       <div className="tab-content">
         {activeTab === '작품 정보' && (
           <div>
-            <Details choice={1} id={id} />
+            <Details choice={1} artwork={artwork} />
           </div>
         )}
         {activeTab === '작가 정보' && (
           <div>
-            <Details choice={2} id={id} />
+            <Details choice={2} artwork={artwork} />
           </div>
         )}
       </div>

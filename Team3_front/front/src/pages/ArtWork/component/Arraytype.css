@@ -1,70 +1,69 @@
 .array-type {
-    display: flex;
-    height: 15px;
-    align-items: center;
-    flex-direction: column;
-    font-size: 10px;
-    margin-bottom: 10px;
+  display: flex;
+  height: 15px;
+  align-items: center;
+  flex-direction: column;
+  font-size: 10px;
+  margin-bottom: 10px;
 }
 .column {
-    flex-direction: column!important;
-    width: 100%;
-    justify-content: center;
+  flex-direction: column !important;
+  width: 100%;
+  justify-content: center;
 }
-.center{
-    display: flex;
-    justify-content: center;
+.center {
+  display: flex;
+  justify-content: center;
 }
 .array-type button {
-    background: none;
-    border: none;
-    color: black;
-    font-size: 14px;
-    cursor: pointer;
-    padding: 0;
-    position: relative;
-    font-size: 10px;
-    gap:10px;
-    justify-content: center;
-    flex-direction: row;
-
+  background: none;
+  border: none;
+  color: black;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  font-size: 10px;
+  gap: 10px;
+  justify-content: center;
+  flex-direction: row;
 }
 .array-type button::after {
-    content: "";
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 100%;
-    height: 0;
-    background-color: #FFA500;
-    transition: height 0.2s;
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background-color: #ffa500;
+  transition: height 0.2s;
 }
 button.active {
-    color: #FFA500;
-    font-weight: bold;
+  color: #ffa500;
+  font-weight: bold;
 }
 button.active::after {
-    height: 2px;
+  height: 2px;
 }
 .array-type span {
-    margin-left: 5px;
-    margin-right: 5px;
-    color: #ccc; /* 구분자(|) 색상 */
+  margin-left: 5px;
+  margin-right: 5px;
+  color: #ccc; /* 구분자(|) 색상 */
 }
 .section {
-    display: flex;
-    justify-content: center!important;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  justify-content: center !important;
+  align-items: center;
+  width: 100%;
 }
 .work-list-section {
-    height: auto;
-    justify-content: center!important;
-    background-color: white;
+  height: auto;
+  justify-content: center !important;
+  background-color: white;
 }
 
 .tab-content {
-    justify-content: center;
-    margin-top: 20px;
-    padding : 20px 20px;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 20px 20px;
 }

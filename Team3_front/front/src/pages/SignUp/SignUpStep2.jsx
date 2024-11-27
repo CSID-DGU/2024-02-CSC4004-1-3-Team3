@@ -64,6 +64,7 @@ function SignUpStep2() {
           예술가 회원
         </button>
       </div>
+
       <form className="signup-form" onSubmit={handleSubmit}>
         <label>
           아이디
@@ -105,6 +106,7 @@ function SignUpStep2() {
           />{' '}
           예술가 회원
         </label>
+
         <button type="submit" className="signup-btn">
           회원가입 완료
         </button>
