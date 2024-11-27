@@ -32,6 +32,7 @@
   width: 80%;
   align-items: center;
   flex: 0 0 30%; /* profile-section이 화면의 약 20% 차지 */
+  margin-top:20px;
 }
 
 .profile-image-container {
