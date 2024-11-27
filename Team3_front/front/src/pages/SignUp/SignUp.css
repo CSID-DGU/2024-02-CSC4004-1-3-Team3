@@ -87,8 +87,8 @@
   color: #666;
   font-size: 14px;
   cursor: pointer;
-  pointer-events: auto; /* 클릭 가능하도록 설정 */
-  z-index: 1; /* 다른 요소 위로 가져오기 */
+  pointer-events: auto;
+  z-index: 1;
 }
 
 .login-link span {
@@ -100,13 +100,13 @@
 .terms-container {
   margin: 20px 0;
   padding: 20px;
-  width: 300px; /* 아이디 박스와 동일한 너비 설정 */
-  border: 1px solid #ccc; /* 약관 박스 테두리 */
-  border-radius: 8px; /* 둥근 모서리 */
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1.1rem;
 }
 
 .terms-title {
-  font-size: 1rem;
   font-weight: bold;
   margin-bottom: 15px;
 }
@@ -114,13 +114,13 @@
 .terms-box {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* 항목 간의 간격 */
+  gap: 15px;
 }
 
 .terms-item {
   display: flex;
-  align-items: flex-start; /* 체크박스와 텍스트 수직 정렬 */
-  gap: 10px; /* 체크박스와 텍스트 간의 간격 */
+  align-items: flex-start;
+  gap: 10px;
 }
 
 .terms-item label {
@@ -141,7 +141,9 @@
 }
 
 input[type='checkbox'] {
+  appearance: auto;
   width: 16px;
   height: 16px;
+  margin-right: 10px;
   cursor: pointer;
 }

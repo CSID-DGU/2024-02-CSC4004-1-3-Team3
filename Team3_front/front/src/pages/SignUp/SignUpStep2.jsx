@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './SignUp.css';
 
 function SignUpStep2() {
-  const [isPersonalMember, setIsPersonalMember] = useState(true);
   const [formData, setFormData] = useState({
     userName: '',
     loginId: '',
@@ -11,9 +10,47 @@ function SignUpStep2() {
     isAuthor: false,
   });
 
-  // 회원가입 버튼 클릭 시 호출되는 함수
+  const [isPersonalMember, setIsPersonalMember] = useState(true); // 개인/예술가 선택 상태
+  const [agreeTerms1, setAgreeTerms1] = useState(false); // 필수 약관 1
+  const [agreeTerms2, setAgreeTerms2] = useState(false); // 필수 약관 2
+  const [agreeMarketing, setAgreeMarketing] = useState(false); // 선택 약관
+  const [agreeAll, setAgreeAll] = useState(false); // 전체 동의
+
+  const handleMemberTypeChange = isPersonal => {
+    setIsPersonalMember(isPersonal);
+    setFormData(prevData => ({
+      ...prevData,
+      isAuthor: !isPersonal, // 개인회원: false, 예술가 회원: true
+    }));
+  };
+
+  const handleCheckboxChange = e => {
+    const { name, checked } = e.target;
+
+    if (name === 'agreeAll') {
+      setAgreeAll(checked);
+      setAgreeTerms1(checked);
+      setAgreeTerms2(checked);
+      setAgreeMarketing(checked);
+    } else if (name === 'agreeTerms1') {
+      setAgreeTerms1(checked);
+      setAgreeAll(checked && agreeTerms2 && agreeMarketing);
+    } else if (name === 'agreeTerms2') {
+      setAgreeTerms2(checked);
+      setAgreeAll(agreeTerms1 && checked && agreeMarketing);
+    } else if (name === 'agreeMarketing') {
+      setAgreeMarketing(checked);
+      setAgreeAll(agreeTerms1 && agreeTerms2 && checked);
+    }
+  };
+
   const handleSubmit = async e => {
-    e.preventDefault(); // 기본 폼 제출 동작 방지
+    e.preventDefault();
+
+    if (!agreeTerms1 || !agreeTerms2) {
+      alert('필수 약관에 동의해야 합니다.');
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -21,11 +58,11 @@ function SignUpStep2() {
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData), // 요청 데이터를 JSON 형식으로 변환
+          body: JSON.stringify(formData),
         }
       );
 
-      const data = await response.json(); // 응답 데이터 파싱
+      const data = await response.json();
 
       if (response.ok) {
         alert('회원가입 성공: ' + data.message);
@@ -38,42 +75,44 @@ function SignUpStep2() {
     }
   };
 
-  // 입력 필드 값 변경 시 호출되는 함수
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: name === 'isAuthor' ? e.target.checked : value,
-    });
-  };
+  const isSubmitDisabled = !agreeTerms1 || !agreeTerms2;
 
   return (
     <div className="signup-page">
-      <h2>{isPersonalMember ? '개인회원 가입' : '예술가 회원 가입'}</h2>
+      <h2 className="signup-title">{isPersonalMember ? '개인회원 가입' : '예술가 회원 가입'}</h2>
       <div className="signup-tabs">
         <button
           className={`tab ${isPersonalMember ? 'active' : ''}`}
-          onClick={() => setIsPersonalMember(true)}
+          onClick={() => handleMemberTypeChange(true)}
         >
           개인 회원
         </button>
         <button
           className={`tab ${!isPersonalMember ? 'active' : ''}`}
-          onClick={() => setIsPersonalMember(false)}
+          onClick={() => handleMemberTypeChange(false)}
         >
           예술가 회원
         </button>
       </div>
-
       <form className="signup-form" onSubmit={handleSubmit}>
+        <label>
+          이름
+          <input
+            type="text"
+            name="userName"
+            placeholder="이름을 입력하세요"
+            value={formData.userName}
+            onChange={e => setFormData({ ...formData, userName: e.target.value })}
+          />
+        </label>
         <label>
           아이디
           <input
             type="text"
-            name="userName"
+            name="loginId"
             placeholder="4-20자리 / 영문, 숫자 사용 가능"
-            value={formData.userName}
-            onChange={handleChange}
+            value={formData.loginId}
+            onChange={e => setFormData({ ...formData, loginId: e.target.value })}
           />
         </label>
         <label>
@@ -83,7 +122,7 @@ function SignUpStep2() {
             name="loginPassword"
             placeholder="8-16자리 / 영문, 숫자, 특수문자 조합"
             value={formData.loginPassword}
-            onChange={handleChange}
+            onChange={e => setFormData({ ...formData, loginPassword: e.target.value })}
           />
         </label>
         <label>
@@ -93,21 +132,48 @@ function SignUpStep2() {
             name="userEmail"
             placeholder="email@example.com"
             value={formData.userEmail}
-            onChange={handleChange}
+            onChange={e => setFormData({ ...formData, userEmail: e.target.value })}
           />
         </label>
-        <label>
-          회원 유형
-          <input
-            type="checkbox"
-            name="isAuthor"
-            checked={formData.isAuthor}
-            onChange={handleChange}
-          />{' '}
-          예술가 회원
-        </label>
-
-        <button type="submit" className="signup-btn">
+        <div className="terms-container">
+          <div className="terms-item">
+            <input
+              type="checkbox"
+              name="agreeAll"
+              checked={agreeAll}
+              onChange={handleCheckboxChange}
+            />
+            <label>전체 동의</label>
+          </div>
+          <div className="terms-item">
+            <input
+              type="checkbox"
+              name="agreeTerms1"
+              checked={agreeTerms1}
+              onChange={handleCheckboxChange}
+            />
+            <label>(필수) 개인회원 약관에 동의</label>
+          </div>
+          <div className="terms-item">
+            <input
+              type="checkbox"
+              name="agreeTerms2"
+              checked={agreeTerms2}
+              onChange={handleCheckboxChange}
+            />
+            <label>(필수) 개인정보 수집 및 이용에 동의</label>
+          </div>
+          <div className="terms-item">
+            <input
+              type="checkbox"
+              name="agreeMarketing"
+              checked={agreeMarketing}
+              onChange={handleCheckboxChange}
+            />
+            <label>(선택) 마케팅 정보 수신 동의</label>
+          </div>
+        </div>
+        <button type="submit" className="signup-btn" disabled={isSubmitDisabled}>
           회원가입 완료
         </button>
       </form>
