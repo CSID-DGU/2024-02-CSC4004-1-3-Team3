@@ -1,5 +1,5 @@
 // src/components/ArtDetails.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Art.css';
 import emptyHeart from '../../../img/heart-shape.png';
 import ImageModal from './ImageModal';
@@ -8,6 +8,12 @@ import ImageModal from './ImageModal';
 function Art({ artwork }) {
   const [images, setImages] = useState([]); // 이미지 배열 상태 초기화
   const [isModalOpen, setIsModalOpen] = useState(false); // 이미지 모달 창의 상태 (열림/닫힘)
+
+  useEffect(() => {
+    if (artwork && artwork.images) {
+      setImages(artwork.images);
+    }
+  }, [artwork]);
 
   // 썸네일을 클릭하면 해당 이미지를 메인 이미지와 교체
   const handleThumbnailClick = index => {
@@ -35,51 +41,40 @@ function Art({ artwork }) {
               alt="heart icon"
               style={{ width: '12px', height: '12px', cursor: 'pointer' }}
             />
-            <p>{artwork.totalliked}</p> {/* 작품의 총 좋아요 수 */}
+            <p>{artwork.totalLiked || 0}</p> {/* 작품의 총 좋아요 수 (기본값 0) */}
           </div>
           <div className="imgchange">
             {/* 첫 번째 이미지를 메인 이미지로 사용 */}
-            <img
-              src={images[0]}
-              alt="작품 이미지"
-              style={{ cursor: 'pointer' }}
-              onClick={openModal}
-            />
+            {images.length > 0 ? (
+              <img
+                src={images[0]}
+                alt="작품 이미지"
+                style={{ cursor: 'pointer' }}
+                onClick={openModal}
+              />
+            ) : (
+              <p>이미지가 없습니다.</p>
+            )}
             <div className="thumbnail-gallery">
-              {/* 각 썸네일 이미지에 onClick 핸들러와 커서 스타일 추가 */}
-              <img
-                src={images[1]}
-                alt="썸네일 1"
-                onClick={() => handleThumbnailClick(1)}
-                style={{ cursor: 'pointer' }}
-              />
-              <img
-                src={images[2]}
-                alt="썸네일 2"
-                onClick={() => handleThumbnailClick(2)}
-                style={{ cursor: 'pointer' }}
-              />
-              <img
-                src={images[3]}
-                alt="썸네일 3"
-                onClick={() => handleThumbnailClick(3)}
-                style={{ cursor: 'pointer' }}
-              />
-              <img
-                src={images[4]}
-                alt="썸네일 4"
-                onClick={() => handleThumbnailClick(4)}
-                style={{ cursor: 'pointer' }}
-              />
+              {/* 썸네일 이미지를 동적으로 렌더링 */}
+              {images.slice(1).map((thumbnail, index) => (
+                <img
+                  key={index}
+                  src={thumbnail}
+                  alt={`썸네일 ${index + 1}`}
+                  onClick={() => handleThumbnailClick(index + 1)}
+                  style={{ cursor: 'pointer' }}
+                />
+              ))}
             </div>
           </div>
         </div>
         <div className="art-info">
-          <h1>{artwork.authorName}</h1>
+          <h1>{artwork.author.name}</h1>
           <p>{artwork.name}</p>
           <p>{artwork.ingredient}</p>
           <p>
-            {artwork.sizeWidth}X{artwork.sizeHeight}cm | {artwork.createAt}
+            {artwork.size} | {artwork.year}
           </p>
         </div>
       </div>
