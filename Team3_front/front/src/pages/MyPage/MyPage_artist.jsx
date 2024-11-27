@@ -32,14 +32,23 @@ function MyPage_artist() {
           data.responseDto;
 
         setUserData({ id: loginId, email: userEmail, name: userName });
-        setProfileImage(userImage || '/default-profile.png');
+
+        // 프로필 이미지 로컬 저장
+        const storedProfileImage = localStorage.getItem('profileImage');
+        setProfileImage(storedProfileImage || userImage || '/default-profile.png');
+
+        // 작품 목록 로컬 저장
+        const storedInterests = localStorage.getItem('interests');
         setInterests(
-          pictureList.map(picture => ({
-            id: picture.id,
-            name: picture.name,
-            image: picture.imageUrl,
-          }))
+          storedInterests
+            ? JSON.parse(storedInterests)
+            : pictureList.map(picture => ({
+                id: picture.id,
+                name: picture.name,
+                image: picture.imageUrl,
+              }))
         );
+
         setAuctions(
           auctionList.map(auction => ({
             id: auction.id,
@@ -71,11 +80,29 @@ function MyPage_artist() {
   };
 
   const handleDelete = artworkId => {
-    setInterests(interests.filter(artwork => artwork.id !== artworkId));
+    const updatedInterests = interests.filter(artwork => artwork.id !== artworkId);
+    setInterests(updatedInterests);
+    localStorage.setItem('interests', JSON.stringify(updatedInterests)); // 로컬 저장
   };
 
   const handleAddArtwork = () => {
     navigate('/mypage/workadd');
+  };
+
+  const handleImageChange = event => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const newProfileImage = reader.result;
+        setProfileImage(newProfileImage);
+        localStorage.setItem('profileImage', newProfileImage); // 로컬 저장
+      };
+      reader.onerror = () => {
+        alert('이미지 업로드에 실패했습니다.');
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -83,8 +110,22 @@ function MyPage_artist() {
       <div className="profile-section">
         <div className="profile-image-container">
           <div className="profile-image">
-            {profileImage ? <img src={profileImage} alt="Profile" /> : null}
+            {profileImage ? (
+              <img src={profileImage} alt="Profile" />
+            ) : (
+              <i className="fa-solid fa-user" />
+            )}
           </div>
+          <label htmlFor="imageUpload" className="edit-icon">
+            <i className="fa-solid fa-pen-to-square" />
+          </label>
+          <input
+            type="file"
+            id="imageUpload"
+            accept="image/*"
+            onChange={handleImageChange}
+            style={{ display: 'none' }}
+          />
         </div>
         <div className="profile-info">
           <p>아이디: {userData.id}</p>
