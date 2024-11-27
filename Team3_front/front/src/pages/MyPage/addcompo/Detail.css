@@ -36,6 +36,7 @@ textarea {
 }
 
 .submit-button {
+  width: 100%;
   background-color: #ffa726;
   color: white;
   border: none;
