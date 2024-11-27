@@ -23,8 +23,8 @@ function ArtistDescription({ artwork }) {
         onClick={openModal}
       />
       <h2>작가 설명</h2>
-      <p>{artwork.artistdes}</p>
-      {isModalOpen && <ImageModal image={artwork.artistimg} onClose={closeModal} />}
+      <p>{artwork.artistdescription}</p>
+      {isModalOpen && <ImageModal image={artwork.author.authorImage} onClose={closeModal} />}
     </div>
   );
 }
