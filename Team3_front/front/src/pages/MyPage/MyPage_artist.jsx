@@ -9,37 +9,24 @@ function MyPage_artist() {
   const [interests, setInterests] = useState([]);
   const [auctions, setAuctions] = useState([]);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [storedUserId, setStoredUserId] = useState(''); // 가져온 userId를 저장할 상태
+  const [isDeleteMode, setIsDeleteMode] = useState(false);
 
-  // 유저 데이터 가져오기
+  // Fetch user data
   const fetchUserData = async () => {
     const userId = localStorage.getItem('userId');
-    console.log('LocalStorage userId:', userId); // 콘솔에 출력해 확인
-
     if (!userId) {
       alert('로그인이 필요합니다.');
       navigate('/login');
       return;
     }
 
-    setStoredUserId(userId); // 가져온 userId를 상태에 저장
-
-    // URL 쿼리 파라미터 형식으로 수정
     const apiUrl = `https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/mypage?userId=${userId}`;
-    console.log('API URL:', apiUrl); // 요청 URL 확인을 위한 로그
 
     try {
       const response = await fetch(apiUrl);
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('서버 응답 에러:', errorText);
-        throw new Error(`HTTP 오류: ${response.status} - ${errorText}`);
-      }
+      if (!response.ok) throw new Error(`HTTP 오류: ${response.status}`);
 
       const data = await response.json();
-      console.log('API 응답 데이터:', data);
-
       if (data.success && data.responseDto) {
         const { userName, loginId, userEmail, userImage, pictureList, auctionList } =
           data.responseDto;
@@ -74,51 +61,30 @@ function MyPage_artist() {
     fetchUserData();
   }, []);
 
-  // 프로필 이미지 변경 핸들러
-  const handleImageChange = event => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setProfileImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  // 편집 모드 토글
   const toggleEditMode = () => {
     setIsEditMode(!isEditMode);
+    setIsDeleteMode(false);
   };
 
-  // 작품 삭제 핸들러
+  const toggleDeleteMode = () => {
+    setIsDeleteMode(!isDeleteMode);
+  };
+
   const handleDelete = artworkId => {
     setInterests(interests.filter(artwork => artwork.id !== artworkId));
   };
 
-  // 작품 추가 페이지 이동
   const handleAddArtwork = () => {
     navigate('/mypage/workadd');
   };
 
   return (
     <div className="my-page">
-      <header className="artist_header">MY PAGE</header>
       <div className="profile-section">
         <div className="profile-image-container">
           <div className="profile-image">
             {profileImage ? <img src={profileImage} alt="Profile" /> : null}
           </div>
-          <label htmlFor="imageUpload" className="edit-icon">
-            <i className="fa-solid fa-pen-to-square" />
-          </label>
-          <input
-            type="file"
-            id="imageUpload"
-            accept="image/*"
-            onChange={handleImageChange}
-            style={{ display: 'none' }}
-          />
         </div>
         <div className="profile-info">
           <p>아이디: {userData.id}</p>
@@ -131,9 +97,11 @@ function MyPage_artist() {
         <div className="interests-header">
           <h3 className="interest-name">나의작품</h3>
           <div>
-            <button className="edit-text" onClick={() => navigate('/mypage/auctionadd')}>
-              경매등록
-            </button>
+            {!isEditMode && (
+              <button className="edit-text" onClick={() => navigate('/mypage/auctionadd')}>
+                경매등록
+              </button>
+            )}
             <button className="edit-text" onClick={toggleEditMode}>
               {isEditMode ? '돌아가기' : '편집'}
             </button>
@@ -143,7 +111,7 @@ function MyPage_artist() {
           {interests.length > 0 ? (
             interests.map(artwork => (
               <div key={artwork.id} className="interest-image">
-                {isEditMode && (
+                {isDeleteMode && (
                   <button className="delete-icon" onClick={() => handleDelete(artwork.id)}>
                     ×
                   </button>
@@ -157,9 +125,12 @@ function MyPage_artist() {
           )}
         </div>
         {isEditMode && (
-          <div>
+          <div className="button-container">
             <button className="add-artwork" onClick={handleAddArtwork}>
               작품추가
+            </button>
+            <button className="delete-artwork" onClick={toggleDeleteMode}>
+              작품삭제
             </button>
           </div>
         )}

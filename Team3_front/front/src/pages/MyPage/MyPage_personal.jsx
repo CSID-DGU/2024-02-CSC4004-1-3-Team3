@@ -43,8 +43,6 @@ function MyPage_personal() {
 
   return (
     <div className="my-page">
-      <header className="header">MY PAGE</header>
-
       <div className="profile-section">
         <div className="profile-image-container">
           <div className="profile-image">
