@@ -11,8 +11,8 @@ function WorkDescription({ artwork }) {
       <div
         className="art-dimensions"
         style={{
-          width: `${artwork.size_width * 3}px`,
-          height: `${artwork.size_height * 3}px`,
+          width: `${artwork.sizeWidth * 3}px`,
+          height: `${artwork.sizeHeight * 3}px`,
         }}
       >
         작품 치수
@@ -26,7 +26,7 @@ function WorkDescription({ artwork }) {
         </div>
       </div>
       <h2>CONDITION REPORT</h2>
-      <p>{artwork.pictureCondition}</p>
+      <p>{artwork.condition}</p>
     </div>
   );
 }

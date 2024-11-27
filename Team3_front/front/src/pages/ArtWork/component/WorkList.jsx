@@ -7,26 +7,28 @@ import HeartIcon from './HeartIcon';
 function WorkList({ selectedType, currentPage }) {
   // 페이지 이동을 위한 useNavigate 훅 설정
   const navigate = useNavigate();
-
   const [works, setWorks] = useState([]); // 작품 데이터를 상태로 관리
   const itemsPerPage = 16; // 페이지당 아이템 수 설정
-
   const page = currentPage;
 
+  const baseURL = 'https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app';
+
   useEffect(() => {
-    fetch('https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/works')
-      .then(response => response.json())
-      .then(data => {
+    const fetchWorks = async () => {
+      try {
+        const response = await fetch(`${baseURL}/picture`);
+        const data = await response.json();
+
         if (data.success && Array.isArray(data.responseDto)) {
           const processedWorks = data.responseDto.map(item => ({
             id: item.id,
             name: item.name,
             author_id: item.authorName,
+            ingredient: item.ingredient,
             size_width: item.sizeWidth,
             size_height: item.sizeHeight,
             year: item.makeTime,
-            mainimg: item.url || 'default_image_url.jpg',
-            is_photo: item.photo,
+            mainimg: item.url || '/images/default-image.jpg',
             liked: false,
             type: item.photo ? 'PHOTO' : 'PICTURE',
             auction: 'none',
@@ -37,28 +39,26 @@ function WorkList({ selectedType, currentPage }) {
           console.error('Invalid data format:', data);
           setWorks([]); // 빈 배열 설정
         }
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('Error fetching works:', error);
         setWorks([]); // 오류 발생 시 빈 배열
-      });
+      }
+    };
+
+    fetchWorks();
   }, []);
 
   // 선택된 타입에 따라 작품 데이터를 필터링하고 원본 배열의 인덱스를 유지한 새로운 배열 생성
   const filteredItems =
     selectedType === 'ALL'
-      ? Array.isArray(works)
-        ? works.map((item, index) => ({ ...item, originalIndex: index }))
-        : []
-      : Array.isArray(works)
-        ? works
-            .map((item, index) => ({ ...item, originalIndex: index }))
-            .filter(
-              item =>
-                (selectedType === 'PICTURE' && item.is_photo === false) ||
-                (selectedType === 'PHOTO' && item.is_photo === true)
-            )
-        : [];
+      ? works.map((item, index) => ({ ...item, originalIndex: index }))
+      : works
+          .map((item, index) => ({ ...item, originalIndex: index }))
+          .filter(
+            item =>
+              (selectedType === 'PICTURE' && item.type === 'PICTURE') ||
+              (selectedType === 'PHOTO' && item.type === 'PHOTO')
+          );
 
   // 현재 페이지의 시작 인덱스 계산
   const startIndex = (page - 1) * itemsPerPage;
@@ -72,7 +72,7 @@ function WorkList({ selectedType, currentPage }) {
   };
 
   // 좋아요 상태를 토글하는 함수
-  const toggleLike = index => {
+  const toggleLike = async index => {
     const workIndex = startIndex + index;
     const updatedWorks = [...works];
     updatedWorks[workIndex] = {
@@ -82,23 +82,24 @@ function WorkList({ selectedType, currentPage }) {
 
     setWorks(updatedWorks);
 
-    // 서버에 상태 업데이트
-    fetch(`https://your-backend-api/works/${updatedWorks[workIndex].id}/like`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ liked: updatedWorks[workIndex].liked }),
-    }).catch(error => {
+    try {
+      await fetch(`${baseURL}/works/${updatedWorks[workIndex].id}/like`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ liked: updatedWorks[workIndex].liked }),
+      });
+    } catch (error) {
       console.error('Failed to update like status:', error);
-    });
+    }
   };
 
   return (
     <div className="work-list">
-      {currentItems.map((work, id) => (
+      {currentItems.map(work => (
         <div
-          key={id}
+          key={work.id}
           className="work-card"
           onClick={event => handleCardClick(work.originalIndex, event)}
           style={{ cursor: 'pointer' }}
@@ -142,7 +143,7 @@ function WorkList({ selectedType, currentPage }) {
                   </div>
                 </div>
                 {/* 좋아요 아이콘 클릭 시 좋아요 상태 토글 */}
-                <div className="imgprint" onClick={() => toggleLike(id)}>
+                <div className="imgprint" onClick={() => toggleLike(work.id)}>
                   <HeartIcon liked={work.liked} />
                 </div>
               </div>
