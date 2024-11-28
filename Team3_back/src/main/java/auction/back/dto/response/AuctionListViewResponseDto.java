@@ -15,6 +15,7 @@ public class AuctionListViewResponseDto {
     private String startPrice;
     private String ingPrice;
     private String endPrice;
+    private String authorName;
     private LocalDateTime startAt;
     private LocalDateTime finishAt;
     private PictureSimpleDto picture;
@@ -33,6 +34,7 @@ public class AuctionListViewResponseDto {
                 .startPrice(auction.getStartPrice())
                 .ingPrice(auction.getIngPrice())
                 .endPrice(auction.getEndPrice())
+                .authorName(auction.getPicture().getUser().getUserName())
                 .startAt(auction.getStartAt())
                 .finishAt(auction.getFinishAt())
                 .picture(PictureSimpleDto.builder()

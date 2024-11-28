@@ -11,10 +11,20 @@ import java.util.Optional;
 
 @Repository
 public interface AuctionRepository extends JpaRepository<Auction, Long> {
-
-    @Query("SELECT a FROM Auction a WHERE a.finishAt > CURRENT_TIMESTAMP ORDER BY a.startAt DESC")
+    @Query("SELECT a FROM Auction a " +
+            "JOIN FETCH a.picture p " +
+            "JOIN FETCH p.user " +
+            "LEFT JOIN FETCH p.pictureImgList " +
+            "WHERE a.finishAt > CURRENT_TIMESTAMP " +
+            "ORDER BY a.startAt DESC")
     List<Auction> findOngoingAuctions();
-    @Query("SELECT a FROM Auction a WHERE a.finishAt <= CURRENT_TIMESTAMP ORDER BY a.startAt DESC")
+
+    @Query("SELECT a FROM Auction a " +
+            "JOIN FETCH a.picture p " +
+            "JOIN FETCH p.user " +
+            "LEFT JOIN FETCH p.pictureImgList " +
+            "WHERE a.finishAt <= CURRENT_TIMESTAMP " +
+            "ORDER BY a.startAt DESC")
     List<Auction> findFinishAuctions();
 
     @Query("SELECT a FROM Auction a JOIN FETCH a.picture p JOIN FETCH p.pictureImgList JOIN FETCH p.user WHERE a.id = :auctionId")
