@@ -2,12 +2,42 @@ import React, { useState } from 'react';
 import Toast from './Toast';
 import './Modal.css';
 
-const Modal = ({ show, onClose, children }) => {
+const Modal = ({ show, onClose }) => {
   const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState(''); // 토스트 메시지 동적 설정
 
-  const handleFollowClick = () => {
-    console.log('Follow button clicked!');
-    setShowToast(true);
+  const handleFollowClick = async () => {
+    try {
+      const response = await fetch(
+        'https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/follow',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            follow: true, // follow 상태 설정
+          }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setToastMessage('팔로우 요청이 성공했습니다!'); // 성공 메시지
+      } else {
+        const errorMessage =
+          typeof result.error === 'string'
+            ? result.error
+            : result.error?.message || '팔로우 요청에 실패했습니다.'; // 객체 메시지 처리
+        setToastMessage(errorMessage); // 실패 메시지
+      }
+      setShowToast(true); // 토스트 알림 표시
+    } catch (error) {
+      console.error('Error:', error);
+      setToastMessage('네트워크 오류가 발생했습니다.'); // 네트워크 오류 처리
+      setShowToast(true);
+    }
   };
 
   if (!show) return null;
@@ -15,13 +45,18 @@ const Modal = ({ show, onClose, children }) => {
   return (
     <>
       <div className="modal-overlay" onClick={onClose}>
-        <div className="modal-content" onClick={e => e.stopPropagation()}>
+        <div className="modal-content unique-class" onClick={e => e.stopPropagation()}>
+          {/* 닫기 버튼 */}
           <button className="close-btn" onClick={onClose}>
             X
           </button>
+
+          {/* 상단 이미지 */}
           <div className="modal-image">
-            <img src="path/image.jpg" alt="Artist" className="artist-image" />
+            <img src="path/to/image.jpg" alt="Artist" className="artist-image" />
           </div>
+
+          {/* 모달 헤더 */}
           <div className="modal-header">
             <h2 className="author-name">김민설</h2>
             <p>email@google.com</p>
@@ -32,14 +67,14 @@ const Modal = ({ show, onClose, children }) => {
             </p>
           </div>
 
-          {/* Follow 버튼을 설명 아래로 이동 */}
+          {/* Follow 버튼 */}
           <div className="follow-section">
             <button className="follow-btn" onClick={handleFollowClick}>
               follow
             </button>
           </div>
 
-          {/* 작품 이미지는 follow-section 아래로 */}
+          {/* 이미지 그리드 */}
           <div className="image-grid">
             {[...Array(5)].map((_, index) => (
               <div key={index} className="image-placeholder">
@@ -47,15 +82,15 @@ const Modal = ({ show, onClose, children }) => {
               </div>
             ))}
           </div>
+
           <a href="#" className="more-link">
             more picture
           </a>
-
-          {/* children 렌더링 */}
-          <div className="modal-children">{children}</div>
         </div>
       </div>
-      {showToast && <Toast message="팔로우하기 시작했습니다" onClose={() => setShowToast(false)} />}
+
+      {/* 토스트 메시지 */}
+      {showToast && <Toast message={toastMessage} onClose={() => setShowToast(false)} />}
     </>
   );
 };

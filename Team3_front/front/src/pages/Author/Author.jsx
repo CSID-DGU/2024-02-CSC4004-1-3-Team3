@@ -86,4 +86,4 @@ const Author = () => {
   );
 };
 
-export default Author; // default export 추가
+export default Author;
