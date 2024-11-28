@@ -28,11 +28,12 @@ function MainContainers({ artworkId }) {
             ingredient: artworkData.ingredient,
             sizeWidth: artworkData.sizeWidth,
             sizeHeight: artworkData.sizeHeight,
-            size: `${artworkData.sizeWidth} x ${artworkData.sizeHeight} cm`,
+            size: `${artworkData.sizeWidth}cm x ${artworkData.sizeHeight}cm`,
             year: artworkData.makeTime,
             condition: artworkData.pictureCondition,
             isPhoto: artworkData.isPhoto,
             createdAt: artworkData.createAt,
+            totalLiked: artworkData.likeCount,
             author: {
               name: artworkData.authorName,
               email: artworkData.authorEmail,
