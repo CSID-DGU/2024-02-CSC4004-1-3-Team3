@@ -1,11 +1,11 @@
 .back-button button {
-    color: #333;
-    text-decoration: none;
-    font-size: 11px;
-    flex-direction: row;
-    gap: 10px;
+  color: #333;
+  text-decoration: none;
+  font-size: 11px;
+  flex-direction: row;
+  gap: 10px;
 }
 
 .back-button button:hover {
-    color: orange;
+  color: orange;
 }

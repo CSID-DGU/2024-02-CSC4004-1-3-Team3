@@ -1,46 +1,46 @@
 /* src/components/ImageModal.css */
 
 .image-modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .image-modal {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column; /* 세로 정렬 */
-    align-items: center;    /* 중앙 정렬 */
-    width: 600px; /* 고정 너비 설정 */
-    height: 400px; /* 고정 높이 설정 */
-    justify-content: center;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column; /* 세로 정렬 */
+  align-items: center; /* 중앙 정렬 */
+  width: 600px; /* 고정 너비 설정 */
+  height: 400px; /* 고정 높이 설정 */
+  justify-content: center;
 }
 
 .image-modal img {
-    max-width: 80%;
-    max-height: 80%;
-    border-radius: 8px;
-    object-fit: contain;
-    margin-bottom: 20px; /* 버튼과 간격 조정 */
+  max-width: 80%;
+  max-height: 80%;
+  border-radius: 8px;
+  object-fit: contain;
+  margin-bottom: 20px; /* 버튼과 간격 조정 */
 }
 
 .image-modal button {
-    padding: 6px 14px;
-    background-color: orange;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
+  padding: 6px 14px;
+  background-color: orange;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
 }

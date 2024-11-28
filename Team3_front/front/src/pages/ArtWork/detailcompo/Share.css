@@ -1,12 +1,12 @@
-.share{
-    width: 100%;
-    margin:10px;
-    margin-right: 100px;
-    margin-top: 30px;
-    display: flex;
-    align-items: center; /* 수직 가운데 정렬 */
-    gap: 5px; /* 이미지와 텍스트 간격 조정 */
-    justify-content: right;
-    z-index: 1;
-    padding-left: 100px;
+.share {
+  width: 100%;
+  margin: 10px;
+  margin-right: 100px;
+  margin-top: 30px;
+  display: flex;
+  align-items: center; /* 수직 가운데 정렬 */
+  gap: 5px; /* 이미지와 텍스트 간격 조정 */
+  justify-content: right;
+  z-index: 1;
+  padding-left: 100px;
 }

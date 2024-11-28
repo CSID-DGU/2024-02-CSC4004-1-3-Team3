@@ -1,0 +1,126 @@
+/* 모달 배경 */
+* {
+  box-sizing: border-box;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* 모달 컨텐츠 */
+.modal-content {
+  background: white;
+  width: 80%;
+  height: 70%;
+  padding: 80px 50px;
+  border-radius: 10px;
+  display: flex;
+  gap: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 왼쪽 이미지 섹션 */
+.modal-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-main-image {
+  width: 100%;
+  padding-bottom: 100%;
+  background-size: cover;
+  background-position: center;
+  border: 1px solid #ccc;
+}
+
+.thumbnail-list {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.thumbnail {
+  width: 50px;
+  height: 50px;
+  background-color: #e0e0e0;
+  border: 1px solid #ccc;
+}
+
+/* 오른쪽 텍스트 및 버튼 섹션 */
+.modal-right {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  height: 100%;
+}
+
+.art-description-auction {
+  flex: 2;
+  background-color: #d3d3d3;
+  padding: 15px;
+  border-radius: 5px;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  width: 100%;
+}
+
+.bid-content {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.current-bid {
+  flex: 3;
+  font-size: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  height: 50px;
+}
+
+.bid-actions {
+  flex: 2;
+  display: flex;
+  gap: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  justify-content: end;
+}
+
+.bid-input {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.bid-submit-button {
+  padding: 10px;
+  background-color: #ccc;
+  width: 70px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}

@@ -1,0 +1,13 @@
+/* 전체 레이아웃 설정 */
+.artwork-registration {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+  }
+  .workadd-rowarray {
+    width: 30%;
+  }

@@ -1,17 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './WorkList.css';
 import HeartIcon from './HeartIcon';
-import worksData from '../../../components/works.jsx';
+//import worksData from '../../../components/works.jsx';
 
 function WorkList({ selectedType, currentPage }) {
   // 페이지 이동을 위한 useNavigate 훅 설정
   const navigate = useNavigate();
-
-  const [works, setWorks] = useState(worksData); // 작품 데이터를 상태로 관리
+  const [works, setWorks] = useState([]); // 작품 데이터를 상태로 관리
   const itemsPerPage = 16; // 페이지당 아이템 수 설정
-
   const page = currentPage;
+
+  const baseURL = 'https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app';
+
+  useEffect(() => {
+    const fetchWorks = async () => {
+      try {
+        const response = await fetch(`${baseURL}/picture`);
+        const data = await response.json();
+
+        if (data.success && Array.isArray(data.responseDto)) {
+          const processedWorks = data.responseDto.map(item => ({
+            id: item.id,
+            name: item.name,
+            author_id: item.authorName,
+            ingredient: item.ingredient,
+            size_width: item.sizeWidth,
+            size_height: item.sizeHeight,
+            year: item.makeTime,
+            mainimg: item.url || '/images/default-image.jpg',
+            liked: false,
+            type: item.photo ? 'PHOTO' : 'PICTURE',
+            auction: 'none',
+            price: 0,
+          }));
+          setWorks(processedWorks);
+        } else {
+          console.error('Invalid data format:', data);
+          setWorks([]); // 빈 배열 설정
+        }
+      } catch (error) {
+        console.error('Error fetching works:', error);
+        setWorks([]); // 오류 발생 시 빈 배열
+      }
+    };
+
+    fetchWorks();
+  }, []);
 
   // 선택된 타입에 따라 작품 데이터를 필터링하고 원본 배열의 인덱스를 유지한 새로운 배열 생성
   const filteredItems =
@@ -19,7 +54,11 @@ function WorkList({ selectedType, currentPage }) {
       ? works.map((item, index) => ({ ...item, originalIndex: index }))
       : works
           .map((item, index) => ({ ...item, originalIndex: index }))
-          .filter(item => item.type === selectedType);
+          .filter(
+            item =>
+              (selectedType === 'PICTURE' && item.type === 'PICTURE') ||
+              (selectedType === 'PHOTO' && item.type === 'PHOTO')
+          );
 
   // 현재 페이지의 시작 인덱스 계산
   const startIndex = (page - 1) * itemsPerPage;
@@ -33,23 +72,34 @@ function WorkList({ selectedType, currentPage }) {
   };
 
   // 좋아요 상태를 토글하는 함수
-  const toggleLike = index => {
-    setWorks(prevWorks => {
-      const updatedWorks = [...prevWorks];
-      const workIndex = startIndex + index; // 전체 배열에서 현재 작품의 인덱스
-      updatedWorks[workIndex] = {
-        ...updatedWorks[workIndex],
-        liked: !updatedWorks[workIndex].liked,
-      };
-      return updatedWorks;
-    });
+  const toggleLike = async index => {
+    const workIndex = startIndex + index;
+    const updatedWorks = [...works];
+    updatedWorks[workIndex] = {
+      ...updatedWorks[workIndex],
+      liked: !updatedWorks[workIndex].liked,
+    };
+
+    setWorks(updatedWorks);
+
+    try {
+      await fetch(`${baseURL}/works/${updatedWorks[workIndex].id}/like`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ liked: updatedWorks[workIndex].liked }),
+      });
+    } catch (error) {
+      console.error('Failed to update like status:', error);
+    }
   };
 
   return (
     <div className="work-list">
-      {currentItems.map((work, index) => (
+      {currentItems.map(work => (
         <div
-          key={index}
+          key={work.id}
           className="work-card"
           onClick={event => handleCardClick(work.originalIndex, event)}
           style={{ cursor: 'pointer' }}
@@ -73,11 +123,9 @@ function WorkList({ selectedType, currentPage }) {
                   <div className="work-bottom">
                     <div className="work-left">
                       {/* 작가명 및 작품 정보 표시 */}
-                      <h3>{work.artist}</h3>
+                      <h3>{work.author_id}</h3>
                       <p>
-                        {work.material}
-                        <br />
-                        {work.data.w}X{work.data.h}cm | {work.year}
+                        {work.size_width}X{work.size_height}cm | {work.year}
                       </p>
                     </div>
                     <div className="work-right">
@@ -93,7 +141,7 @@ function WorkList({ selectedType, currentPage }) {
                   </div>
                 </div>
                 {/* 좋아요 아이콘 클릭 시 좋아요 상태 토글 */}
-                <div className="imgprint" onClick={() => toggleLike(index)}>
+                <div className="imgprint" onClick={() => toggleLike(work.id)}>
                   <HeartIcon liked={work.liked} />
                 </div>
               </div>
