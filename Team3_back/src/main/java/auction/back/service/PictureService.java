@@ -6,6 +6,7 @@ import auction.back.domain.User;
 import auction.back.dto.request.PictureRegistrationRequestDto;
 import auction.back.dto.response.PictureDetailResponseDto;
 import auction.back.dto.response.PictureViewResponseDto;
+import auction.back.repository.LikeRepository;
 import auction.back.repository.PictureImgRepository;
 import auction.back.repository.PictureRepository;
 import auction.back.repository.UserRepository;
@@ -25,20 +26,30 @@ public class PictureService {
     private final PictureRepository pictureRepository;
     private final PictureImgRepository pictureImgRepository;
     private final UserRepository userRepository;
+    private final LikeRepository likeRepository;
     private final S3Service s3Service;
 
-    public List<PictureViewResponseDto> pictureView(Boolean photo, Boolean picture) {
+    public List<PictureViewResponseDto> pictureView(Boolean photo, Boolean picture, Long userId) {
         List<Picture> pictureList = pictureRepository.findAllPicture(photo, picture);
 
         return pictureList.stream()
-                .map(PictureViewResponseDto::of)
+                .map(pic -> {
+                    boolean isLiked = false;
+                    if (userId != null) {
+                        isLiked = likeRepository.existsByPictureIdAndUserId(pic.getId(), userId);
+                    }
+                    return PictureViewResponseDto.of(pic, isLiked);
+                })
                 .collect(Collectors.toList());
     }
 
     public PictureDetailResponseDto pictureDetailView(Long pictureId) {
-        Picture picture = pictureRepository.findById(pictureId)
+        Picture picture = pictureRepository.findByIdWithDetails(pictureId)
                 .orElseThrow(() -> new EntityNotFoundException("Picture not found with id: " + pictureId));
-        return PictureDetailResponseDto.of(picture);
+
+        int likeCount = pictureRepository.countLikesByPictureId(pictureId);
+
+        return PictureDetailResponseDto.of(picture, likeCount);
     }
 
     public boolean registration(PictureRegistrationRequestDto request) {

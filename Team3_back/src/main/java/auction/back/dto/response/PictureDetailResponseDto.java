@@ -27,8 +27,9 @@ public class PictureDetailResponseDto {
     private String authorEmail;
     private String authorImage;
     private List<String> imageUrls;
+    private int likeCount;
 
-    public static PictureDetailResponseDto of(Picture picture) {
+    public static PictureDetailResponseDto of(Picture picture, int likeCount) {
         return PictureDetailResponseDto.builder()
                 .id(picture.getId())
                 .name(picture.getName())
@@ -45,6 +46,7 @@ public class PictureDetailResponseDto {
                 .imageUrls(picture.getPictureImgList().stream()
                         .map(PictureImg::getUrl)
                         .collect(Collectors.toList()))
+                .likeCount(likeCount)
                 .build();
     }
 }

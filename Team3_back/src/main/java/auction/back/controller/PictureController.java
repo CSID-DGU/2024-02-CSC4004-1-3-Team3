@@ -14,9 +14,10 @@ public class PictureController {
     @GetMapping("")
     public ResponseDto<?> mainView(
             @RequestParam(value = "photo", required = false) Boolean photo,
-            @RequestParam(value = "picture", required = false) Boolean picture
+            @RequestParam(value = "picture", required = false) Boolean picture,
+            @RequestParam(value = "userId", required = false) Long userId
     ){
-        return new ResponseDto<>(pictureService.pictureView(photo, picture));
+        return new ResponseDto<>(pictureService.pictureView(photo, picture, userId));
     }
 
     @GetMapping("/{pictureId}")
