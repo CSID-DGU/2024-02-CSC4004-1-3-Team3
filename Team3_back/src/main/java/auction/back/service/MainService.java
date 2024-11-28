@@ -33,7 +33,7 @@ public class MainService {
     }
 
     private List<IngAuctionResponseDto> getOngoingAuctions() {
-        List<Auction> auctions = auctionRepository.findOngoingAuctionsOrderByStartAtAsc();
+        List<Auction> auctions = auctionRepository.findOngoingAuctions();
         return auctions.stream()
                 .limit(9)
                 .map(IngAuctionResponseDto::of)
