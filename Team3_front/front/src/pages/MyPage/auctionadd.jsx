@@ -7,6 +7,8 @@ function AuctionAdd() {
   const [artworks, setArtworks] = useState([]); // State for artworks
   const [isLoading, setIsLoading] = useState(true); // State for loading
   const [selectedImages, setSelectedImages] = useState(new Set()); // Track clicked images
+  const [showModal, setShowModal] = useState(false); // State for modal visibility
+  const [startingPrice, setStartingPrice] = useState(''); // State for starting price
 
   useEffect(() => {
     // Fetch artworks from the backend
@@ -35,7 +37,25 @@ function AuctionAdd() {
   };
 
   const handleAddArtwork = () => {
-    console.log('작품 등록 버튼 클릭됨');
+    if (selectedImages.size === 0) {
+      alert('등록할 작품을 선택해주세요.');
+      return;
+    }
+    setShowModal(true); // Show the modal
+  };
+
+  const handleModalSubmit = () => {
+    // Logic for submitting the auction
+    console.log('경매 등록:', {
+      selectedImages: Array.from(selectedImages),
+      startingPrice,
+    });
+    setShowModal(false); // Close the modal
+    setStartingPrice(''); // Reset the starting price
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
   };
 
   return (
@@ -67,6 +87,22 @@ function AuctionAdd() {
       <button className="add-artwork-button" onClick={handleAddArtwork}>
         경매 등록
       </button>
+
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>시작가 설정</h3>
+            <input
+              type="number"
+              value={startingPrice}
+              onChange={e => setStartingPrice(e.target.value)}
+              placeholder="시작가 입력"
+            />
+            <button onClick={handleModalSubmit}>확인</button>
+            <button onClick={handleModalClose}>취소</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
