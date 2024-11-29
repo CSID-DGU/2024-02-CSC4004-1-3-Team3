@@ -1,44 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from './Modal';
 import './Author.css';
 
 const Author = () => {
-  const [showModal, setShowModal] = useState(false); // 모달 상태
-  const [selectedItem, setSelectedItem] = useState(null); // 선택된 항목 상태
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 상태 추가
-  const totalPages = 5; // 총 페이지 수
+  const [showModal, setShowModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [items, setItems] = useState([
+    { id: 1, title: '김민설1', followers: 10, image: 'path/to/image1.jpg', isAPI: true },
+    { id: 2, title: '김민설2', followers: 25, image: 'path/to/image2.jpg', isAPI: true },
+    { id: 3, title: '김민설3', followers: 34, image: 'path/to/image3.jpg', isAPI: false },
+    { id: 4, title: '김민설4', followers: 15, image: 'path/to/image4.jpg', isAPI: false },
+    { id: 5, title: '김민설5', followers: 45, image: 'path/to/image5.jpg', isAPI: false },
+    { id: 6, title: '김민설6', followers: 18, image: 'path/to/image6.jpg', isAPI: false },
+    { id: 7, title: '김민설7', followers: 20, image: 'path/to/image7.jpg', isAPI: false },
+    { id: 8, title: '김민설8', followers: 8, image: 'path/to/image8.jpg', isAPI: false },
+  ]);
 
   const openModal = index => {
-    setSelectedItem(index); // 선택된 박스의 데이터 설정
-    setShowModal(true); // 모달 열기
+    setSelectedItem(items[index]);
+    setShowModal(true);
   };
 
   const closeModal = () => {
-    setShowModal(false); // 모달 닫기
-    setSelectedItem(null); // 선택 초기화
+    setShowModal(false);
+    setSelectedItem(null);
   };
 
-  const goToPreviousPage = () => {
-    setCurrentPage(prev => (prev > 1 ? prev - 1 : prev)); // 이전 페이지
+  const updateFollowers = (id, newCount) => {
+    setItems(prevItems =>
+      prevItems.map(item => (item.id === id ? { ...item, followers: newCount } : item))
+    );
   };
 
-  const goToNextPage = () => {
-    setCurrentPage(prev => (prev < totalPages ? prev + 1 : prev)); // 다음 페이지
-  };
-
-  const items = [
-    {
-      title: '김민설',
-      details: '소나무\n종이에 마커\n65x90cm | 2019',
-      image: 'path/to/your/image.jpg',
-    },
-    // 7개 추가 항목 (샘플 데이터)
-    ...Array(7).fill({
-      title: '김민설',
-      details: '소나무\n종이에 마커\n65x90cm | 2019',
-      image: 'path/to/your/image.jpg',
-    }),
-  ];
+  useEffect(() => {
+    // API로부터 데이터 로드 (첫 두 박스)
+    fetch('https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/author?follow=true')
+      .then(res => res.json())
+      .then(data => {
+        const updatedItems = items.map(item => {
+          if (item.isAPI) {
+            const apiItem = data.responseDto.find(apiItem => apiItem.id === item.id);
+            if (apiItem) {
+              return { ...item, followers: apiItem.followers || item.followers };
+            }
+          }
+          return item;
+        });
+        setItems(updatedItems);
+      })
+      .catch(error => console.error('Error fetching API:', error));
+  }, []);
 
   return (
     <div className="container">
@@ -51,38 +62,27 @@ const Author = () => {
         {items.map((item, index) => (
           <div key={index} className="art-card" onClick={() => openModal(index)}>
             <div className="art-image">
-              <img
-                src={item.image}
-                alt={item.title}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
+              <img src={item.image} alt={item.title} style={{ width: '100%', height: '100%' }} />
             </div>
             <div className="art-text">
               <h3 className="art-title">{item.title}</h3>
               <p className="art-details">{item.details}</p>
+              <div className="art-followers">
+                <span className="follower-icon">👥</span>
+                <span className="follower-count">{item.followers}</span>
+              </div>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="pagination">
-        <button className="page-button" onClick={goToPreviousPage}>
-          {'<'}
-        </button>
-        <span className="page-button">{currentPage}</span>
-        <button className="page-button" onClick={goToNextPage}>
-          {'>'}
-        </button>
-      </div>
-
-      {/* 모달 렌더링 */}
       {showModal && (
-        <Modal show={showModal} onClose={closeModal}>
-          <div className="Author-modal-header">
-            <h2 className="Author-author-name">{items[selectedItem]?.title}</h2>
-            <p className="Author-modal-description">{items[selectedItem]?.details}</p>
-          </div>
-        </Modal>
+        <Modal
+          show={showModal}
+          onClose={closeModal}
+          selectedItem={selectedItem}
+          updateFollowers={updateFollowers}
+        />
       )}
     </div>
   );
