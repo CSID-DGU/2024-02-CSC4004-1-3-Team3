@@ -29,10 +29,10 @@ function WorkList({ selectedType, currentPage }) {
             size_height: item.sizeHeight,
             year: item.makeTime,
             mainimg: item.url || '/images/default-image.jpg',
-            liked: false,
+            liked: item.like,
             type: item.photo ? 'PHOTO' : 'PICTURE',
-            auction: 'none',
-            price: 0,
+            auction: item.auction,
+            price: item.currentPrice,
           }));
           setWorks(processedWorks);
         } else {
@@ -66,32 +66,39 @@ function WorkList({ selectedType, currentPage }) {
   const currentItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
 
   // 카드 클릭 시 원본 데이터의 인덱스를 사용하여 페이지 이동
-  const handleCardClick = (originalIndex, event) => {
+  const handleCardClick = (id, event) => {
     if (event.target.classList.contains('heart-icon')) return;
-    navigate(`/artwork/${originalIndex}`);
+    navigate(`/artwork/${id}`);
   };
 
-  // 좋아요 상태를 토글하는 함수
   const toggleLike = async index => {
     const workIndex = startIndex + index;
     const updatedWorks = [...works];
+    const originalLiked = updatedWorks[workIndex].liked;
+
     updatedWorks[workIndex] = {
       ...updatedWorks[workIndex],
-      liked: !updatedWorks[workIndex].liked,
+      liked: !originalLiked,
     };
 
     setWorks(updatedWorks);
 
     try {
-      await fetch(`${baseURL}/works/${updatedWorks[workIndex].id}/like`, {
+      const response = await fetch(`${baseURL}/works/${updatedWorks[workIndex].id}/like`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ liked: updatedWorks[workIndex].liked }),
       });
+      if (!response.ok) {
+        throw new Error('Failed to update like status');
+      }
     } catch (error) {
       console.error('Failed to update like status:', error);
+      // 서버 요청 실패 시 원래 상태로 복구
+      updatedWorks[workIndex].liked = originalLiked;
+      setWorks(updatedWorks);
     }
   };
 
@@ -101,7 +108,7 @@ function WorkList({ selectedType, currentPage }) {
         <div
           key={work.id}
           className="work-card"
-          onClick={event => handleCardClick(work.originalIndex, event)}
+          onClick={event => handleCardClick(work.id, event)}
           style={{ cursor: 'pointer' }}
         >
           <div className="box-top">
@@ -130,7 +137,7 @@ function WorkList({ selectedType, currentPage }) {
                     </div>
                     <div className="work-right">
                       {/* 경매 상태와 현재 가격 표시 (진행 중일 경우) */}
-                      {work.auction === 'ongoing' && (
+                      {work.auction === true && (
                         <p>
                           경매 진행 중
                           <br />
@@ -141,7 +148,7 @@ function WorkList({ selectedType, currentPage }) {
                   </div>
                 </div>
                 {/* 좋아요 아이콘 클릭 시 좋아요 상태 토글 */}
-                <div className="imgprint" onClick={() => toggleLike(work.id)}>
+                <div className="imgprint" onClick={() => toggleLike(currentItems.indexOf(work))}>
                   <HeartIcon liked={work.liked} />
                 </div>
               </div>

@@ -1,22 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from './Modal';
 import './Author.css';
 
 const Author = () => {
   const [showModal, setShowModal] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 5;
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [items, setItems] = useState([
+    { id: 1, title: '김민설1', followers: 10, image: 'path/to/image1.jpg', isAPI: true },
+    { id: 2, title: '김민설2', followers: 25, image: 'path/to/image2.jpg', isAPI: true },
+    { id: 3, title: '김민설3', followers: 34, image: 'path/to/image3.jpg', isAPI: false },
+    { id: 4, title: '김민설4', followers: 15, image: 'path/to/image4.jpg', isAPI: false },
+    { id: 5, title: '김민설5', followers: 45, image: 'path/to/image5.jpg', isAPI: false },
+    { id: 6, title: '김민설6', followers: 18, image: 'path/to/image6.jpg', isAPI: false },
+    { id: 7, title: '김민설7', followers: 20, image: 'path/to/image7.jpg', isAPI: false },
+    { id: 8, title: '김민설8', followers: 8, image: 'path/to/image8.jpg', isAPI: false },
+  ]);
 
-  const openModal = () => setShowModal(true);
-  const closeModal = () => setShowModal(false);
-
-  const goToPreviousPage = () => {
-    setCurrentPage(prev => (prev > 1 ? prev - 1 : prev));
+  const openModal = index => {
+    setSelectedItem(items[index]);
+    setShowModal(true);
   };
 
-  const goToNextPage = () => {
-    setCurrentPage(prev => (prev < totalPages ? prev + 1 : prev));
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedItem(null);
   };
+
+  const updateFollowers = (id, newCount) => {
+    setItems(prevItems =>
+      prevItems.map(item => (item.id === id ? { ...item, followers: newCount } : item))
+    );
+  };
+
+  useEffect(() => {
+    // API로부터 데이터 로드 (첫 두 박스)
+    fetch('https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/author?follow=true')
+      .then(res => res.json())
+      .then(data => {
+        const updatedItems = items.map(item => {
+          if (item.isAPI) {
+            const apiItem = data.responseDto.find(apiItem => apiItem.id === item.id);
+            if (apiItem) {
+              return { ...item, followers: apiItem.followers || item.followers };
+            }
+          }
+          return item;
+        });
+        setItems(updatedItems);
+      })
+      .catch(error => console.error('Error fetching API:', error));
+  }, []);
 
   return (
     <div className="container">
@@ -26,64 +59,33 @@ const Author = () => {
         <span className="sort-item">인기순</span>
       </div>
       <div className="art-grid">
-        {[...Array(8)].map((_, index) => (
-          <div key={index} className="art-card" onClick={openModal}>
+        {items.map((item, index) => (
+          <div key={index} className="art-card" onClick={() => openModal(index)}>
             <div className="art-image">
-              <img
-                src="path/to/your/image.jpg"
-                alt="Artwork"
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
+              <img src={item.image} alt={item.title} style={{ width: '100%', height: '100%' }} />
             </div>
             <div className="art-text">
-              <h3 className="art-title">김민설</h3>
-              <p className="art-details">
-                소나무
-                <br />
-                종이에 마커
-              </p>
-              <p className="art-details">65x90cm | 2019</p>
+              <h3 className="art-title">{item.title}</h3>
+              <p className="art-details">{item.details}</p>
+              <div className="art-followers">
+                <span className="follower-icon">👥</span>
+                <span className="follower-count">{item.followers}</span>
+              </div>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="pagination">
-        <button className="page-button" onClick={goToPreviousPage}>
-          {'<'}
-        </button>
-        <span className="page-button">{currentPage}</span>
-        <button className="page-button" onClick={goToNextPage}>
-          {'>'}
-        </button>
-      </div>
-
-      <Modal show={showModal} onClose={closeModal}>
-        <div className="modal-image">
-          <img src="path/image.jpg" alt="Artist" className="artist-image" />
-        </div>
-        <div className="modal-header">
-          <h2 className="author-name">김민설</h2>
-          <p>email@google.com</p>
-          <p className="modal-description">
-            호세 빅토리아노 곤잘레스-페레즈는 후안 그리스로도 알려져 있으며, 그는 스페인의 화가로 삶
-            대부분을 프랑스에서 보내며 훌륭한 회화작품과 조각품을 남겼다. 그의 작품들은 예술계에
-            새로운 장르를 창출하는데 이바지하였다.
-          </p>
-        </div>
-        <div className="image-grid">
-          {[...Array(5)].map((_, index) => (
-            <div key={index} className="image-placeholder">
-              picture name
-            </div>
-          ))}
-        </div>
-        <a href="#" className="more-link">
-          more picture
-        </a>
-      </Modal>
+      {showModal && (
+        <Modal
+          show={showModal}
+          onClose={closeModal}
+          selectedItem={selectedItem}
+          updateFollowers={updateFollowers}
+        />
+      )}
     </div>
   );
 };
 
-export default Author; // default export 추가
+export default Author;
