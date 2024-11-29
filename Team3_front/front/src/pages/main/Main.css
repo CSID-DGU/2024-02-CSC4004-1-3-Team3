@@ -62,16 +62,17 @@
   display: flex;
   width: 100%;
   gap: 50px;
+  box-shadow: #e0e0e0;
 }
 
-.item-card {
+.item-card-main {
   background-color: #f5f5f5;
   width: 20%;
   padding: 10px;
-  flex: 1; /* 너비를 자동으로 조정하여 화면을 채우도록 설정 */
   text-align: center;
   border-radius: 8px;
   cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .item-placeholder {

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './AuctionModal.css';
 
 const AuctionModal = ({ show, onClose, item }) => {
+  console.log(item);
   const baseURL = 'https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app';
   const [auctionItem, setAuctionItem] = useState(null);
   const [mainImageUrl, setMainImageUrl] = useState([]);
@@ -9,7 +10,8 @@ const AuctionModal = ({ show, onClose, item }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${baseURL}/auction/${item.picture.id}`);
+        console.log(item);
+        const response = await fetch(`${baseURL}/auction/${item.id}`);
         const result = await response.json();
         if (result.success) {
           console.log(result.responseDto);
@@ -22,14 +24,14 @@ const AuctionModal = ({ show, onClose, item }) => {
     };
 
     fetchData();
-  }, [item.picture.id]);
+  }, []);
 
   if (!show) return null;
   if (!auctionItem) return null;
 
   // 모달 바깥 영역 클릭 핸들러
   const handleOverlayClick = e => {
-    if (e.target.className === 'modal-overlay') {
+    if (e.target.className === 'modal-overlay-auction') {
       onClose(); // 모달 닫기
     }
   };
@@ -39,8 +41,8 @@ const AuctionModal = ({ show, onClose, item }) => {
   };
 
   return (
-    <div className="modal-overlay" onClick={handleOverlayClick}>
-      <div className="modal-content">
+    <div className="modal-overlay-auction" onClick={handleOverlayClick}>
+      <div className="modal-content-auction">
         <div className="modal-left">
           <div className="modal-main-image" style={{ backgroundImage: `url(${mainImageUrl})` }}>
             {mainImageUrl}

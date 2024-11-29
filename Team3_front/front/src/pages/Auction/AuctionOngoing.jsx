@@ -59,21 +59,6 @@ const Auction = () => {
 
   return (
     <div className="auction-container">
-      <div className="auction-header">
-        <span
-          className={`sort-option ${sortOption === 'latest' ? 'active' : ''}`}
-          onClick={() => handleSortClick('latest')}
-        >
-          최신순
-        </span>
-        |
-        <span
-          className={`sort-option ${sortOption === 'popular' ? 'active' : ''}`}
-          onClick={() => handleSortClick('popular')}
-        >
-          인기순
-        </span>
-      </div>
       <h1 className="auction-title">AUCTION IN PROGRESS</h1>
 
       {auctionList.map((item, index) => (
@@ -81,7 +66,7 @@ const Auction = () => {
           key={index}
           image={item.picture.imageUrl}
           title={item.picture.name}
-          artist={item.artist}
+          artist={item.authorName}
           minBid={item.startPrice}
           currentBid={item.ingPrice}
           completed={false}
