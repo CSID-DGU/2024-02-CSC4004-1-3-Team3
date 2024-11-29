@@ -30,6 +30,15 @@ public interface PictureRepository extends JpaRepository<Picture, Long> {
             "WHERE p.id = :pictureId")
     Optional<Picture> findByIdWithDetails(@Param("pictureId") Long pictureId);
 
+    @Query("SELECT p FROM Picture p " +
+            "LEFT JOIN FETCH p.pictureImgList " +
+            "WHERE p.user.id = :userId " +
+            "AND p.auction IS NULL " +
+            "AND (SELECT COUNT(l) FROM Like l WHERE l.picture = p) >= :minLikes")
+    List<Picture> findPicturesForAuctionRegistration(
+            @Param("userId") Long userId,
+            @Param("minLikes") int minLikes);
+
     @Query("SELECT COUNT(l) FROM Like l WHERE l.picture.id = :pictureId")
     int countLikesByPictureId(@Param("pictureId") Long pictureId);
 }

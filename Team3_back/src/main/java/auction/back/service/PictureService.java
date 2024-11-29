@@ -1,20 +1,19 @@
 package auction.back.service;
 
-import auction.back.domain.Picture;
-import auction.back.domain.PictureImg;
-import auction.back.domain.User;
+import auction.back.domain.*;
+import auction.back.dto.request.AuctionRegistRequestDto;
 import auction.back.dto.request.PictureRegistrationRequestDto;
 import auction.back.dto.response.PictureDetailResponseDto;
 import auction.back.dto.response.PictureViewResponseDto;
-import auction.back.repository.LikeRepository;
-import auction.back.repository.PictureImgRepository;
-import auction.back.repository.PictureRepository;
-import auction.back.repository.UserRepository;
+import auction.back.dto.response.RegistAuctionViewResponseDto;
+import auction.back.repository.*;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,9 +24,60 @@ import java.util.stream.Collectors;
 public class PictureService {
     private final PictureRepository pictureRepository;
     private final PictureImgRepository pictureImgRepository;
+    private final AuctionRepository auctionRepository;
     private final UserRepository userRepository;
     private final LikeRepository likeRepository;
+    private final MappingRepository mappingRepository;
     private final S3Service s3Service;
+    private static final int MIN_LIKES_FOR_AUCTION = 1;
+
+    public List<RegistAuctionViewResponseDto> auctionRegistView(Long userId) {
+        List<Picture> eligiblePictures = pictureRepository
+                .findPicturesForAuctionRegistration(userId, MIN_LIKES_FOR_AUCTION);
+
+        return eligiblePictures.stream()
+                .map(picture -> {
+                    int likeCount = pictureRepository.countLikesByPictureId(picture.getId());
+                    return RegistAuctionViewResponseDto.of(picture, likeCount);
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public Boolean auctionRegist(AuctionRegistRequestDto auctionRegistRequestDto) {
+        User user = userRepository.findById(auctionRegistRequestDto.userId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        Picture picture = pictureRepository.findById(auctionRegistRequestDto.pictureId())
+                .orElseThrow(() -> new EntityNotFoundException("Picture not found"));
+
+        if (!picture.getUser().getId().equals(user.getId())) {
+            throw new IllegalArgumentException("This picture doesn't belong to the user");
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+
+        Auction auction = Auction.builder()
+                .startPrice(auctionRegistRequestDto.startPrice())
+                .ingPrice(auctionRegistRequestDto.startPrice())
+                .endPrice(auctionRegistRequestDto.startPrice())
+                .startAt(now)
+                .finishAt(now.plusWeeks(1))
+                .picture(picture)
+                .build();
+
+        Auction savedAuction = auctionRepository.save(auction);
+
+        // 경매 생성자를 Mapping 테이블에 추가
+        Mapping mapping = Mapping.builder()
+                .auction(savedAuction)
+                .user(user)
+                .build();
+
+        mappingRepository.save(mapping);
+
+        return true;
+    }
 
     public List<PictureViewResponseDto> pictureView(Boolean photo, Boolean picture, Long userId) {
         List<Picture> pictureList = pictureRepository.findAllPicture(photo, picture);

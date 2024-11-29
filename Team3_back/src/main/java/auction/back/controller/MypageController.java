@@ -1,5 +1,6 @@
 package auction.back.controller;
 
+import auction.back.dto.request.AuctionRegistRequestDto;
 import auction.back.dto.request.PictureRegistrationRequestDto;
 import auction.back.dto.response.ResponseDto;
 import auction.back.service.PictureService;
@@ -23,8 +24,20 @@ public class MypageController {
 
     @PostMapping("/registration")
     public ResponseDto<?> registration(
-            @ModelAttribute PictureRegistrationRequestDto request
+            @ModelAttribute PictureRegistrationRequestDto pictureRegistrationRequestDto
     ) {
-        return new ResponseDto<>(pictureService.registration(request));
+        return new ResponseDto<>(pictureService.registration(pictureRegistrationRequestDto));
+    }
+
+    @PostMapping("/regist/auction")
+    public ResponseDto<?> auctionRegist(
+        @RequestBody AuctionRegistRequestDto auctionRegistRequestDto
+    ) {
+        return new ResponseDto<>(pictureService.auctionRegist(auctionRegistRequestDto));
+    }
+
+    @GetMapping("/regist/auction/{userId}")
+    public ResponseDto<?> auctionRegist(@PathVariable Long userId) {
+        return new ResponseDto<>(pictureService.auctionRegistView(userId));
     }
 }

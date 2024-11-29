@@ -42,4 +42,15 @@ public class Auction {
 
     @OneToMany(mappedBy = "auction")
     private List<Mapping> mappingList;
+
+    @Builder
+    public Auction(String startPrice, String ingPrice, String endPrice,
+                   LocalDateTime startAt, LocalDateTime finishAt, Picture picture) {
+        this.startPrice = startPrice;
+        this.ingPrice = ingPrice;
+        this.endPrice = endPrice;
+        this.startAt = startAt;
+        this.finishAt = finishAt;
+        this.picture = picture;
+    }
 }
