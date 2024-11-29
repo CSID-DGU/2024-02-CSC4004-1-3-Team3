@@ -44,23 +44,23 @@ const Modal = ({ show, onClose }) => {
 
   return (
     <>
-      <div className="modal-overlay" onClick={onClose}>
-        <div className="modal-content unique-class" onClick={e => e.stopPropagation()}>
+      <div className="Author-modal-overlay" onClick={onClose}>
+        <div className="Author-modal-content unique-class" onClick={e => e.stopPropagation()}>
           {/* 닫기 버튼 */}
-          <button className="close-btn" onClick={onClose}>
+          <button className="Author-close-btn" onClick={onClose}>
             X
           </button>
 
           {/* 상단 이미지 */}
-          <div className="modal-image">
-            <img src="path/to/image.jpg" alt="Artist" className="artist-image" />
+          <div className="Author-modal-image">
+            <img src="path/to/image.jpg" alt="Artist" className="Author-artist-image" />
           </div>
 
           {/* 모달 헤더 */}
-          <div className="modal-header">
-            <h2 className="author-name">김민설</h2>
+          <div className="Author-modal-header">
+            <h2 className="Author-author-name">김민설</h2>
             <p>email@google.com</p>
-            <p className="modal-description">
+            <p className="Author-modal-description">
               호세 빅토리아노 곤잘레스-페레즈는 후안 그리스로도 알려져 있으며, 그는 스페인의 화가로
               삶 대부분을 프랑스에서 보내며 훌륭한 회화작품과 조각품을 남겼다. 그의 작품들은
               예술계에 새로운 장르를 창출하는데 이바지하였다.
@@ -68,22 +68,22 @@ const Modal = ({ show, onClose }) => {
           </div>
 
           {/* Follow 버튼 */}
-          <div className="follow-section">
-            <button className="follow-btn" onClick={handleFollowClick}>
+          <div className="Author-follow-section">
+            <button className="Author-follow-btn" onClick={handleFollowClick}>
               follow
             </button>
           </div>
 
           {/* 이미지 그리드 */}
-          <div className="image-grid">
+          <div className="Author-image-grid">
             {[...Array(5)].map((_, index) => (
-              <div key={index} className="image-placeholder">
+              <div key={index} className="Author-image-placeholder">
                 picture name
               </div>
             ))}
           </div>
 
-          <a href="#" className="more-link">
+          <a href="#" className="Author-more-link">
             more picture
           </a>
         </div>
