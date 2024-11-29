@@ -113,7 +113,7 @@ function MyPage_artist() {
             {profileImage ? (
               <img src={profileImage} alt="Profile" />
             ) : (
-              <i className="fa-solid fa-user" />
+              <p className="no-profile-image"></p>
             )}
           </div>
           <label htmlFor="imageUpload" className="edit-icon">
