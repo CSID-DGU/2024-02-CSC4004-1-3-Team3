@@ -1,5 +1,6 @@
 package auction.back.controller;
 
+import auction.back.dto.request.PictureLikeRequestDto;
 import auction.back.dto.response.ResponseDto;
 import auction.back.service.PictureService;
 import lombok.RequiredArgsConstructor;
@@ -23,5 +24,12 @@ public class PictureController {
     @GetMapping("/{pictureId}")
     public ResponseDto<?> getPictureDetail(@PathVariable Long pictureId) {
         return new ResponseDto<>(pictureService.pictureDetailView(pictureId));
+    }
+
+    @PostMapping("")
+    public ResponseDto<?> pictureLike(
+            @RequestBody PictureLikeRequestDto pictureLikeRequestDto
+            ) {
+        return new ResponseDto<>(pictureService.pictureLike(pictureLikeRequestDto));
     }
 }

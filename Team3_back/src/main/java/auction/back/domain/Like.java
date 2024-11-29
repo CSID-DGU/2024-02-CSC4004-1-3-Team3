@@ -25,4 +25,11 @@ public class Like {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    // -----------------------
+    @Builder
+    public Like(User user, Picture picture) {
+        this.user = user;
+        this.picture = picture;
+    }
 }

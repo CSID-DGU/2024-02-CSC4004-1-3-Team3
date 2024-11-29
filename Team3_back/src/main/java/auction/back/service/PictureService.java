@@ -2,6 +2,7 @@ package auction.back.service;
 
 import auction.back.domain.*;
 import auction.back.dto.request.AuctionRegistRequestDto;
+import auction.back.dto.request.PictureLikeRequestDto;
 import auction.back.dto.request.PictureRegistrationRequestDto;
 import auction.back.dto.response.PictureDetailResponseDto;
 import auction.back.dto.response.PictureViewResponseDto;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -30,6 +32,30 @@ public class PictureService {
     private final MappingRepository mappingRepository;
     private final S3Service s3Service;
     private static final int MIN_LIKES_FOR_AUCTION = 1;
+
+    @Transactional
+    public String pictureLike(PictureLikeRequestDto pictureLikeRequestDto) {
+        User user = userRepository.findById(pictureLikeRequestDto.userId())
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        Picture picture = pictureRepository.findById(pictureLikeRequestDto.pictureId())
+                .orElseThrow(() -> new EntityNotFoundException("Picture not found"));
+
+        Optional<Like> existingLike = likeRepository
+                .findByUserIdAndPictureId(pictureLikeRequestDto.userId(), pictureLikeRequestDto.pictureId());
+
+        if (existingLike.isPresent()) {
+            likeRepository.delete(existingLike.get());
+            return "좋아요가 취소되었습니다.";
+        } else {
+            Like newLike = Like.builder()
+                    .user(user)
+                    .picture(picture)
+                    .build();
+            likeRepository.save(newLike);
+            return "좋아요가 추가되었습니다.";
+        }
+    }
 
     public List<RegistAuctionViewResponseDto> auctionRegistView(Long userId) {
         List<Picture> eligiblePictures = pictureRepository
