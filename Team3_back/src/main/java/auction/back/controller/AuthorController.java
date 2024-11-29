@@ -1,5 +1,6 @@
 package auction.back.controller;
 
+import auction.back.dto.request.AuthorFollowRequestDto;
 import auction.back.dto.response.ResponseDto;
 import auction.back.service.AuthorService;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +22,10 @@ public class AuthorController {
     @GetMapping("/{userId}")
     public ResponseDto<?> getAuthorDetail(@PathVariable Long userId) {
         return new ResponseDto<>(authorService.authorDetailView(userId));
+    }
+
+    @PostMapping("")
+    public ResponseDto<?> authorFollow(@RequestBody AuthorFollowRequestDto authorFollowRequestDto){
+        return new ResponseDto<>(authorService.authorFollow(authorFollowRequestDto));
     }
 }

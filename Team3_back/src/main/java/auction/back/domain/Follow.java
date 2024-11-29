@@ -1,6 +1,7 @@
 package auction.back.domain;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
@@ -23,4 +24,11 @@ public class Follow {
     @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
+
+    // ------------------------
+    @Builder
+    public Follow(User user, User author) {
+        this.user = user;
+        this.author = author;
+    }
 }
