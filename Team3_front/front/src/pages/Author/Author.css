@@ -51,29 +51,12 @@
   height: auto;
 }
 
-/* 아트 이미지 */
-.art-image {
-  height: 220px !important;
-  width: 100% !important;
-  background-color: #ccc;
-  display: flex;
-  justify-content: center;
-  align-items: left;
-}
-
 /* 아트 텍스트 */
 .art-text {
   padding: 30px 10px;
   background-color: #fff;
   text-align: left;
-}
-
-/* 아트 제목 */
-.art-title {
-  font-size: 1rem;
-  font-weight: bold;
-  margin-bottom: 8px;
-  text-align: left;
+  margin-top: 20px;
 }
 
 /* 아트 상세 정보 */
@@ -83,6 +66,25 @@
   padding: 1%;
   margin-top: 1%;
   text-align: left;
+}
+
+/* 팔로워 아이콘 및 숫자 */
+.art-followers {
+  display: flex;
+  align-items: center;
+  margin: 3px;
+  font-size: 14px;
+  color: #333;
+}
+
+.follower-icon {
+  font-size: 0.9rem;
+  margin-right: 1px;
+}
+
+.follower-count {
+  font-weight: none;
+  font-size: 0.9rem;
 }
 
 /* 페이지네이션 */

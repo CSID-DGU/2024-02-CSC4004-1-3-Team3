@@ -35,7 +35,34 @@
   color: orange;
   font-weight: bold;
 }
+/* 부모 컨테이너 스타일링 */
+.item-grid {
+  display: grid; /* 그리드 레이아웃 */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* 반응형 레이아웃 */
+  gap: 20px; /* 항목 간 간격 */
+  padding: 20px; /* 컨테이너 패딩 */
+}
 
+/* 개별 카드 스타일 */
+.item-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f9f9f9; /* 카드 배경 */
+  padding: 15px;
+  border-radius: 8px; /* 모서리 둥글게 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 */
+}
+
+/* 이미지 스타일 */
+.item-image {
+  width: 100%; /* 부모 너비에 맞춤 */
+  height: auto; /* 비율 유지 */
+  max-height: 150px; /* 최대 높이 */
+  object-fit: cover; /* 이미지 비율 조정 */
+  border-radius: 5px; /* 이미지 둥근 모서리 */
+  margin-bottom: 10px; /* 이미지 아래 간격 */
+}
 .Author-modal-image {
   display: flex;
   justify-content: center;
