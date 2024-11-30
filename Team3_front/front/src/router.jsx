@@ -1,8 +1,9 @@
+// router.jsx
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import Main from './pages/main/Main';
 import Login from './pages/Login/Login';
-import MyPage from './pages/MyPage/MyPage_artist';
+import MyPageWrapper from './pages/MyPage/MyPageWrapper';
 import Workadd from './pages/MyPage/workadd';
 import Author from './pages/Author/Author';
 import AuctionOngoing from './pages/Auction/AuctionOngoing';
@@ -36,10 +37,10 @@ const router = createBrowserRouter([
       },
       {
         path: 'mypage',
-        element: <MyPage />,
+        element: <MyPageWrapper />, // MyPageWrapper로 교체
       },
       {
-        path: 'mypage/auctionadd', // 경매 등록 경로 추가
+        path: 'mypage/auctionadd',
         element: <AuctionAdd />,
       },
       {

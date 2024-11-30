@@ -22,7 +22,7 @@
   padding: 20px 0;
   font-size: 1.5em;
   font-weight: bold;
-  flex: 0 0 8%; /* header가 화면의 약 8%를 차지 */
+  flex: 0 0 8%;
 }
 
 /* Profile Section */
@@ -30,26 +30,26 @@
   display: flex;
   width: 80%;
   align-items: center;
-  flex: 0 0 30%; /* profile-section이 화면의 약 30% 차지 */
+  flex: 0 0 30%;
   margin-top: 20px;
 }
 
 .profile-image-container {
-  position: relative; /* edit-icon 배치를 위한 relative 설정 */
+  position: relative;
   width: 200px;
   height: 200px;
 }
 
 .profile-image {
-  font-size: 100px; /* 아이콘 크기 */
-  color: #555; /* 아이콘 색상 */
+  font-size: 100px;
+  color: #555;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
-  border-radius: 50%; /* 동그랗게 만들기 */
-  background-color: #f0f0f0; /* 배경색 */
+  border-radius: 50%;
+  background-color: #f0f0f0;
   overflow: hidden;
   margin-left: 200px;
 }
@@ -62,9 +62,9 @@
 
 /* Edit Icon */
 .edit-icon {
-  position: absolute; /* profile-image 위에 겹치도록 설정 */
-  bottom: 30px; /* 프로필 이미지의 하단에 배치 */
-  right: -200px; /* 프로필 이미지의 오른쪽 끝에 배치 */
+  position: absolute;
+  bottom: 30px;
+  right: -200px;
   background-color: #ffffff;
   color: #555;
   font-size: 20px;
@@ -93,14 +93,14 @@
   width: 90%;
   border: 2px solid #e5a23b;
   padding: 10px;
-  flex: 0 0 30%; /* 각 섹션이 화면의 약 30% 차지 */
-  position: relative; /* 버튼 위치 고정을 위해 추가 */
+  flex: 0 0 30%;
+  position: relative;
 }
 
 .interests-header {
-  display: flex; /* Flexbox로 정렬 */
-  justify-content: space-between; /* 좌우 정렬 */
-  align-items: center; /* 세로 중앙 정렬 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 10px;
 }
 
@@ -114,68 +114,60 @@
   background-color: #e5a23b;
   padding: 5px 20px;
   cursor: pointer;
-  text-decoration: none; /* 밑줄 제거 */
+  text-decoration: none;
   margin: 2px;
-}
-
-.add-artwork {
-  font-size: 1em;
-  color: #000000;
-  background-color: #ffffff;
-  padding: 5px 20px;
-  cursor: pointer;
-  text-decoration: none;
-  position: absolute; /* 버튼 위치 고정 */
-  bottom: 10px; /* interests-section 내부에서 아래쪽 여백 */
-  right: 140px; /* delete-artwork 버튼과 간격 설정 */
-}
-
-.delete-artwork {
-  font-size: 1em;
-  color: #000000;
-  background-color: #ffffff;
-  padding: 5px 20px;
-  cursor: pointer;
-  text-decoration: none;
-  position: absolute; /* 버튼 위치 고정 */
-  bottom: 10px; /* interests-section 내부에서 아래쪽 여백 */
-  right: 20px; /* 화면 오른쪽에서 위치 조정 */
-}
-
-.add-artwork:hover,
-.delete-artwork:hover {
-  color: orange;
-  text-decoration: underline;
 }
 
 .interests-images {
   display: flex;
   gap: 10px;
-  justify-content: center;
-  overflow-x: auto; /* 가로 스크롤 활성화 */
+  justify-content: flex-start;
+  overflow-x: auto;
   padding-bottom: 10px;
-  white-space: nowrap; /* 항목이 줄바꿈되지 않고 한 줄에 표시 */
+  white-space: nowrap;
+  max-width: 100%;
+  width: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: #e5a23b #f0f0f0;
 }
 
-/* Hover Effect for Interests */
 .interest-image {
-  position: relative;
+  flex: 0 0 auto;
   width: 150px;
   height: 150px;
   background-color: #ccc;
-  margin: 10px;
-  display: inline-block; /* 가로로 정렬되도록 설정 */
-  transition: background-color 0.3s; /* 부드러운 전환 효과 */
+  margin: 10px 0;
+  display: inline-block;
+  cursor: pointer;
 }
 
 .interest-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s;
 }
 
-.interest-image:hover {
-  background-color: rgba(64, 64, 64, 0.7); /* 투명한 진한 회색 */
+.interest-image:hover img {
+  transform: scale(1.1);
+}
+
+/* 회색 오버레이 제거 */
+.interest-image::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  background-color: transparent; /* 회색 배경 제거 */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* 작품명 표시 제거 */
+.interest-image:hover p {
+  opacity: 0;
 }
 
 /* Auction Section */
@@ -185,17 +177,17 @@
   border-left: 2px solid #e5a23b;
   border-right: 2px solid #e5a23b;
   padding: 10px;
-  flex: 0 0 30%; /* 각 섹션이 화면의 약 30% 차지 */
+  flex: 0 0 30%;
 }
 
-.auction-name,
-.interest-name {
-  margin: 10px;
+.auction-name {
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
 .auction-item-list {
-  max-height: 200px; /* 높이 제한 */
-  overflow-y: auto; /* 세로 스크롤 활성화 */
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 .auction-item {
@@ -204,12 +196,13 @@
   padding: 10px;
   background-color: #eee;
   margin-bottom: 10px;
-  transition: background-color 0.3s; /* 부드러운 전환 효과 */
+  margin-top: 20px;
+  transition: background-color 0.3s;
   cursor: pointer;
 }
 
 .auction-item:hover {
-  background-color: rgba(64, 64, 64, 0.7); /* 투명한 진한 회색 */
+  background-color: rgba(64, 64, 64, 0.7);
 }
 
 .auction-item p,
@@ -222,21 +215,16 @@
 }
 
 h3 {
-  font-size: 1.5em; /* 기본 제목 크기 */
-  font-weight: bold; /* 굵은 글씨 */
-  margin: 1em 0; /* 위아래 여백 */
-}
-
-.auction-name {
-  font-size: 1.2em;
+  font-size: 1.5em;
   font-weight: bold;
+  margin: 1em 0;
 }
 
 /* X 버튼 스타일 */
 .delete-icon {
   position: absolute;
   top: 5px;
-  left: 5px; /* X 버튼을 왼쪽 상단에 배치 */
+  left: 5px;
   background-color: red;
   color: white;
   border: none;
@@ -247,3 +235,50 @@ h3 {
   cursor: pointer;
 }
 
+.add-artwork {
+  font-size: 1em;
+  color: #000000;
+  background-color: #ffffff;
+  padding: 5px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  position: absolute;
+  bottom: 10px;
+  right: 140px;
+}
+
+.delete-artwork {
+  font-size: 1em;
+  color: #000000;
+  background-color: #ffffff;
+  padding: 5px 20px;
+  cursor: pointer;
+  text-decoration: none;
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+}
+
+.add-artwork:hover,
+.delete-artwork:hover {
+  color: orange;
+  text-decoration: underline;
+}
+
+.auction-name {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.interests-images::-webkit-scrollbar {
+  height: 8px;
+}
+
+.interests-images::-webkit-scrollbar-thumb {
+  background-color: #e5a23b;
+  border-radius: 4px;
+}
+
+.interests-images::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+}

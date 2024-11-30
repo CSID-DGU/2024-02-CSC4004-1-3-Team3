@@ -51,14 +51,14 @@ const Author = () => {
       <div className="sort-filter">
         <span
           className={`sort-item ${!isPopular ? 'active' : ''}`}
-          onClick={() => setIsPopular(false)} // 최신순 클릭
+          onClick={() => setIsPopular(false)}
         >
           최신순
         </span>
         <span> | </span>
         <span
           className={`sort-item ${isPopular ? 'active' : ''}`}
-          onClick={() => setIsPopular(true)} // 인기순 클릭
+          onClick={() => setIsPopular(true)}
         >
           인기순
         </span>
@@ -73,7 +73,7 @@ const Author = () => {
               <h3 className="art-title">{item.title}</h3> {/* 작가 이름 표시 */}
               <div className="art-followers">
                 <span className="follower-icon">👥</span>
-                <span className="follower-count">{item.followers}</span> {/* 팔로워 수 표시 */}
+                <span className="follower-count">{item.followers}</span>
               </div>
             </div>
           </div>

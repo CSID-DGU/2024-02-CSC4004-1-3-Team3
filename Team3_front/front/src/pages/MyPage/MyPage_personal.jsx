@@ -14,7 +14,6 @@ function MyPage_personal() {
       return;
     }
 
-    // 쿼리 파라미터 방식으로 URL 수정
     fetch(`https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/mypage?userId=${userId}`)
       .then(response => response.json())
       .then(data => {
@@ -66,7 +65,6 @@ function MyPage_personal() {
         <div className="profile-info">
           <p>아이디: {userData.id}</p>
           <p>이메일: {userData.email}</p>
-          <p>이름: {userData.name}</p>
         </div>
       </div>
 
@@ -112,4 +110,3 @@ function MyPage_personal() {
 }
 
 export default MyPage_personal;
- 
