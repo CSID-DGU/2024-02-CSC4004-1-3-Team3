@@ -16,7 +16,8 @@ function WorkList({ selectedType, currentPage }) {
   useEffect(() => {
     const fetchWorks = async () => {
       try {
-        const response = await fetch(`${baseURL}/picture`);
+        const userId = localStorage.getItem('userId');
+        const response = await fetch(`${baseURL}/picture?userId=${userId}`);
         const data = await response.json();
 
         if (data.success && Array.isArray(data.responseDto)) {
