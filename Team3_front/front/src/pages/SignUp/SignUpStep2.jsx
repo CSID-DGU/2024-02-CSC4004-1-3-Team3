@@ -10,18 +10,47 @@ function SignUpStep2() {
     isAuthor: false,
   });
 
-  const [isPersonalMember, setIsPersonalMember] = useState(true); // 개인/예술가 선택 상태
-  const [agreeTerms1, setAgreeTerms1] = useState(false); // 필수 약관 1
-  const [agreeTerms2, setAgreeTerms2] = useState(false); // 필수 약관 2
-  const [agreeMarketing, setAgreeMarketing] = useState(false); // 선택 약관
-  const [agreeAll, setAgreeAll] = useState(false); // 전체 동의
+  const [isPersonalMember, setIsPersonalMember] = useState(true);
+  const [agreeTerms1, setAgreeTerms1] = useState(false);
+  const [agreeTerms2, setAgreeTerms2] = useState(false);
+  const [agreeMarketing, setAgreeMarketing] = useState(false);
+  const [agreeAll, setAgreeAll] = useState(false);
 
-  const handleMemberTypeChange = isPersonal => {
-    setIsPersonalMember(isPersonal);
-    setFormData(prevData => ({
-      ...prevData,
-      isAuthor: !isPersonal, // 개인회원: false, 예술가 회원: true
-    }));
+  const handleSubmit = async e => {
+    e.preventDefault();
+
+    if (!agreeTerms1 || !agreeTerms2) {
+      alert('필수 약관에 동의해야 합니다.');
+      return;
+    }
+
+    try {
+      console.log('요청 데이터:', formData);
+
+      const response = await fetch(
+        'https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/signup',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer <YOUR_ACCESS_TOKEN>',
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+      console.log('서버 응답 데이터:', data);
+
+      if (response.ok && data.success) {
+        alert('회원가입 성공: ' + data.message);
+      } else {
+        alert('회원가입 실패: ' + (data.msg || '알 수 없는 오류가 발생했습니다.'));
+      }
+    } catch (error) {
+      console.error('회원가입 요청 중 오류 발생:', error);
+      alert('회원가입 중 문제가 발생했습니다.');
+    }
   };
 
   const handleCheckboxChange = e => {
@@ -44,35 +73,12 @@ function SignUpStep2() {
     }
   };
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-
-    if (!agreeTerms1 || !agreeTerms2) {
-      alert('필수 약관에 동의해야 합니다.');
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        'https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/signup',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData),
-        }
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert('회원가입 성공: ' + data.message);
-      } else {
-        alert('회원가입 실패: ' + data.msg);
-      }
-    } catch (error) {
-      console.error('회원가입 요청 중 오류 발생:', error);
-      alert('회원가입 중 문제가 발생했습니다.');
-    }
+  const handleMemberTypeChange = isPersonal => {
+    setIsPersonalMember(isPersonal);
+    setFormData(prevData => ({
+      ...prevData,
+      isAuthor: !isPersonal, // 개인회원: false, 예술가 회원: true
+    }));
   };
 
   const isSubmitDisabled = !agreeTerms1 || !agreeTerms2;

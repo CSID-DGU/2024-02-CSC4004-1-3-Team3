@@ -33,23 +33,21 @@ const Author = () => {
   };
 
   useEffect(() => {
-    // API로부터 데이터 로드 (첫 두 박스)
     fetch('https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/author?follow=true')
       .then(res => res.json())
       .then(data => {
-        const updatedItems = items.map(item => {
-          if (item.isAPI) {
-            const apiItem = data.responseDto.find(apiItem => apiItem.id === item.id);
-            if (apiItem) {
-              return { ...item, followers: apiItem.followers || item.followers };
+        setItems(prevItems =>
+          prevItems.map(item => {
+            if (item.isAPI) {
+              const apiItem = data.responseDto.find(apiItem => apiItem.id === item.id);
+              return { ...item, followers: apiItem?.followers || item.followers };
             }
-          }
-          return item;
-        });
-        setItems(updatedItems);
+            return item;
+          })
+        );
       })
       .catch(error => console.error('Error fetching API:', error));
-  }, []);
+  }, []); // 빈 배열로 유지
 
   return (
     <div className="container">
