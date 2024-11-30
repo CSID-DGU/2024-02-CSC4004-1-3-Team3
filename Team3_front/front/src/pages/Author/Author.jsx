@@ -5,16 +5,8 @@ import './Author.css';
 const Author = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-  const [items, setItems] = useState([
-    { id: 1, title: '김민설1', followers: 10, image: 'path/to/image1.jpg', isAPI: true },
-    { id: 2, title: '김민설2', followers: 25, image: 'path/to/image2.jpg', isAPI: true },
-    { id: 3, title: '김민설3', followers: 34, image: 'path/to/image3.jpg', isAPI: false },
-    { id: 4, title: '김민설4', followers: 15, image: 'path/to/image4.jpg', isAPI: false },
-    { id: 5, title: '김민설5', followers: 45, image: 'path/to/image5.jpg', isAPI: false },
-    { id: 6, title: '김민설6', followers: 18, image: 'path/to/image6.jpg', isAPI: false },
-    { id: 7, title: '김민설7', followers: 20, image: 'path/to/image7.jpg', isAPI: false },
-    { id: 8, title: '김민설8', followers: 8, image: 'path/to/image8.jpg', isAPI: false },
-  ]);
+  const [items, setItems] = useState([]);
+  const [isPopular, setIsPopular] = useState(false); // 인기순 활성화 여부
 
   const openModal = index => {
     setSelectedItem(items[index]);
@@ -33,41 +25,55 @@ const Author = () => {
   };
 
   useEffect(() => {
+    // API 호출로 데이터 가져오기
     fetch('https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/author?follow=true')
       .then(res => res.json())
       .then(data => {
-        setItems(prevItems =>
-          prevItems.map(item => {
-            if (item.isAPI) {
-              const apiItem = data.responseDto.find(apiItem => apiItem.id === item.id);
-              return { ...item, followers: apiItem?.followers || item.followers };
-            }
-            return item;
-          })
-        );
+        const apiItems = data.responseDto.map(apiItem => ({
+          id: apiItem.id,
+          title: apiItem.name,
+          followers: apiItem.followerCount || 0, // 팔로워 수가 0일 때도 0으로 설정
+          image: 'path/to/image.jpg', // 이미지 경로는 예시로 설정
+          isAPI: true,
+        }));
+        setItems(apiItems);
       })
       .catch(error => console.error('Error fetching API:', error));
-  }, []); // 빈 배열로 유지
+  }, []);
+
+  // 정렬 처리 (isPopular 상태에 따라)
+  const sortedItems = isPopular
+    ? [...items].sort((a, b) => b.followers - a.followers) // 팔로워 수 기준 내림차순
+    : items; // 최신순(원래 순서)
 
   return (
     <div className="container">
       <div className="sort-filter">
-        <span className="sort-item active">최신순</span>
+        <span
+          className={`sort-item ${!isPopular ? 'active' : ''}`}
+          onClick={() => setIsPopular(false)} // 최신순 클릭
+        >
+          최신순
+        </span>
         <span> | </span>
-        <span className="sort-item">인기순</span>
+        <span
+          className={`sort-item ${isPopular ? 'active' : ''}`}
+          onClick={() => setIsPopular(true)} // 인기순 클릭
+        >
+          인기순
+        </span>
       </div>
       <div className="art-grid">
-        {items.map((item, index) => (
+        {sortedItems.map((item, index) => (
           <div key={index} className="art-card" onClick={() => openModal(index)}>
             <div className="art-image">
               <img src={item.image} alt={item.title} style={{ width: '100%', height: '100%' }} />
             </div>
             <div className="art-text">
-              <h3 className="art-title">{item.title}</h3>
-              <p className="art-details">{item.details}</p>
+              <h3 className="art-title">{item.title}</h3> {/* 작가 이름 표시 */}
               <div className="art-followers">
                 <span className="follower-icon">👥</span>
-                <span className="follower-count">{item.followers}</span>
+                <span className="follower-count">{item.followers}</span> {/* 팔로워 수 표시 */}
               </div>
             </div>
           </div>
