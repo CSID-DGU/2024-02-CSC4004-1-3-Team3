@@ -38,8 +38,10 @@ function Login_modal({ isOpen, onClose }) {
 
       if (data.success && data.responseDto?.id) {
         localStorage.setItem('userId', data.responseDto.id);
+        localStorage.setItem('isAuthor', data.responseDto.author); // 로그인한 사용자의 author 상태 저장
         alert('로그인 성공!');
         onClose();
+        navigate('/mypage'); // mypage로 이동
       } else {
         console.error('로그인 실패:', data);
         alert(`로그인 실패: ${data.error || '알 수 없는 오류'}`);
