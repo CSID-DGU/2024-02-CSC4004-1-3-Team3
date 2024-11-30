@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Toast from './Toast';
 import './Modal.css';
 
-const Modal = ({ show, onClose, selectedItem }) => {
+const Modal = ({ show, onClose, selectedItem, updateFollowers }) => {
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [followers, setFollowers] = useState(selectedItem?.followers || 0);
@@ -12,32 +12,27 @@ const Modal = ({ show, onClose, selectedItem }) => {
 
     try {
       const userId = 1; // 테스트용 사용자 ID
+      const authorId = selectedItem.id;
 
-      console.log('팔로우 요청 데이터:', {
-        userId: userId,
-        authorId: selectedItem.id,
-      });
+      // GET 요청 URL에 파라미터 추가
+      const url = `https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/author?follow=true&userId=${userId}&authorId=${authorId}`;
+      console.log('팔로우 요청 URL:', url);
 
       // API 요청
-      const response = await fetch(
-        'https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/author',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            userId: userId,
-            authorId: selectedItem.id,
-          }),
-        }
-      );
+      const response = await fetch(url, {
+        method: 'GET', // GET 요청
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
       const result = await response.json();
       console.log('API 응답 데이터:', result);
 
       if (response.ok && result.success) {
-        setFollowers(prev => prev + 1);
+        const newFollowersCount = followers + 1;
+        setFollowers(newFollowersCount); // 모달 내부 팔로워 수 업데이트
+        updateFollowers(selectedItem.id, newFollowersCount); // Author 컴포넌트에 업데이트
         setToastMessage('팔로우 요청이 성공했습니다!');
       } else {
         console.error('API 요청 실패:', result);
@@ -47,7 +42,7 @@ const Modal = ({ show, onClose, selectedItem }) => {
       console.error('네트워크 오류:', error);
       setToastMessage('네트워크 오류가 발생했습니다.');
     } finally {
-      setShowToast(true);
+      setShowToast(true); // 토스트 알림 표시
     }
   };
 

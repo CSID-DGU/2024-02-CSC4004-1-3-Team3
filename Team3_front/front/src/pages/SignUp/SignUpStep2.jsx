@@ -7,10 +7,9 @@ function SignUpStep2() {
     loginId: '',
     loginPassword: '',
     userEmail: '',
-    isAuthor: false,
+    isAuthor: false, // API에서 요구하는 필드만 사용
   });
 
-  const [isPersonalMember, setIsPersonalMember] = useState(true);
   const [agreeTerms1, setAgreeTerms1] = useState(false);
   const [agreeTerms2, setAgreeTerms2] = useState(false);
   const [agreeMarketing, setAgreeMarketing] = useState(false);
@@ -19,21 +18,33 @@ function SignUpStep2() {
   const handleSubmit = async e => {
     e.preventDefault();
 
+    // 필수 약관 동의 여부 확인
     if (!agreeTerms1 || !agreeTerms2) {
       alert('필수 약관에 동의해야 합니다.');
+      return;
+    }
+
+    // 비어 있는 필드 확인
+    if (
+      !formData.userName.trim() ||
+      !formData.loginId.trim() ||
+      !formData.loginPassword.trim() ||
+      !formData.userEmail.trim()
+    ) {
+      alert('모든 필드를 입력해야 합니다.');
       return;
     }
 
     try {
       console.log('요청 데이터:', formData);
 
+      // API 요청
       const response = await fetch(
         'https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/signup',
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: 'Bearer <YOUR_ACCESS_TOKEN>',
           },
           body: JSON.stringify(formData),
         }
@@ -41,18 +52,35 @@ function SignUpStep2() {
 
       const data = await response.json();
       console.log('서버 응답 데이터:', data);
+      console.log('응답 상태 코드:', response.status);
+      console.log('응답 데이터:', data);
+      console.log('전송 데이터:', formData);
+      console.log('에러 내용:', data.error);
 
       if (response.ok && data.success) {
         alert('회원가입 성공: ' + data.message);
+        // 성공 시 폼 초기화
+        setFormData({
+          userName: '',
+          loginId: '',
+          loginPassword: '',
+          userEmail: '',
+          isAuthor: false,
+        });
+        setAgreeAll(false);
+        setAgreeTerms1(false);
+        setAgreeTerms2(false);
+        setAgreeMarketing(false);
       } else {
         alert('회원가입 실패: ' + (data.msg || '알 수 없는 오류가 발생했습니다.'));
       }
     } catch (error) {
       console.error('회원가입 요청 중 오류 발생:', error);
-      alert('회원가입 중 문제가 발생했습니다.');
+      alert('회원가입 중 문제가 발생했습니다. 다시 시도해주세요.');
     }
   };
 
+  // 약관 체크박스 상태 변경
   const handleCheckboxChange = e => {
     const { name, checked } = e.target;
 
@@ -73,29 +101,30 @@ function SignUpStep2() {
     }
   };
 
-  const handleMemberTypeChange = isPersonal => {
-    setIsPersonalMember(isPersonal);
+  // 회원 유형 변경
+  const handleMemberTypeChange = isAuthor => {
     setFormData(prevData => ({
       ...prevData,
-      isAuthor: !isPersonal, // 개인회원: false, 예술가 회원: true
+      isAuthor, // 예술가 회원(true) 또는 개인 회원(false)
     }));
   };
 
+  // 제출 버튼 비활성화 조건
   const isSubmitDisabled = !agreeTerms1 || !agreeTerms2;
 
   return (
     <div className="signup-page">
-      <h2 className="signup-title">{isPersonalMember ? '개인회원 가입' : '예술가 회원 가입'}</h2>
+      <h2 className="signup-title">{formData.isAuthor ? '예술가 회원 가입' : '개인회원 가입'}</h2>
       <div className="signup-tabs">
         <button
-          className={`tab ${isPersonalMember ? 'active' : ''}`}
-          onClick={() => handleMemberTypeChange(true)}
+          className={`tab ${!formData.isAuthor ? 'active' : ''}`}
+          onClick={() => handleMemberTypeChange(false)}
         >
           개인 회원
         </button>
         <button
-          className={`tab ${!isPersonalMember ? 'active' : ''}`}
-          onClick={() => handleMemberTypeChange(false)}
+          className={`tab ${formData.isAuthor ? 'active' : ''}`}
+          onClick={() => handleMemberTypeChange(true)}
         >
           예술가 회원
         </button>
