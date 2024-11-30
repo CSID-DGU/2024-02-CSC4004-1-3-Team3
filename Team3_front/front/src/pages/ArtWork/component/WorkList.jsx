@@ -16,7 +16,8 @@ function WorkList({ selectedType, currentPage }) {
   useEffect(() => {
     const fetchWorks = async () => {
       try {
-        const response = await fetch(`${baseURL}/picture`);
+        const userId = localStorage.getItem('userId');
+        const response = await fetch(`${baseURL}/picture?userId=${userId}`);
         const data = await response.json();
 
         if (data.success && Array.isArray(data.responseDto)) {
@@ -47,6 +48,8 @@ function WorkList({ selectedType, currentPage }) {
 
     fetchWorks();
   }, []);
+
+  const userId = localStorage.getItem('userId');
 
   // 선택된 타입에 따라 작품 데이터를 필터링하고 원본 배열의 인덱스를 유지한 새로운 배열 생성
   const filteredItems =
@@ -84,19 +87,22 @@ function WorkList({ selectedType, currentPage }) {
     setWorks(updatedWorks);
 
     try {
-      const response = await fetch(`${baseURL}/works/${updatedWorks[workIndex].id}/like`, {
+      const response = await fetch(`${baseURL}/picture`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ liked: updatedWorks[workIndex].liked }),
+        body: JSON.stringify({
+          userId: Number(userId),
+          pictureId: updatedWorks[workIndex].id,
+        }),
       });
+
       if (!response.ok) {
         throw new Error('Failed to update like status');
       }
     } catch (error) {
       console.error('Failed to update like status:', error);
-      // 서버 요청 실패 시 원래 상태로 복구
       updatedWorks[workIndex].liked = originalLiked;
       setWorks(updatedWorks);
     }
