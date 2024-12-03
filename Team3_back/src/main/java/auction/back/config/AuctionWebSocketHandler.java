@@ -44,6 +44,23 @@ public class AuctionWebSocketHandler extends TextWebSocketHandler {
         }
     }
 
+    @Override
+    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        String auctionId = extractAuctionId(session);
+        if (auctionId != null) {
+            // 메시지 처리 로직
+            broadcastAuctionUpdate(Long.parseLong(auctionId), message.getPayload());
+        }
+    }
+
+    @Override
+    public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
+        System.err.println("Transport error: " + exception.getMessage());
+        if (session.isOpen()) {
+            session.close();
+        }
+    }
+
     private String extractAuctionId(WebSocketSession session) {
         String path = session.getUri().getPath();
         String[] pathParts = path.split("/");
