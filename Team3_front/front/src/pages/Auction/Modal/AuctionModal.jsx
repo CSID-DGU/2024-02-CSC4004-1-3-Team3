@@ -26,8 +26,8 @@ const AuctionModal = ({ show, onClose, item }) => {
           setMainImageUrl(result.responseDto.pictureUrls[0]);
 
           // 2. 상세 정보를 받은 후 웹소켓 연결
-          const sock = new SockJS(
-            `https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/auction/${item.id}`
+          const sock = new WebSocket(
+            `wss://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/auction/${item.id}`
           );
 
           sock.onopen = () => {
