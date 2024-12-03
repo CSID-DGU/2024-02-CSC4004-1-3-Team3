@@ -11,7 +11,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(new AuctionWebSocketHandler(), "/auction/*")
-                .setAllowedOrigins("*")
+                .setAllowedOrigins("https://web-auction-m3egx220d3e063ff.sel4.cloudtype.app")
                 .withSockJS();
     }
 }

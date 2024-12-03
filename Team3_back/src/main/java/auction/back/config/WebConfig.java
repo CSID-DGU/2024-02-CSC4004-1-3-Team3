@@ -16,7 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(final CorsRegistry registry ){
         registry.addMapping("/**")
-                .allowedOriginPatterns("*")
+                .allowedOrigins("https://web-auction-m3egx220d3e063ff.sel4.cloudtype.app")
                 .allowedMethods("PATCH","GET","POST","PUT","DELETE","HEAD","OPTIONS")
                 .allowedHeaders("*")
                 .exposedHeaders("*")
