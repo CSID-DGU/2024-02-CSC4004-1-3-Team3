@@ -8,9 +8,17 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 @Configuration
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
+    private final AuctionWebSocketHandler auctionWebSocketHandler;
+
+    public WebSocketConfig(AuctionWebSocketHandler auctionWebSocketHandler) {
+        this.auctionWebSocketHandler = auctionWebSocketHandler;
+    }
+
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new AuctionWebSocketHandler(), "/auction")
-                .setAllowedOrigins("*");
+        registry
+                .addHandler(auctionWebSocketHandler, "/auction")
+                .setAllowedOrigins("*")
+                .withSockJS();  // SockJS 폴백 지원 추가
     }
 }
