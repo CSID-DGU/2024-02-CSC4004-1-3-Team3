@@ -1,5 +1,6 @@
 package auction.back.controller;
 
+import auction.back.dto.request.BidAuctionRequestDto;
 import auction.back.dto.response.ResponseDto;
 import auction.back.service.AuctionService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,12 @@ public class AuctionController {
     }
 
     @GetMapping("/{auctionId}")
-    public ResponseDto<?> finishView(@PathVariable Long auctionId){
+    public ResponseDto<?> detailView(@PathVariable Long auctionId){
         return new ResponseDto<>(auctionService.detailView(auctionId));
+    }
+
+    @PostMapping("")
+    public ResponseDto<?> bidAuction(@RequestBody BidAuctionRequestDto bidAuctionRequestDto) {
+        return new ResponseDto<>(auctionService.bidAuction(bidAuctionRequestDto));
     }
 }

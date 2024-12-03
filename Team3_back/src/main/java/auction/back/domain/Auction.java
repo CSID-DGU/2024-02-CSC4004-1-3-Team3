@@ -34,6 +34,9 @@ public class Auction {
     @Column(nullable = true)
     private LocalDateTime finishAt;
 
+    @Column(nullable = true)
+    private Long lastBidUser;
+
 
     // ----------------------------------------------------
     @OneToOne
@@ -42,6 +45,14 @@ public class Auction {
 
     @OneToMany(mappedBy = "auction")
     private List<Mapping> mappingList;
+
+    // -------------------------------
+
+    public void updateBid(String bidPrice, Long userId) {
+        this.ingPrice = bidPrice;
+        this.endPrice = bidPrice;
+        this.lastBidUser = userId;
+    }
 
     @Builder
     public Auction(String startPrice, String ingPrice, String endPrice,
