@@ -29,33 +29,6 @@ public class AuctionService {
     private final AuctionWebSocketHandler webSocketHandler;
     private final ObjectMapper objectMapper;
 
-//    @Transactional
-//    public boolean bidAuction(BidAuctionRequestDto bidAuctionRequestDto) {
-//        User user = userRepository.findById(bidAuctionRequestDto.userId())
-//                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-//
-//        Auction auction = auctionRepository.findById(bidAuctionRequestDto.auctionId())
-//                .orElseThrow(() -> new EntityNotFoundException("Auction not found"));
-//
-//        // 현재 진행중인 경매인지 확인
-//        if (auction.getFinishAt().isBefore(LocalDateTime.now())) {
-//            throw new IllegalStateException("Auction is already finished");
-//        }
-//
-//        // 입찰가가 현재가보다 높은지 확인
-//        long currentPrice = Long.parseLong(auction.getIngPrice());
-//        long bidPrice = Long.parseLong(bidAuctionRequestDto.bidPrice());
-//
-//        if (bidPrice <= currentPrice) {
-//            throw new IllegalArgumentException("Bid price must be higher than current price");
-//        }
-//
-//        // 입찰 정보 업데이트
-//        auction.updateBid(bidAuctionRequestDto.bidPrice(), bidAuctionRequestDto.userId());
-//        auctionRepository.save(auction);
-//
-//        return true;
-//    }
     @Transactional
     public boolean bidAuction(BidAuctionRequestDto bidAuctionRequestDto) {
         User user = userRepository.findById(bidAuctionRequestDto.userId())
@@ -78,7 +51,6 @@ public class AuctionService {
         auction.updateBid(bidAuctionRequestDto.bidPrice(), bidAuctionRequestDto.userId());
         auctionRepository.save(auction);
 
-        // WebSocket을 통해 실시간 업데이트 전송
         try {
             AuctionUpdateMessage updateMessage = new AuctionUpdateMessage(
                     auction.getId(),
@@ -86,10 +58,11 @@ public class AuctionService {
                     auction.getLastBidUser()
             );
             String message = objectMapper.writeValueAsString(updateMessage);
-            webSocketHandler.broadcastMessage(new TextMessage(message));
+            webSocketHandler.broadcastAuctionUpdate(auction.getId(), message);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+
 
         return true;
     }
@@ -111,6 +84,7 @@ public class AuctionService {
     public AuctionDetailViewResponseDto detailView(Long auctionId) {
         Auction auction = auctionRepository.findById(auctionId)
                 .orElseThrow(() -> new EntityNotFoundException("Auction not found with id: " + auctionId));
+
         return AuctionDetailViewResponseDto.of(auction);
     }
 }
