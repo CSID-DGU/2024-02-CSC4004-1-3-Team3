@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import './AuctionModal.css';
 import { useNavigate } from 'react-router-dom';
 import SockJS from 'sockjs-client';
-import Stomp from 'stompjs';
+import { Client } from '@stomp/stompjs';
 
 const AuctionModal = ({ show, onClose, item }) => {
   const navigate = useNavigate();
@@ -26,16 +26,10 @@ const AuctionModal = ({ show, onClose, item }) => {
           setAuctionItem(result.responseDto);
           setMainImageUrl(result.responseDto.pictureUrls[0]);
 
-          // STOMP WebSocket 연결
-          const socket = new SockJS(`${baseURL}/auction`);
-          const client = Stomp.over(socket);
-
-          client.connect(
-            {},
-            () => {
+          const client = new Client({
+            webSocketFactory: () => new SockJS(`${baseURL}/auction/${item.id}`),
+            onConnect: () => {
               console.log('STOMP WebSocket 연결 성공');
-
-              // 특정 경매 토픽 구독
               client.subscribe(`/topic/auction/${item.id}`, message => {
                 const updateData = JSON.parse(message.body);
                 setAuctionItem(prev => ({
@@ -44,13 +38,14 @@ const AuctionModal = ({ show, onClose, item }) => {
                   lastBidUser: updateData.lastBidUserId,
                 }));
               });
-
-              setStompClient(client);
             },
-            error => {
-              console.error('STOMP WebSocket 연결 실패:', error);
-            }
-          );
+            onStompError: frame => {
+              console.error('STOMP 에러:', frame.headers['message']);
+            },
+          });
+
+          client.activate();
+          setStompClient(client);
         }
       } catch (error) {
         console.error('Error:', error);
@@ -62,9 +57,7 @@ const AuctionModal = ({ show, onClose, item }) => {
     // 컴포넌트 언마운트 시 연결 해제
     return () => {
       if (stompClient) {
-        stompClient.disconnect(() => {
-          console.log('STOMP WebSocket 연결 종료');
-        });
+        stompClient.deactivate();
       }
     };
   }, [show, item.id]);
@@ -87,10 +80,11 @@ const AuctionModal = ({ show, onClose, item }) => {
     };
 
     try {
-      // STOMP를 통해 입찰 메시지 전송
-      stompClient.send('/app/bid', {}, JSON.stringify(bidData));
+      stompClient.publish({
+        destination: '/app/bid',
+        body: JSON.stringify(bidData),
+      });
 
-      // 입찰 성공 알림
       alert('입찰이 성공적으로 완료되었습니다.');
       setBidAmount('');
     } catch (error) {
