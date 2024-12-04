@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
@@ -11,12 +12,13 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 @Configuration
 @EnableWebSocket
 @RequiredArgsConstructor
+@EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketConfigurer {
     private final AuctionWebSocketHandler auctionWebSocketHandler;
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(auctionWebSocketHandler, "/auction/*")
-                .setAllowedOrigins("https://web-auction-m3egx220d3e063ff.sel4.cloudtype.app")
+        registry.addHandler(auctionWebSocketHandler, "/auction")
+                .setAllowedOrigins("*")
                 .withSockJS()
                 .setClientLibraryUrl("/sockjs-client.js")
                 .setWebSocketEnabled(true)
