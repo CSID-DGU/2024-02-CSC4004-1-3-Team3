@@ -27,7 +27,7 @@ const AuctionModal = ({ show, onClose, item }) => {
           setMainImageUrl(result.responseDto.pictureUrls[0]);
 
           const client = new Client({
-            webSocketFactory: () => new SockJS(`${baseURL}/auction/${item.id}`),
+            webSocketFactory: () => new SockJS(`${baseURL}/app/${item.id}`),
             onConnect: () => {
               console.log('STOMP WebSocket 연결 성공');
               client.subscribe(`/topic/auction/${item.id}`, message => {
