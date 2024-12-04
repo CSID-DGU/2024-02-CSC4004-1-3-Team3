@@ -63,7 +63,6 @@ public class AuctionService {
             e.printStackTrace();
         }
 
-
         return true;
     }
 
