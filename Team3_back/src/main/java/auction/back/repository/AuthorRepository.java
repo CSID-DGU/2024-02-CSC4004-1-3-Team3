@@ -14,12 +14,11 @@ public interface AuthorRepository extends JpaRepository<User, Long> {
     @Query("SELECT u.id, u.userName, COUNT(f), u.userImage FROM User u LEFT JOIN u.followerList f WHERE u.isAuthor = true GROUP BY u ORDER BY COUNT(f) DESC")
     List<Object[]> findTopAuthorsWithFollowerCount();
 
-    @Query("SELECT u FROM User u WHERE u.isAuthor = true ORDER BY u.userName ASC")
-    List<User> findAllAuthorsOrderByName();
+    @Query("SELECT u, COUNT(f) FROM User u LEFT JOIN Follow f ON u = f.author WHERE u.isAuthor = true GROUP BY u ORDER BY u.userName")
+    List<Object[]> findAllAuthorsOrderByName();
 
-    @Query("SELECT u FROM User u WHERE u.isAuthor = true ORDER BY " +
-            "(SELECT COUNT(f) FROM Follow f WHERE f.author = u) DESC, u.userName ASC")
-    List<User> findAllAuthorsOrderByFollowCountAndName();
+    @Query("SELECT u, COUNT(f) FROM User u LEFT JOIN Follow f ON u = f.author WHERE u.isAuthor = true GROUP BY u ORDER BY COUNT(f) DESC, u.userName")
+    List<Object[]> findAllAuthorsOrderByFollowCountAndName();
 
     @Query("SELECT COUNT(f) FROM Follow f WHERE f.author.id = :authorId")
     int countFollowersByAuthorId(@Param("authorId") Long authorId);

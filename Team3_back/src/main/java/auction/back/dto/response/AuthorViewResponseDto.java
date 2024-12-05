@@ -13,13 +13,15 @@ public class AuthorViewResponseDto {
     private String userName;
     private String userEmail;
     private String userImage;
+    private Long followersCount;
 
-    public static AuthorViewResponseDto of(User author) {
+    public static AuthorViewResponseDto of(User author, Long followersCount) {
         return AuthorViewResponseDto.builder()
                 .id(author.getId())
                 .userName(author.getUserName())
                 .userEmail(author.getUserEmail())
                 .userImage(author.getUserImage())
+                .followersCount(followersCount)
                 .build();
     }
 }

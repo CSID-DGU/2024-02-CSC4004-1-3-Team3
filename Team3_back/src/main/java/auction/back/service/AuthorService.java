@@ -55,15 +55,15 @@ public class AuthorService {
     }
 
     public List<AuthorViewResponseDto> mainView(Boolean sortByFollow) {
-        List<User> authors;
+        List<Object[]> results;
         if (Boolean.TRUE.equals(sortByFollow)) {
-            authors = authorRepository.findAllAuthorsOrderByFollowCountAndName();
+            results = authorRepository.findAllAuthorsOrderByFollowCountAndName();
         } else {
-            authors = authorRepository.findAllAuthorsOrderByName();
+            results = authorRepository.findAllAuthorsOrderByName();
         }
 
-        return authors.stream()
-                .map(AuthorViewResponseDto::of)
+        return results.stream()
+                .map(result -> AuthorViewResponseDto.of((User)result[0], (Long)result[1]))
                 .collect(Collectors.toList());
     }
 
