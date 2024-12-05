@@ -8,5 +8,5 @@ import lombok.Getter;
 public class AuctionUpdateMessage {
     private Long auctionId;
     private String currentPrice;
-    private Long lastBidUserId;
+    private String lastBidUser;
 }
