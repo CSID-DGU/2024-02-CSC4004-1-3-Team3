@@ -64,7 +64,11 @@ const Modal = ({ show, onClose, selectedItem, updateFollowers }) => {
           </button>
 
           <div className="Author-modal-image">
-            <img src={selectedItem.recentPictures?.[0].imageUrl} className="Author-artist-image" />
+            {selectedItem.recentPictures && selectedItem.recentPictures.length > 0 ? (
+              <img src={selectedItem.recentPictures[0].imageUrl} className="Author-artist-image" />
+            ) : (
+              <div className="Author-placeholder-image">No Image Available</div>
+            )}
           </div>
 
           <div className="Author-modal-header">
