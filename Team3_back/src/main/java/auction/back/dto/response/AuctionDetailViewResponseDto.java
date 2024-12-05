@@ -3,6 +3,7 @@ package auction.back.dto.response;
 import auction.back.domain.Auction;
 import auction.back.domain.Picture;
 import auction.back.domain.PictureImg;
+import auction.back.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class AuctionDetailViewResponseDto {
     private String startPrice;
     private String ingPrice;
     private String endPrice;
+    private String lastBidUser;
     private LocalDateTime startAt;
     private LocalDateTime finishAt;
     private PictureDetailDto picture;
@@ -39,11 +41,12 @@ public class AuctionDetailViewResponseDto {
         private String authorName;
     }
 
-    public static AuctionDetailViewResponseDto of(Auction auction) {
+    public static AuctionDetailViewResponseDto of(Auction auction, User user) {
         return AuctionDetailViewResponseDto.builder()
                 .id(auction.getId())
                 .startPrice(auction.getStartPrice())
                 .ingPrice(auction.getIngPrice())
+                .lastBidUser(user != null ? user.getUserName() : null)  // user가 null일 수 있음
                 .endPrice(auction.getEndPrice())
                 .startAt(auction.getStartAt())
                 .finishAt(auction.getFinishAt())

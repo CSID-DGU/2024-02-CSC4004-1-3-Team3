@@ -84,6 +84,13 @@ public class AuctionService {
         Auction auction = auctionRepository.findById(auctionId)
                 .orElseThrow(() -> new EntityNotFoundException("Auction not found with id: " + auctionId));
 
-        return AuctionDetailViewResponseDto.of(auction);
+        if (auction.getLastBidUser() != null) {
+            User lastBidUser = userRepository.findById(auction.getLastBidUser())
+                    .orElseThrow(() -> new EntityNotFoundException("Last bid user not found"));
+            return AuctionDetailViewResponseDto.of(auction, lastBidUser);
+        }
+
+        // lastBidUser가 없는 경우
+        return AuctionDetailViewResponseDto.of(auction, null);
     }
 }
