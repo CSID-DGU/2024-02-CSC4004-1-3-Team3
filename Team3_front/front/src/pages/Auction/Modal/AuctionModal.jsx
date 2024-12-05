@@ -157,6 +157,11 @@ const AuctionModal = ({ show, onClose, item }) => {
               {auctionItem.ingPrice}원
             </div>
 
+            <div className="current-bid">
+              <h3>마지막 입찰자</h3>
+              {auctionItem.lastBidUser}
+            </div>
+
             <div className="bid-actions">
               <input
                 type="number"
