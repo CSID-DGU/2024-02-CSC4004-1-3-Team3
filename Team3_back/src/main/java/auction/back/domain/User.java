@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.List;
@@ -34,7 +35,8 @@ public class User {
     @Column(nullable = false)
     private boolean isAuthor;
 
-    @Column
+    @Column(nullable = false)
+    @ColumnDefault("https://testeset.s3.ap-northeast-2.amazonaws.com/Mask+group.svg")
     private String userImage;
 
     // ---------------------------------------------------
@@ -47,6 +49,9 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private Set<Like> likeSet;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Follow> followerList;
 
     @Builder
     public User(Long id, String loginId, String loginPassword, String userName, String userEmail, String userImage, boolean isAuthor) {

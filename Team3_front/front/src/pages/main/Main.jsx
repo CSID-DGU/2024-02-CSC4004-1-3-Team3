@@ -28,6 +28,7 @@ const Main = () => {
         if (result.success) {
           console.log(result.responseDto);
           setData(result.responseDto);
+          console.log(data);
         }
       } catch (error) {
         console.error('데이터를 가져오는 중 에러 발생:', error);
@@ -59,13 +60,31 @@ const Main = () => {
     setSelectedItem(null);
   };
 
-  const openModal = index => {
-    setSelectedItemAuthor(data.popularAuthors[index]);
+  const openModal = async index => {
+    const selectedAuthor = data.popularAuthors[index];
+    console.log(selectedAuthor);
+    setSelectedItemAuthor(selectedAuthor);
+
+    try {
+      const response = await fetch(
+        `https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/author/${selectedAuthor.id}`
+      );
+      const result = await response.json();
+
+      if (result.success) {
+        // 가져온 상세 정보로 selectedItem 업데이트
+        setSelectedItemAuthor(prev => ({
+          ...prev,
+          ...result.responseDto,
+        }));
+      } else {
+        console.error('작가 정보를 가져오는데 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('작가 정보 조회 중 오류 발생:', error);
+    }
+
     setShowModal(true);
-
-    console.log(data.popularAuthors);
-
-    console.log(selectedItemAuthor);
   };
 
   const closeModal = () => {
@@ -104,7 +123,7 @@ const Main = () => {
               >
                 <div
                   className="item-placeholder"
-                  style={{ backgroundImage: `url(${item.url})` }}
+                  style={{ backgroundImage: `url(${item.url || ''})` }}
                 ></div>
                 <p className="item-title">{item.name}</p>
               </div>
@@ -130,7 +149,7 @@ const Main = () => {
               >
                 <div
                   className="item-placeholder"
-                  style={{ backgroundImage: `url(${auction.url})` }}
+                  style={{ backgroundImage: `url(${auction.url || ''})` }}
                 ></div>
                 <p className="item-title">
                   시작가 {auction.startPrice}원<br />
@@ -153,10 +172,7 @@ const Main = () => {
           <div className="circle-list">
             {data.popularAuthors.map((author, index) => (
               <div key={author.id} className="circle-item" onClick={() => openModal(index)}>
-                <div
-                  className="circle-placeholder"
-                  style={{ backgroundImage: `url(${author.url})` }}
-                ></div>
+                <div className="circle-placeholder"></div>
                 <p className="circle-title">{author.name}</p>
               </div>
             ))}

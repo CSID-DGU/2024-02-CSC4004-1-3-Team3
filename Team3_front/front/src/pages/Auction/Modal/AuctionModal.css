@@ -42,9 +42,10 @@
 .modal-main-image {
   width: 100%;
   padding-bottom: 100%;
-  background-size: cover;
-  background-position: center;
   border: 1px solid #ccc;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .thumbnail-list {
@@ -58,6 +59,9 @@
   height: 50px;
   background-color: #e0e0e0;
   border: 1px solid #ccc;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* 오른쪽 텍스트 및 버튼 섹션 */

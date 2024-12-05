@@ -110,10 +110,9 @@ public class PictureService {
 
         return pictureList.stream()
                 .map(pic -> {
-                    boolean isLiked = false;
-                    if (userId != null) {
-                        isLiked = likeRepository.existsByPictureIdAndUserId(pic.getId(), userId);
-                    }
+                    // userId가 null이면 무조건 false 반환
+                    boolean isLiked = userId != null &&
+                            likeRepository.existsByPictureIdAndUserId(pic.getId(), userId);
                     return PictureViewResponseDto.of(pic, isLiked);
                 })
                 .collect(Collectors.toList());

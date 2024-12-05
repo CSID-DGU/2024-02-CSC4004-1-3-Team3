@@ -16,9 +16,11 @@ public class PictureController {
     public ResponseDto<?> mainView(
             @RequestParam(value = "photo", required = false) Boolean photo,
             @RequestParam(value = "picture", required = false) Boolean picture,
-            @RequestParam(value = "userId", required = false) Long userId
+            @RequestParam(value = "userId", required = false) String userId
     ){
-        return new ResponseDto<>(pictureService.pictureView(photo, picture, userId));
+        // 문자열 "null" 또는 null을 null로 변환
+        Long userIdLong = (userId == null || userId.equals("null")) ? null : Long.parseLong(userId);
+        return new ResponseDto<>(pictureService.pictureView(photo, picture, userIdLong));
     }
 
     @GetMapping("/{pictureId}")

@@ -3,6 +3,7 @@ package auction.back.dto.response;
 import auction.back.domain.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ public class MypageResponseDto {
 
     @Getter
     @Builder
+    @EqualsAndHashCode(of = "id")
     public static class PictureSimpleDto {
         private Long id;
         private String name;
@@ -32,6 +34,7 @@ public class MypageResponseDto {
 
     @Getter
     @Builder
+    @EqualsAndHashCode(of = "id")
     public static class AuctionSimpleDto {
         private Long id;
         private String startPrice;
@@ -64,25 +67,28 @@ public class MypageResponseDto {
     }
 
     public static MypageResponseDto of(User user) {
-        Set<PictureSimpleDto> pictures = user.isAuthor() ?
+        List<PictureSimpleDto> pictures = user.isAuthor() ?
                 user.getPictureList().stream()
                         .map(MypageResponseDto::toPictureSimpleDto)
-                        .collect(Collectors.toSet()) :
+                        .distinct()
+                        .collect(Collectors.toList()) :
                 user.getLikeSet().stream()
                         .map(like -> toPictureSimpleDto(like.getPicture()))
-                        .collect(Collectors.toSet());
+                        .distinct()
+                        .collect(Collectors.toList());
 
-        Set<AuctionSimpleDto> auctions = user.getMappingSet().stream()
+        List<AuctionSimpleDto> auctions = user.getMappingSet().stream()
                 .map(mapping -> toAuctionSimpleDto(mapping.getAuction()))
-                .collect(Collectors.toSet());
+                .distinct()
+                .collect(Collectors.toList());
 
         return MypageResponseDto.builder()
                 .userName(user.getUserName())
                 .loginId(user.getLoginId())
                 .userEmail(user.getUserEmail())
                 .userImage(user.getUserImage())
-                .pictureList(new ArrayList<>(pictures))
-                .auctionList(new ArrayList<>(auctions))
+                .pictureList(pictures)
+                .auctionList(auctions)
                 .build();
     }
 }

@@ -80,6 +80,9 @@
   height: 200px;
   margin-bottom: 10px;
   border-radius: 8px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .item-title {
@@ -108,6 +111,9 @@
   background-color: #e0e0e0;
   border-radius: 50%;
   margin-bottom: 5px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .circle-title {
