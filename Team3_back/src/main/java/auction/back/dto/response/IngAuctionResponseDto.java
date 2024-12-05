@@ -16,14 +16,16 @@ public class IngAuctionResponseDto {
     private String ingPrice;
     private String endPrice;
     private LocalDateTime startAt;
+    private String url;
 
-    public static IngAuctionResponseDto of(Auction auction) {
+    public static IngAuctionResponseDto of(Auction auction, String url) {
         return IngAuctionResponseDto.builder()
                 .id(auction.getId())
                 .startPrice(auction.getStartPrice())
                 .ingPrice(auction.getIngPrice())
                 .endPrice(auction.getEndPrice())
                 .startAt(auction.getStartAt())
+                .url(url)
                 .build();
     }
 }

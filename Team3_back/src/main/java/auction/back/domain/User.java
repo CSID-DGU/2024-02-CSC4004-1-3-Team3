@@ -48,6 +48,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Like> likeSet;
 
+    @OneToMany(mappedBy = "user")
+    private Set<Follow> followerList;
+
     @Builder
     public User(Long id, String loginId, String loginPassword, String userName, String userEmail, String userImage, boolean isAuthor) {
         this.id = id;

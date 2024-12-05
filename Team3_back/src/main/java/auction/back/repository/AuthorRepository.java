@@ -11,8 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface AuthorRepository extends JpaRepository<User, Long> {
-    @Query("SELECT a.author.id as id, a.author.userName as name, COUNT(a.user) as followerCount " +
-            "FROM Follow a GROUP BY a.author.id, a.author.userName ORDER BY COUNT(a.user) DESC")
+    @Query("SELECT u.id, u.userName, COUNT(f), u.userImage FROM User u LEFT JOIN u.followerList f WHERE u.isAuthor = true GROUP BY u ORDER BY COUNT(f) DESC")
     List<Object[]> findTopAuthorsWithFollowerCount();
 
     @Query("SELECT u FROM User u WHERE u.isAuthor = true ORDER BY u.userName ASC")

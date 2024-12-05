@@ -21,8 +21,8 @@ public interface PictureRepository extends JpaRepository<Picture, Long> {
     @Query("SELECT COUNT(l) > 0 FROM Like l WHERE l.picture.id = :pictureId AND l.user.id = :userId")
     boolean existsByPictureIdAndUserId(@Param("pictureId") Long pictureId, @Param("userId") Long userId);
 
-    @Query("SELECT p, COUNT(l) as likeCount FROM Picture p LEFT JOIN p.likeList l GROUP BY p ORDER BY COUNT(l) DESC")
-    List<Object[]> findTopLikedPictures(@Param("limit") int limit);
+    @Query("SELECT p, COUNT(l) FROM Picture p LEFT JOIN p.likeList l GROUP BY p ORDER BY COUNT(l) DESC")
+    List<Object[]> findTopLikedPictures(int limit);
 
     @Query("SELECT p FROM Picture p " +
             "LEFT JOIN FETCH p.pictureImgList " +

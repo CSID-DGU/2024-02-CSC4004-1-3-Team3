@@ -25,9 +25,14 @@ public class MainService {
 
     private List<TopPictureResponseDto> getTopLikedPictures(int limit) {
         List<Object[]> results = pictureRepository.findTopLikedPictures(limit);
-
         return results.stream()
-                .map(result -> TopPictureResponseDto.of((Picture) result[0], (Long) result[1]))
+                .map(result -> {
+                    Picture picture = (Picture) result[0];
+                    Long likeCount = (Long) result[1];
+                    String url = picture.getPictureImgList().isEmpty() ?
+                            null : picture.getPictureImgList().get(0).getUrl();
+                    return TopPictureResponseDto.of(picture, likeCount, url);
+                })
                 .limit(limit)
                 .collect(Collectors.toList());
     }
@@ -36,7 +41,11 @@ public class MainService {
         List<Auction> auctions = auctionRepository.findOngoingAuctions();
         return auctions.stream()
                 .limit(9)
-                .map(IngAuctionResponseDto::of)
+                .map(auction -> {
+                    String url = auction.getPicture().getPictureImgList().isEmpty() ?
+                            null : auction.getPicture().getPictureImgList().get(0).getUrl();
+                    return IngAuctionResponseDto.of(auction, url);
+                })
                 .collect(Collectors.toList());
     }
 

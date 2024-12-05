@@ -16,8 +16,9 @@ public class TopPictureResponseDto {
     private String sizeWidth;
     private Boolean isPhoto;
     private Long likeCount;
+    private String url;
 
-    public static TopPictureResponseDto of(Picture picture, Long likeCount) {
+    public static TopPictureResponseDto of(Picture picture, Long likeCount, String url) {
         return TopPictureResponseDto.builder()
                 .id(picture.getId())
                 .name(picture.getName())
@@ -26,6 +27,7 @@ public class TopPictureResponseDto {
                 .sizeWidth(picture.getSizeWidth())
                 .isPhoto(picture.getIsPhoto())
                 .likeCount(likeCount)
+                .url(url)
                 .build();
     }
 }
