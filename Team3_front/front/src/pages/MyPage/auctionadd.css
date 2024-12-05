@@ -28,8 +28,8 @@
 
 .image-placeholder {
   background-color: #d3d3d3;
-  width: 100%;
-  padding-top: 100%; /* Aspect ratio 1:1 */
+  height: auto;
+  width: 40%;
   position: relative;
   overflow: hidden;
   transition: background-color 0.3s ease; /* Smooth transition */
@@ -43,6 +43,7 @@
 
 .image-placeholder p {
   margin-top: 8px;
+  margin-bottom: 8px;
   font-size: 14px;
   color: #333;
 }
