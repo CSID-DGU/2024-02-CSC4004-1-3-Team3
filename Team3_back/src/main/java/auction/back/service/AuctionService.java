@@ -55,7 +55,7 @@ public class AuctionService {
             AuctionUpdateMessage updateMessage = new AuctionUpdateMessage(
                     auction.getId(),
                     auction.getIngPrice(),
-                    auction.getLastBidUser()
+                    user.getUserName()
             );
             String message = objectMapper.writeValueAsString(updateMessage);
             webSocketHandler.broadcastAuctionUpdate(auction.getId(), message);
