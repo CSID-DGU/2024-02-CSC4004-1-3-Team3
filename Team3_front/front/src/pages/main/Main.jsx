@@ -25,6 +25,7 @@ const Main = () => {
         if (result.success) {
           console.log(result.responseDto);
           setData(result.responseDto);
+          console.log(data);
         }
       } catch (error) {
         console.error('데이터를 가져오는 중 에러 발생:', error);
@@ -80,7 +81,10 @@ const Main = () => {
                 className="item-card-main"
                 onClick={() => handleCardClick(item.id)}
               >
-                <div className="item-placeholder" style={{ backgroundImage: `url(ㅇㄹㄹ)` }}></div>
+                <div
+                  className="item-placeholder"
+                  style={{ backgroundImage: `url(${item.url || ''})` }}
+                ></div>
                 <p className="item-title">{item.name}</p>
               </div>
             ))}
@@ -103,7 +107,10 @@ const Main = () => {
                 className="item-card-main"
                 onClick={() => handleAuctionCardClick(auction)}
               >
-                <div className="item-placeholder"></div>
+                <div
+                  className="item-placeholder"
+                  style={{ backgroundImage: `url(${auction.url || ''})` }}
+                ></div>
                 <p className="item-title">
                   시작가 {auction.startPrice}원<br />
                   현재가 {auction.ingPrice}원
@@ -129,7 +136,10 @@ const Main = () => {
                 className="circle-item"
                 onClick={() => handleAuthorCardClick(author.id)}
               >
-                <div className="circle-placeholder"></div>
+                <div
+                  className="circle-placeholder"
+                  style={{ backgroundImage: `url(${author.url || ''})` }}
+                ></div>
                 <p className="circle-title">{author.name}</p>
               </div>
             ))}
