@@ -4,6 +4,7 @@ import OrangeUnderLine from '../../img/OrangeUnderLine.png';
 import BannerEx from '../../img/BannerEx.png';
 import { useNavigate } from 'react-router-dom';
 import AuctionModal from '../Auction/Modal/AuctionModal';
+import Modal from '../Author/Modal';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ const Main = () => {
   });
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [items, setItems] = useState([]);
+  const [selectedItemAuthor, setSelectedItemAuthor] = useState(null);
 
   const baseURL = 'https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app';
 
@@ -56,6 +59,25 @@ const Main = () => {
     setSelectedItem(null);
   };
 
+  const openModal = index => {
+    setSelectedItemAuthor(data.popularAuthors[index]);
+    setShowModal(true);
+
+    console.log(data.popularAuthors);
+
+    console.log(selectedItemAuthor);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedItem(null);
+  };
+
+  const updateFollowers = (id, newCount) => {
+    setItems(prevItems =>
+      prevItems.map(item => (item.id === id ? { ...item, followers: newCount } : item))
+    );
+  };
   return (
     <div className="root-container">
       <div className="main-container">
@@ -80,7 +102,10 @@ const Main = () => {
                 className="item-card-main"
                 onClick={() => handleCardClick(item.id)}
               >
-                <div className="item-placeholder" style={{ backgroundImage: `url(ㅇㄹㄹ)` }}></div>
+                <div
+                  className="item-placeholder"
+                  style={{ backgroundImage: `url(${item.url})` }}
+                ></div>
                 <p className="item-title">{item.name}</p>
               </div>
             ))}
@@ -103,7 +128,10 @@ const Main = () => {
                 className="item-card-main"
                 onClick={() => handleAuctionCardClick(auction)}
               >
-                <div className="item-placeholder"></div>
+                <div
+                  className="item-placeholder"
+                  style={{ backgroundImage: `url(${auction.url})` }}
+                ></div>
                 <p className="item-title">
                   시작가 {auction.startPrice}원<br />
                   현재가 {auction.ingPrice}원
@@ -123,13 +151,12 @@ const Main = () => {
           </div>
           <img src={OrangeUnderLine} className="underbar" />
           <div className="circle-list">
-            {data.popularAuthors.map(author => (
-              <div
-                key={author.id}
-                className="circle-item"
-                onClick={() => handleAuthorCardClick(author.id)}
-              >
-                <div className="circle-placeholder"></div>
+            {data.popularAuthors.map((author, index) => (
+              <div key={author.id} className="circle-item" onClick={() => openModal(index)}>
+                <div
+                  className="circle-placeholder"
+                  style={{ backgroundImage: `url(${author.url})` }}
+                ></div>
                 <p className="circle-title">{author.name}</p>
               </div>
             ))}
@@ -139,6 +166,15 @@ const Main = () => {
 
       {selectedItem && (
         <AuctionModal show={showModal} onClose={handleCloseModal} item={selectedItem} />
+      )}
+
+      {showModal && (
+        <Modal
+          show={showModal}
+          onClose={closeModal}
+          selectedItem={selectedItemAuthor}
+          updateFollowers={updateFollowers}
+        />
       )}
 
       {/* 하단 푸터 */}
