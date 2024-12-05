@@ -4,7 +4,8 @@ import './Infor.css';
 import './Detail.css';
 import './ArtworkRegistration.css';
 
-function ArtworkRegistration({ userId }) {
+function ArtworkRegistration() {
+  const userId = localStorage.getItem('userId'); // userId를 전달받음
   const [images, setImages] = useState([]);
   const [materials, setMaterials] = useState('');
   const [height, setHeight] = useState('');
@@ -15,6 +16,7 @@ function ArtworkRegistration({ userId }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const BASE_URL = 'https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app';
 
   const handleFileChange = event => {
     const files = event.target.files;
@@ -28,35 +30,47 @@ function ArtworkRegistration({ userId }) {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('userId', userId); // 사용자 ID 예시
-    formData.append('pictureName', title);
-    formData.append('description', description);
-    formData.append('ingredient', materials);
-    formData.append('sizeWidth', width);
-    formData.append('sizeHeight', height);
-    formData.append('makeTime', year);
-    formData.append('pictureCondition', condition);
-    formData.append('isPhoto', isPhoto);
-
-    images.forEach(file => {
-      formData.append('images', file);
-    });
-
     try {
-      const response = await fetch('https://your-backend-api-url.com/endpoint', {
+      const formData = new FormData();
+      formData.append('userId', userId);
+      formData.append('pictureName', title);
+      formData.append('description', description);
+      formData.append('ingredient', materials);
+      formData.append('sizeWidth', width);
+      formData.append('sizeHeight', height);
+      formData.append('makeTime', year);
+      formData.append('pictureCondition', condition);
+      formData.append('isPhoto', isPhoto.toString());
+
+      // Append all images
+      images.forEach(file => {
+        formData.append('images', file);
+      });
+
+      const response = await fetch(`${BASE_URL}/mypage/registration`, {
         method: 'POST',
         body: formData,
       });
 
-      if (response.ok) {
+      const result = await response.json();
+
+      if (response.ok && result.success) {
         setShowModal(true);
+        setImages([]);
+        setTitle('');
+        setDescription('');
+        setMaterials('');
+        setHeight('');
+        setWidth('');
+        setYear('');
+        setCondition('');
+        setIsPhoto(false);
       } else {
-        alert('작품 등록 실패');
+        throw new Error(result.error?.msg || '작품 등록에 실패했습니다.');
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('서버 오류가 발생했습니다.');
+      alert(error.message || '서버 오류가 발생했습니다.');
     }
   };
 
