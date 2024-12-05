@@ -7,23 +7,30 @@ const Modal = ({ show, onClose, selectedItem, updateFollowers }) => {
   const [toastMessage, setToastMessage] = useState('');
   const [followers, setFollowers] = useState(selectedItem?.followers || 0);
 
+  const userId = localStorage.getItem('userId');
+
   const handleFollowClick = async () => {
     if (!selectedItem) return;
 
     try {
-      const userId = 1; // 테스트용 사용자 ID
+      //const userId = 1; // 테스트용 사용자 ID
       const authorId = selectedItem.id;
 
       // GET 요청 URL에 파라미터 추가
-      const url = `https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/author?follow=true&userId=${userId}&authorId=${authorId}`;
+      const url = `https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/author`;
       console.log('팔로우 요청 URL:', url);
+      console.log(userId, authorId);
 
       // API 요청
       const response = await fetch(url, {
-        method: 'GET', // GET 요청
+        method: 'POST', // GET 요청
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          userId: userId,
+          authorId: authorId,
+        }),
       });
 
       const result = await response.json();
@@ -57,30 +64,34 @@ const Modal = ({ show, onClose, selectedItem, updateFollowers }) => {
           </button>
 
           <div className="Author-modal-image">
-            <img
-              src={selectedItem.image}
-              alt={selectedItem.title}
-              className="Author-artist-image"
-            />
+            <img src={selectedItem.recentPictures?.[0].imageUrl} className="Author-artist-image" />
           </div>
 
           <div className="Author-modal-header">
-            <h2 className="Author-author-name">{selectedItem.title}</h2>
+            <h2 className="Author-author-name">{selectedItem.userName}</h2>
             <p className="Author-modal-description">
-              {selectedItem.description || '작가 설명이 없습니다.'}
+              {selectedItem.userEmail || '작가 설명이 없습니다.'}
             </p>
           </div>
 
           <div className="Author-follow-section">
             <button className="Author-follow-btn" onClick={handleFollowClick}>
-              follow : {followers}
+              follow : {selectedItem.followersCount}
             </button>
           </div>
 
           <div className="Author-image-grid">
-            {[...Array(5)].map((_, index) => (
-              <div key={index} className="Author-image-placeholder">
-                picture name
+            {selectedItem.recentPictures?.map((picture, index) => (
+              <div
+                key={index}
+                className="Author-image-placeholder"
+                style={{
+                  backgroundImage: `url(${picture.imageUrl})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              >
+                {picture.name}
               </div>
             ))}
           </div>
