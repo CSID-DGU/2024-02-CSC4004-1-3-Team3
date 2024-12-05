@@ -8,29 +8,8 @@ const Author = () => {
   const [items, setItems] = useState([]);
   const [isPopular, setIsPopular] = useState(false); // 인기순 활성화 여부
 
-  const openModal = async index => {
-    const selectedAuthor = items[index];
-    setSelectedItem(selectedAuthor);
-
-    try {
-      const response = await fetch(
-        `https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/author/${selectedAuthor.id}`
-      );
-      const result = await response.json();
-
-      if (result.success) {
-        // 가져온 상세 정보로 selectedItem 업데이트
-        setSelectedItem(prev => ({
-          ...prev,
-          ...result.responseDto,
-        }));
-      } else {
-        console.error('작가 정보를 가져오는데 실패했습니다.');
-      }
-    } catch (error) {
-      console.error('작가 정보 조회 중 오류 발생:', error);
-    }
-
+  const openModal = index => {
+    setSelectedItem(items[index]);
     setShowModal(true);
   };
 
@@ -52,9 +31,9 @@ const Author = () => {
       .then(data => {
         const apiItems = data.responseDto.map(apiItem => ({
           id: apiItem.id,
-          title: apiItem.userName,
-          followers: apiItem.followersCount || 0, // 팔로워 수가 0일 때도 0으로 설정
-          image: apiItem.userImage, // 이미지 경로는 예시로 설정
+          title: apiItem.name,
+          followers: apiItem.followerCount || 0, // 팔로워 수가 0일 때도 0으로 설정
+          image: 'path/to/image.jpg', // 이미지 경로는 예시로 설정
           isAPI: true,
         }));
         setItems(apiItems);

@@ -4,6 +4,7 @@ import OrangeUnderLine from '../../img/OrangeUnderLine.png';
 import BannerEx from '../../img/BannerEx.png';
 import { useNavigate } from 'react-router-dom';
 import AuctionModal from '../Auction/Modal/AuctionModal';
+import Modal from '../Author/Modal';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ const Main = () => {
   });
   const [showModal, setShowModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [items, setItems] = useState([]);
+  const [selectedItemAuthor, setSelectedItemAuthor] = useState(null);
 
   const baseURL = 'https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app';
 
@@ -57,6 +60,43 @@ const Main = () => {
     setSelectedItem(null);
   };
 
+  const openModal = async index => {
+    const selectedAuthor = data.popularAuthors[index];
+    console.log(selectedAuthor);
+    setSelectedItemAuthor(selectedAuthor);
+
+    try {
+      const response = await fetch(
+        `https://port-0-opensw-m3e7ph25a50cae42.sel4.cloudtype.app/author/${selectedAuthor.id}`
+      );
+      const result = await response.json();
+
+      if (result.success) {
+        // 가져온 상세 정보로 selectedItem 업데이트
+        setSelectedItemAuthor(prev => ({
+          ...prev,
+          ...result.responseDto,
+        }));
+      } else {
+        console.error('작가 정보를 가져오는데 실패했습니다.');
+      }
+    } catch (error) {
+      console.error('작가 정보 조회 중 오류 발생:', error);
+    }
+
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedItem(null);
+  };
+
+  const updateFollowers = (id, newCount) => {
+    setItems(prevItems =>
+      prevItems.map(item => (item.id === id ? { ...item, followers: newCount } : item))
+    );
+  };
   return (
     <div className="root-container">
       <div className="main-container">
@@ -130,16 +170,9 @@ const Main = () => {
           </div>
           <img src={OrangeUnderLine} className="underbar" />
           <div className="circle-list">
-            {data.popularAuthors.map(author => (
-              <div
-                key={author.id}
-                className="circle-item"
-                onClick={() => handleAuthorCardClick(author.id)}
-              >
-                <div
-                  className="circle-placeholder"
-                  style={{ backgroundImage: `url(${author.url || ''})` }}
-                ></div>
+            {data.popularAuthors.map((author, index) => (
+              <div key={author.id} className="circle-item" onClick={() => openModal(index)}>
+                <div className="circle-placeholder"></div>
                 <p className="circle-title">{author.name}</p>
               </div>
             ))}
@@ -149,6 +182,15 @@ const Main = () => {
 
       {selectedItem && (
         <AuctionModal show={showModal} onClose={handleCloseModal} item={selectedItem} />
+      )}
+
+      {showModal && (
+        <Modal
+          show={showModal}
+          onClose={closeModal}
+          selectedItem={selectedItemAuthor}
+          updateFollowers={updateFollowers}
+        />
       )}
 
       {/* 하단 푸터 */}
